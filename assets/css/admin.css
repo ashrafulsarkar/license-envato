@@ -1,0 +1,22 @@
+.envato_licenser .input_box input {
+    width: 100%;
+}
+.envato_licenser input[type='submit'] {
+    background: #83b04c;
+    border: none;
+    color: #fff;
+    padding: 6px 30px;
+    font-size: 14px;
+}
+.envato_licenser input[type='submit']:hover,
+.envato_licenser input[type='submit']:active,
+.envato_licenser input[type='submit']:focus {
+    background: #769e44;
+    box-shadow: none;
+}
+@media screen and (min-width: 1000px) {
+    .envato_licenser .input_box input,
+    .envato_licenser p.description {
+        width: 50%;
+    }
+}

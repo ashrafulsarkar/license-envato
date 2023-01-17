@@ -1,0 +1,19 @@
+{
+    "name": "ashrafulsarkar/envato-licenser",
+    "description": "Manage your envato market items theme & plugin license.",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Ashraful Sarkar",
+            "email": "ashrafulsarkar47@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "EnvatoLicenser\\": "includes/"
+        },
+        "files": [ "includes/functions.php" ]
+    }
+}

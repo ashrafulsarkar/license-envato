@@ -1,0 +1,1 @@
+<h3><?php _e( 'General Settings', 'envatolicenser' ); ?></h3>
