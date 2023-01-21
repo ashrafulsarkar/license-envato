@@ -51,7 +51,6 @@ class EnvatoLicenseApiCall {
             ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo wp_kses_post($EnvatoUserInfo->error); ?>
-                
             </div>
             <?php
         }elseif(!empty($EnvatoUserInfo->error_msg)){
@@ -64,14 +63,12 @@ class EnvatoLicenseApiCall {
         }else{
             ?>
             <div class="card">
-                <div class="account_details">
-                    <h2><?php _e('Envato Account Details', 'envatolicenser');?></h2>
-                </div>
-                <div class="row">
-                    <div class="col">
+                <h2><?php _e('Envato Account Details', 'envatolicenser');?></h2>
+                <div class="envato_account_details">
+                    <div class="account_img">
                         <img src="<?php echo wp_kses_post($EnvatoUserInfo->account->image); ?>" class="card-img img-fluid" alt="<?php echo wp_kses_post($EnvatoUserInfo->account->surname); ?>">
                     </div>
-                    <div class="col">
+                    <div class="account_details_info">
                         <div class="card-body">
                             <h3 class="card-title"><?php echo wp_kses_post($EnvatoUserInfo->account->username); ?></h3>
                             <div class="card-text">

@@ -23,9 +23,9 @@ class Menu {
         $parent_slug = 'envatolicenser';
         $capability = 'manage_options';
 
-        add_menu_page( __( 'Envato Licenser', 'envatolicenser' ), __( 'Envato Licenser', 'envatolicenser' ), $capability, $parent_slug, [ $this, 'plugin_page' ], 'dashicons-admin-network' );
+        add_menu_page( __( 'Envato Licenser', 'envatolicenser' ), __( 'Envato Licenser', 'envatolicenser' ), $capability, $parent_slug, [ $this, 'allusers' ], 'dashicons-admin-network' );
 
-        add_submenu_page( $parent_slug, __( 'Licenser', 'envatolicenser' ), __( 'Licenser', 'envatolicenser' ), $capability, $parent_slug, [ $this, 'plugin_page' ] );
+        add_submenu_page( $parent_slug, __( 'All Users', 'envatolicenser' ), __( 'All Users', 'envatolicenser' ), $capability, $parent_slug, [ $this, 'allusers' ] );
 
         add_submenu_page( $parent_slug, __( 'Settings', 'envatolicenser' ), __( 'Settings', 'envatolicenser' ), $capability, $parent_slug.'-settings', [ $this, 'settings' ] );
 
@@ -47,8 +47,8 @@ class Menu {
      *
      * @return void
      */
-    public function plugin_page() {
-        echo 'Plugin Page';
+    public function allusers() {
+        new Allusers();
     }
 
     /**

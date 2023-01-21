@@ -10,43 +10,48 @@ if ($get_envato_licenser_envato_token) {
 }
 
 if (get_option('envato_licenser_token_valid') == false) { 
-    
     ?>
-    <form action="" method="post" class="envato_licenser">
-        <div class="token_box">
-            <div class="label">
-                <h4>
-                    <label for="token"><?php _e( 'Your Personal Token Here', 'envatolicenser' ); ?></label>
-                </h4>
-            </div>
-            <div class="input_box">
-                <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo $get_envato_licenser_envato_token;?>">
-            </div>
-            <p class="description"><?php echo _e( 'You need a “personal token” before you can validate purchase codes for your items. This is similar to a password that grants limited access to your account, but it’s exclusively for the API.', 'envatolicenser' ); ?>  <a href="https://build.envato.com/create-token" target="_blank"><?php echo _e( 'Create a token.', 'envatolicenser' ); ?></a>
-            </p>
+    <div class="license_activation">
+        <div class="envato_licenser_form">
+            <form action="" method="post" class="envato_licenser">
+                <div class="token_box">
+                    <div class="label">
+                        <h4>
+                            <label for="token"><?php _e( 'Your Personal Token Here', 'envatolicenser' ); ?></label>
+                        </h4>
+                    </div>
+                    <div class="input_box">
+                        <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo $get_envato_licenser_envato_token;?>">
+                    </div>
+                    <p class="description"><?php echo _e( 'You need a “personal token” before you can validate purchase codes for your items. This is similar to a password that grants limited access to your account, but it’s exclusively for the API.', 'envatolicenser' ); ?>  <a href="https://build.envato.com/create-token" target="_blank"><?php echo _e( 'Create a token.', 'envatolicenser' ); ?></a>
+                    </p>
+                </div>
+                
+                <?php wp_nonce_field( 'envato_licenser_envato_token' ); ?>
+                <?php submit_button( __( 'Save Envato Token', 'envatolicenser' ), 'primary', 'submit_envato_token' ); ?>
+            </form>
         </div>
-        
-        <?php wp_nonce_field( 'envato_licenser_envato_token' ); ?>
-        <?php submit_button( __( 'Save Envato Token', 'envatolicenser' ), 'primary', 'submit_envato_token' ); ?>
-    </form>
-    <h4>Minimum Permission</h4>
-    <ul>
-        <li>View and search Envato sites</li>
-        <li>View your Envato Account username</li>
-        <li>View your email address</li>
-        <li>View your account profile details</li>
-        <li>View your account financial history</li>
-        <li>Download your purchased items</li>
-        <li>View your items' sales history</li>
-        <li>Verify purchases of your items</li>
-        <li>List purchases you've made</li>
-        <li>Verify purchases you've made</li>
-        <li>View your purchases of the app creator's items</li>
-    </ul>
+        <div class="requarement">
+            <h4><?php _e('Minimum Permission','envatolicenser');?></h4>
+            <ul>
+                <li><?php _e('View and search Envato sites','envatolicenser');?></li>
+                <li><?php _e('View your Envato Account username','envatolicenser');?></li>
+                <li><?php _e('View your email address','envatolicenser');?></li>
+                <li><?php _e('View your account profile details','envatolicenser');?></li>
+                <li><?php _e('View your account financial history','envatolicenser');?></li>
+                <li><?php _e('Download your purchased items','envatolicenser');?></li>
+                <li><?php _e('View your items\' sales history','envatolicenser');?></li>
+                <li><?php _e('Verify purchases of your items','envatolicenser');?></li>
+                <li><?php _e('List purchases you\'ve made','envatolicenser');?></li>
+                <li><?php _e('Verify purchases you\'ve made','envatolicenser');?></li>
+                <li><?php _e('View your purchases of the app creator\'s items','envatolicenser');?></li>
+            </ul>
+        </div>
+    </div>
 <?php }else{ ?>
     <form action="" method="post">
         <?php wp_nonce_field( 'envato_licenser_unlink' ); ?>
-        <?php submit_button( __( 'Deactive Envato Account', 'envatolicenser' ), 'danger', 'unlink_envato_token' ); ?>
+        <?php submit_button( __( 'Deactivated Envato Account', 'envatolicenser' ), 'danger', 'unlink_envato_token' ); ?>
     </form>
     
 <?php } ?>

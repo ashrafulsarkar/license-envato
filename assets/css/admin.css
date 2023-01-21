@@ -1,3 +1,14 @@
+.license_activation {
+    display: flex;
+}
+.envato_licenser_form {
+    max-width: 60%;
+    margin-right: 20px;
+}
+.requarement ul li {
+    list-style: disc;
+    list-style-position: inside;
+}
 .envato_licenser .input_box input {
     width: 100%;
 }
@@ -14,9 +25,36 @@
     background: #769e44;
     box-shadow: none;
 }
-@media screen and (min-width: 1000px) {
-    .envato_licenser .input_box input,
-    .envato_licenser p.description {
-        width: 50%;
+input#unlink_envato_token {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.envato_account_details {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+.envato_account_details h3 {
+    margin: 0 0 5px 0;
+}
+.alert{
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-left-width: 4px;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+    padding: 12px;
+}
+.alert-danger{
+    border-left-color: #dc3545;
+}
+@media screen and (max-width: 860px) {
+    .license_activation {
+        display: inherit;
+    }
+    .envato_licenser_form {
+        max-width: 100%;
+        margin-right: 0px;
     }
 }
