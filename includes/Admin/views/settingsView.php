@@ -17,7 +17,7 @@
     switch ( $action ) {
 
         case 'envato':
-            $template = __DIR__ . '/envatoView.php';
+            $template = __DIR__ . '/envatoView.php';       
             break;
 
         default:

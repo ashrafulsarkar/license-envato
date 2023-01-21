@@ -23,7 +23,7 @@ class Admin {
     }
 
     public function custom_function(){
-        add_filter( 'plugin_action_links_' . ENVATO_LICENSER_FILE_URL, [$this, 'plugin_menu_links'] );
+        add_filter( 'plugin_action_links_' . ENVATO_LICENSER_BASE_URL, [$this, 'plugin_menu_links'] );
     }
     
     public function plugin_menu_links ( $actions ) {
