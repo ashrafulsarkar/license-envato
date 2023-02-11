@@ -13,7 +13,7 @@ class Activation {
      */
     public function run() {
         $this->add_version();
-        // $this->create_tables();
+        $this->create_license_tables();
     }
 
     /**
@@ -34,25 +34,26 @@ class Activation {
      *
      * @return void
      */
-    // public function create_tables() {
-    //     global $wpdb;
+    public function create_license_tables() {
+        global $wpdb;
 
-    //     $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $wpdb->get_charset_collate();
 
-    //     $schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}ac_addresses` (
-    //       `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-    //       `name` varchar(100) NOT NULL DEFAULT '',
-    //       `address` varchar(255) DEFAULT NULL,
-    //       `phone` varchar(30) DEFAULT NULL,
-    //       `created_by` bigint(20) unsigned NOT NULL,
-    //       `created_at` datetime NOT NULL,
-    //       PRIMARY KEY (`id`)
-    //     ) $charset_collate";
+        $schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}envato_user_list` (
+          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `username` varchar(100) NOT NULL DEFAULT '',
+          `itemid` varchar(30) NOT NULL DEFAULT '',
+          `marketname` varchar(100) NOT NULL DEFAULT '',
+          `parchasecode` varchar(255) NOT NULL DEFAULT '',
+          `token` varchar(255) NOT NULL DEFAULT '',
+          `activation` int(11) NOT NULL DEFAULT '',
+          PRIMARY KEY (`id`)
+        ) $charset_collate";
 
-    //     if ( ! function_exists( 'dbDelta' ) ) {
-    //         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    //     }
+        if ( ! function_exists( 'dbDelta' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        }
 
-    //     dbDelta( $schema );
-    // }
+        dbDelta( $schema );
+    }
 }

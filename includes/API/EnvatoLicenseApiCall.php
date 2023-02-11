@@ -193,4 +193,19 @@ class EnvatoLicenseApiCall {
         update_option($option_key, '');
     }
 
+    public static function envatolicense_verify( $args ){
+        $parchaseCode['parchaseCode'] = $args['parchaseCode'];
+        $parchaseCode = new \WP_REST_Response($parchaseCode);
+
+        // print_r($parchaseCode);
+        
+        if ($parchaseCode->data['parchaseCode'] == '123456') {
+            return true;
+        }else{
+
+            return $parchaseCode;
+        }
+
+
+    }
 }

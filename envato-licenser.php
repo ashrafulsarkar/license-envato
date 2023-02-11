@@ -13,7 +13,7 @@
  */
 
 /**
- * Copyright (c) 2022 Ashraful Sarkar Naiem (email: ashrafulsarkar47@gmail.com). All rights reserved.
+ * Copyright (c) 2023 Ashraful Sarkar Naiem (email: ashrafulsarkar47@gmail.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php

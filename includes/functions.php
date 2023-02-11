@@ -17,16 +17,7 @@ function envato_licenser_settings_nav( array $nav ) {
     return $html;
 }
 
-function envatolicense_verify( $args ){
-    $envatocode = isset($args['code']) ? $args['code'] : '';
-    if ( empty($envatocode) ) {
-        return 'false';
-    }else{
-        return $envatocode;
-    }
-        // print_r($args);
-    return $args;
-}
+
 
 
 
