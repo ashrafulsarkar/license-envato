@@ -39,14 +39,17 @@ class Activation {
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        $schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}envato_user_list` (
+        $schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}envato_licenser_userlist` (
           `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
           `username` varchar(100) NOT NULL DEFAULT '',
           `itemid` varchar(30) NOT NULL DEFAULT '',
-          `marketname` varchar(100) NOT NULL DEFAULT '',
-          `parchasecode` varchar(255) NOT NULL DEFAULT '',
+          `purchasecode` varchar(255) NOT NULL DEFAULT '',
           `token` varchar(255) NOT NULL DEFAULT '',
-          `activation` int(11) NOT NULL DEFAULT '',
+          `activation` TINYINT(2) NOT NULL DEFAULT '0',
+          `licensetype` varchar(255) NOT NULL DEFAULT '',
+          `sold_at` varchar(255) NOT NULL DEFAULT '',
+          `support_amount` varchar(255) NOT NULL DEFAULT '',
+          `supported_until` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY (`id`)
         ) $charset_collate";
 

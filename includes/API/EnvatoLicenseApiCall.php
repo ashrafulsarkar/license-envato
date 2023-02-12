@@ -2,6 +2,7 @@
 
 namespace EnvatoLicenser\API;
 
+use WP_Error;
 /**
  * EnvatoLicenseApiCall trait
  */
@@ -193,19 +194,130 @@ class EnvatoLicenseApiCall {
         update_option($option_key, '');
     }
 
-    public static function envatolicense_verify( $args ){
-        $parchaseCode['parchaseCode'] = $args['parchaseCode'];
-        $parchaseCode = new \WP_REST_Response($parchaseCode);
+    public function envatolicense_verify( $args ){
+        $purchaseCode = isset($args['code']) ? $args['code'] : '';
 
-        // print_r($parchaseCode);
-        
-        if ($parchaseCode->data['parchaseCode'] == '123456') {
-            return true;
-        }else{
-
-            return $parchaseCode;
+        if (empty($purchaseCode)) {
+            return new WP_Error( 'parameter_request', __( "Sent an invalid request, such as lacking required request parameter.", "envatolicenser" ), ["status"=> 400] );
         }
 
+        if (!preg_match("/^[a-zA-Z0-9\-]+$/", $purchaseCode)) {
+            return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+        }
 
+        if (get_option('envato_licenser_token_valid') == false) {
+            return new WP_Error( 'envato_connection_error', __( "Envato Auth Error, Contact your theme or plugin author.", "envatolicenser" ), ["status"=> 401] );
+        }
+
+        $get_license = $this->get_licence_verify_into_db($purchaseCode);
+        
+        if ( !empty($get_license)) {
+            if ($get_license[0]->token) {
+                $token['token'] = $get_license[0]->token;
+                return $token;
+            }else{
+                $username = $get_license[0]->username;
+                $genarateNewToken = $this->genarateNewToken($purchaseCode, $username);
+                if ($genarateNewToken) {
+                    $token['token'] = $genarateNewToken;
+                    return $token;
+                }
+            }
+        }else{
+            $data = $this->getPurchaseKeyDetails($purchaseCode);
+            
+            if(!empty($data)){
+                $data=json_decode($data);
+
+                if(!empty($data->type) && $data->type=="curl_error"){
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+                }elseif(!empty($data->message) && $data->message=="Unauthorized"){
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+                }else{
+                    $skip_properties=array("description","classification_url","author_username","classification","site","author_url","author_image","summary","rating_count","trending","attributes","tags","previews");
+                    if(!empty($data->item)){
+                        foreach ($skip_properties as $vl){
+                            if($vl=="previews"){
+                                if(!empty($data->item->$vl->icon_with_landscape_preview->icon_url)){
+                                    $data->item->product_icon = $data->item->$vl->icon_with_landscape_preview->icon_url;
+                                }
+                            }
+                            if(isset($data->item->$vl)){
+                                unset($data->item->$vl);
+                            }
+                        }
+                    }
+                    if(!empty($data->buyer)){
+                        $save_data_db = $this->savedataIntoDB($data, $purchaseCode);
+                        if ($save_data_db) {
+                            $token['token'] = $save_data_db;
+                            return $token;
+                        }
+                    }
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+                }
+            }else{
+                return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+            }
+        }
+    }
+
+    private function getPurchaseKeyDetails($purchase_code){
+        $url = "https://api.envato.com/v3/market/author/sale?code=$purchase_code";
+        $data = $this->apicall($url);
+        return $data;
+    }
+
+    /**
+     * get_licence_verify_into_db()
+     *
+     * @param $purchase_code
+     * 
+     * @return obj
+     * 
+     * @since 1.0.0 
+     */
+    public function get_licence_verify_into_db($purchase_code){
+        global $wpdb;
+        $result = $wpdb->get_results("SELECT `itemid`,`token`,`username` FROM `{$wpdb->prefix}envato_licenser_userlist` WHERE `purchasecode` = '{$purchase_code}'");
+        return $result;
+    }
+
+    private function savedataIntoDB($data, $purchaseCode){
+        $licenseType = $data->license;
+        $sold_at = $data->sold_at;
+        $support_amount = $data->support_amount;
+        $supported_until = $data->supported_until;
+        $activation = '1';
+        $itemid = $data->item->id;
+        $username = $data->buyer;
+        $token = hash( 'md5', $username.$purchaseCode.time() );
+
+        global $wpdb;
+        $table_name = $wpdb->prefix."envato_licenser_userlist";
+
+        $sql = $wpdb->prepare( "INSERT INTO ".$table_name." ( username, itemid, purchasecode, token, activation, licensetype, sold_at, support_amount, supported_until ) VALUES ( %s, %d, %s, %s, %d, %s, %s, %s, %s )", $username, $itemid, $purchaseCode, $token, $activation, $licenseType, $sold_at, $support_amount, $supported_until );
+        $wpdb->query($sql);
+
+        $id = $wpdb->insert_id;
+        if ($id) {
+            return $token;
+        }
+        return false;
+    }
+
+    public function genarateNewToken($purchaseCode, $username){
+        $token = hash( 'md5', $username.$purchaseCode.time() );
+
+        global $wpdb;
+        $table_name  = $wpdb->prefix."envato_licenser_userlist";
+        $sql = $wpdb->prepare("UPDATE $table_name SET `token` = %s WHERE `purchasecode` = %s",$token, $purchaseCode );
+
+        $wpdb->query($sql);
+        $id = $wpdb->rows_affected;
+        if ($id) {
+            return $token;
+        }
+        return false;
     }
 }
