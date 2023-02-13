@@ -16,9 +16,6 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
      */
     function __construct() {
         $this->namespace = 'envatolicenser/v1';
-        $this->rest_base = 'active';
-
-        //envatoverify
     }
 
     /**
@@ -31,7 +28,17 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
             [
                 [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [ $this, 'active_product' ],
+                    'callback'            => [ $this, 'active_license' ],
+                    'args'                => $this->get_collection_params(),
+                ],
+            ]
+        );
+
+        register_rest_route( $this->namespace, '/deactive',
+            [
+                [
+                    'methods'             => WP_REST_Server::CREATABLE,
+                    'callback'            => [ $this, 'deactive_license' ],
                     'args'                => $this->get_collection_params(),
                 ],
             ]
@@ -46,10 +53,24 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
      *
      * @return json
      */
-    public function active_product( $request ) {
+    public function active_license( $request ) {
         $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
         $envatolicense_verify = $EnvatoLicenseApiCall->envatolicense_verify( $request );
         $response = rest_ensure_response( $envatolicense_verify );
+        return $response;
+    }
+    
+    /**
+     * Retrieves a list of address items.
+     *
+     * @param  \WP_Rest_Request $request
+     *
+     * @return json
+     */
+    public function deactive_license( $request ) {
+        $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
+        $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $request );
+        $response = rest_ensure_response( $envatolicense_deactive );
         return $response;
     }
 

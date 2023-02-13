@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h1><?php _e( 'Envato Licenser Settings', 'envatolicenser' ); ?></h1>
+    <h1><?php _e( 'Settings', 'envatolicenser' ); ?></h1>
 
     <nav class="nav-tab-wrapper">
         <?php $envatoLicenser_nav = [ 

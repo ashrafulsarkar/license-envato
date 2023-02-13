@@ -1,4 +1,4 @@
-<h3><?php _e( 'Envato Licenser Settings', 'envatolicenser' ); ?></h3>
+<h3><?php _e( 'Envato Account Settings', 'envatolicenser' ); ?></h3>
 <?php
 $envato_licenser_api->envato_token_handler();
 $envato_licenser_api->deactive_envato_token();
