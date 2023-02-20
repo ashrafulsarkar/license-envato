@@ -2,10 +2,22 @@
 
 namespace EnvatoLicenser\Admin;
 
-class Allusers {
+use WP_List_Table;
+use EnvatoLicenser\API\EnvatoLicenseApiCall;
 
-    public function __construct(){
-        echo 'Plugin Page load';
+class Allusers extends WP_List_Table {
+
+    // Define the number of items to display per page
+    private $per_page = 20;
+    private $search;
+    private $search_by = 'purchasecode';
+
+    function __construct() {
+        parent::__construct( array(
+            'singular' => 'item',
+            'plural'   => 'items',
+            'ajax'     => true
+        ) );
     }
 
     /**
@@ -14,9 +26,127 @@ class Allusers {
      * @return void
      */
     public function plugin_page() {
-        
-        
+        $table = new Allusers();
+        $userview = __DIR__ . '/views/userview.php';
+        if ( file_exists( $userview ) ) {
+            include $userview;
+        }
 
     }
 
+
+    // Override the default number of items per page
+    function get_items_per_page( $option = 'my_table_per_page', $default = 20 ) {
+        return $this->per_page;
+    }
+
+    // Set the number of items to display per page
+    function set_items_per_page( $per_page ) {
+        $this->per_page = $per_page;
+    }
+
+    function get_columns() {
+        $columns = array(
+            'username' => 'Username',
+            'itemid' => 'Item id',
+            'purchasecode' => 'Purchase code',
+            'supported_until' => 'Supported until',
+            'activation' => 'Activation',
+            'action' => 'Action',
+        );
+        return $columns;
+    }
+
+    function column_default($item, $column_name) {
+        switch ($column_name) {
+            case 'action':
+                if ($item['activation']) {
+                    return sprintf('<a href="?page=%s&action=%s&purchasecode=%s">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['purchasecode']);
+                }else{
+                    return esc_html__('Deactivated','envatolicenser');
+                }
+            default:
+            return $item[$column_name];
+        }
+    }
+
+    function prepare_items() {
+
+        $deactivate = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+        if ($deactivate == 'deactivate') {
+            $purchasecode = isset($_REQUEST['purchasecode']) ? $_REQUEST['purchasecode'] : '';
+            $code = [];
+            $code['code'] = $purchasecode;
+            $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
+            $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
+
+        print_r($envatolicense_deactive);
+        }
+
+        global $wpdb;
+
+        $query = "SELECT `username`, `itemid`, `activation`, `purchasecode`, `supported_until` FROM `{$wpdb->prefix}envato_licenser_userlist`";
+
+        $this->search = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
+        // Apply search filter for Purchase code
+        if ( $this->search_by == 'purchasecode' ) {
+            $query .= $wpdb->prepare(
+                " WHERE `purchasecode` LIKE '%%%s%%'",
+                $this->search
+            );
+        }
+
+        // Retrieve data from your custom database
+        $data = $wpdb->get_results( $query, ARRAY_A );
+
+        // usort($data, array(&$this, 'usort_reorder'));
+
+        // Define the columns for the table
+        $columns = $this->get_columns();
+
+        // Set the columns and data for the table
+        $this->_column_headers = array($columns, array(), array());
+
+        // Set the number of items to display per page
+        $this->set_items_per_page( 20 );
+
+        // Set the current page
+        $current_page = $this->get_pagenum();
+
+        // Get the total number of items
+        $total_items = count($data);
+
+        // Slice the data to display only the items for the current page
+        $data = array_slice($data, (($current_page-1) * $this->per_page), $this->per_page);
+
+        // Set the pagination arguments
+        $this->set_pagination_args( array(
+            'total_items' => $total_items,
+            'per_page'    => $this->per_page,
+            'total_pages' => ceil($total_items / $this->per_page),
+        ) );
+
+        $this->items = $data;
+    }
+
+    function extra_tablenav( $which ) {
+        if ( $which == 'top' ) { 
+            // Add the search input field
+            echo '<div class="alignleft actions">';
+            echo '<form method="get">';
+            echo '<input type="hidden" name="page" value="envatolicenser"/>';
+            echo '<input type="search" id="search" name="s" value="' . $this->search . '"/>';
+    
+            // Add the search by dropdown
+            echo '<select name="search_by">';
+            echo '<option value="purchasecode" ' . selected( $this->search_by, 'purchasecode', false ) . '>Purchase Code</option>';
+            echo '</select>';
+    
+            // Add the submit button
+            echo '<input type="submit" id="search-submit" class="button" value="Search">';
+            echo '</form>';
+            echo '</div>';
+            
+        }
+    }   
 }

@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h1><?php _e( 'Settings', 'envatolicenser' ); ?></h1>
+    <h1 class="wp-heading-inline"><?php _e( 'Settings', 'envatolicenser' ); ?></h1>
     <?php $action = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general'; ?>
     <nav class="nav-tab-wrapper">
         <?php $envatoLicenser_nav = [ 
@@ -26,12 +26,12 @@
 
     if ($envatoLicenser_nav_view) {
         $template = "{$envatoLicenser_nav_view}/{$action}.php";
-    }else{
-        $template = "{$envatoLicenser_nav_view}/general.php";
     }
 
     if ( file_exists( $template ) ) {
         include $template;
+    }else{
+        include "{$envatoLicenser_nav_view}/general.php";
     }
     ?>
 </div>

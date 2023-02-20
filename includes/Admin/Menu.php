@@ -48,7 +48,8 @@ class Menu {
      * @return void
      */
     public function allusers() {
-        new Allusers();
+        $user = new Allusers();
+        $user-> plugin_page();
     }
 
     /**

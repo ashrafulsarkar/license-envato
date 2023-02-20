@@ -17,7 +17,7 @@ if (get_option('envato_licenser_token_valid') == false) {
                 <div class="token_box">
                     <div class="label">
                         <h4>
-                            <label for="token"><?php _e( 'Your Personal Token Here', 'envatolicenser' ); ?></label>
+                            <label for="envato_token"><?php _e( 'Your Personal Token Here', 'envatolicenser' ); ?></label>
                         </h4>
                     </div>
                     <div class="input_box">
