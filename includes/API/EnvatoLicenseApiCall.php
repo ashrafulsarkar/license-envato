@@ -350,8 +350,10 @@ class EnvatoLicenseApiCall {
                 }
                 return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", "envatolicenser" ), ["status"=> 406] );
             }else{
-                return new WP_Error( 'deactivated_error', __( "Already deactivate this license or not found this license code.", "envatolicenser" ), ["status"=> 406] );
+                return new WP_Error( 'deactivated_error', __( "Already deactivate this license.", "envatolicenser" ), ["status"=> 406] );
             }
+        }else {
+            return new WP_Error( 'deactivated_error', __( "This license code not found.", "envatolicenser" ), ["status"=> 406] );
         }
     }
 }
