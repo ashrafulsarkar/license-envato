@@ -1,8 +1,10 @@
 <h3><?php _e( 'General Settings', 'envatolicenser' ); ?></h3>
 <?php
-// $envato_licenser_api->envato_token_handler();
-
-$get_envato_licenser_envato_token = '';
+general_setting_handler();
+$get_token_secret = get_option('envato_licenser_token_secret');
+if ($get_token_secret) {
+    $envato_licenser_token_secret = $get_token_secret;
+}
 
 ?>
 <div class="general_settings">
@@ -11,10 +13,10 @@ $get_envato_licenser_envato_token = '';
             <tbody>
                 <tr>
                     <th scope="row">
-                        <label for="blogname">Site Title</label>
+                        <label for="token_secret"><?php _e('Token secret key')?></label>
                     </th>
                     <td>
-                        <input name="blogname" type="text" id="blogname" value="WP Software Licenser" class="regular-text">
+                        <input name="token_secret" type="text" id="token_secret" value="<?php echo $envato_licenser_token_secret;?>" class="regular-text">
                     </td>
                 </tr>
             </tbody>

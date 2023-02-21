@@ -28,19 +28,9 @@ class Admin {
     
     public function plugin_menu_links ( $actions ) {
         $mylinks = array(
-            '<a href="' . admin_url( 'admin.php?page=envatolicenser' ) . '">Settings</a>',
+            '<a href="' . admin_url( 'admin.php?page=envatolicenser-settings' ) . '">Settings</a>',
         );
         $actions = array_merge( $mylinks, $actions );
         return $actions;
     }
-
-    /**
-     * Dispatch and bind actions
-     *
-     * @return void
-     */
-    // public function dispatch_actions( $addressbook ) {
-    //     add_action( 'admin_init', [ $addressbook, 'form_handler' ] );
-    //     // add_action( 'admin_post_wd-ac-delete-address', [ $addressbook, 'delete_address' ] );
-    // }
 }

@@ -49,6 +49,10 @@ input#unlink_envato_token {
 .alert-danger{
     border-left-color: #dc3545;
 }
+.deactivate,
+.deactivate:hover {
+    color: #b32d2e;
+}
 @media screen and (max-width: 860px) {
     .license_activation {
         display: inherit;

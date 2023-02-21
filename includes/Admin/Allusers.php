@@ -61,7 +61,7 @@ class Allusers extends WP_List_Table {
         switch ($column_name) {
             case 'action':
                 if ($item['activation']) {
-                    return sprintf('<a href="?page=%s&action=%s&purchasecode=%s">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['purchasecode']);
+                    return sprintf('<a href="?page=%s&action=%s&purchasecode=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['purchasecode']);
                 }else{
                     return esc_html__('Deactivated','envatolicenser');
                 }
@@ -74,13 +74,60 @@ class Allusers extends WP_List_Table {
 
         $deactivate = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
         if ($deactivate == 'deactivate') {
+
             $purchasecode = isset($_REQUEST['purchasecode']) ? $_REQUEST['purchasecode'] : '';
             $code = [];
             $code['code'] = $purchasecode;
             $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
             $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
+            $envato_licenser_Error = $envatolicense_deactive->errors; 
+            if ($envato_licenser_Error) {
 
-        print_r($envatolicense_deactive);
+                if ($envato_licenser_Error['already_deactivated']) {
+                    ?>
+                    <div class="notice notice-error is-dismissible">
+                        <p><?php echo $envato_licenser_Error['already_deactivated'][0]; ?></p>
+                    </div>
+                    <?php
+                }elseif($envato_licenser_Error['deactivated_error']){
+                    ?>
+                    <div class="notice notice-error is-dismissible">
+                        <p><?php echo $envato_licenser_Error['deactivated_error'][0]; ?></p>
+                    </div>
+                    <?php
+                }elseif($envato_licenser_Error['invalid_code']){
+                    ?>
+                    <div class="notice notice-error is-dismissible">
+                        <p><?php echo $envato_licenser_Error['invalid_code'][0]; ?></p>
+                    </div>
+                    <?php
+                }elseif($envato_licenser_Error['parameter_request']){
+                    ?>
+                    <div class="notice notice-error is-dismissible">
+                        <p><?php echo $envato_licenser_Error['parameter_request'][0]; ?></p>
+                    </div>
+                    <?php
+                }else{
+                    ?>
+                    <div class="notice notice-error is-dismissible">
+                        <p><?php _e( 'Something wrong! Check Error!', 'sample-text-domain' ); ?></p>
+                    </div>
+                    <?php
+                }
+                
+            }elseif($envatolicense_deactive['deactive']){
+                ?>
+                <div class="notice notice-success is-dismissible">
+                    <p><?php echo $envatolicense_deactive['deactive']; ?></p>
+                </div>
+                <?php
+            }else{
+                ?>
+                <div class="notice notice-error is-dismissible">
+                    <p><?php _e( 'Something wrong!', 'sample-text-domain' ); ?></p>
+                </div>
+                <?php
+            }
         }
 
         global $wpdb;

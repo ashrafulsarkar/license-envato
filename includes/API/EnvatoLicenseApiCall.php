@@ -290,7 +290,8 @@ class EnvatoLicenseApiCall {
         $activation = '1';
         $itemid = $data->item->id;
         $username = $data->buyer;
-        $token = hash( 'md5', $username.$purchaseCode.time() );
+        $token_secret = get_option('envato_licenser_token_secret');
+        $token = hash( 'md5', $username.$purchaseCode.time().$token_secret );
 
         global $wpdb;
         $table_name = $wpdb->prefix."envato_licenser_userlist";
@@ -306,7 +307,8 @@ class EnvatoLicenseApiCall {
     }
 
     public function genarateNewToken($purchaseCode, $username){
-        $token = hash( 'md5', $username.$purchaseCode.time() );
+        $token_secret = get_option('envato_licenser_token_secret');
+        $token = hash( 'md5', $username.$purchaseCode.time().$token_secret );
 
         global $wpdb;
         $table_name  = $wpdb->prefix."envato_licenser_userlist";
@@ -345,12 +347,12 @@ class EnvatoLicenseApiCall {
                 $id = $wpdb->rows_affected;
 
                 if ($id) {
-                    $deactive['deactive'] = 'deactivated successfully';
+                    $deactive['deactive'] = 'Deactivated successfully';
                     return $deactive;
                 }
                 return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", "envatolicenser" ), ["status"=> 406] );
             }else{
-                return new WP_Error( 'deactivated_error', __( "Already deactivate this license.", "envatolicenser" ), ["status"=> 406] );
+                return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", "envatolicenser" ), ["status"=> 406] );
             }
         }else {
             return new WP_Error( 'deactivated_error', __( "This license code not found.", "envatolicenser" ), ["status"=> 406] );
