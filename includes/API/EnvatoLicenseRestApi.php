@@ -1,20 +1,23 @@
 <?php
+/**
+ * EnvatoLicenseRestApi()
+ * EnvatoLicense Rest Api Call handler class
+ *
+ * @author: Ashraful Sarkar Naiem
+ * @since 1.0.0
+ */
 
 namespace EnvatoLicenser\API;
 
 use WP_REST_Controller;
 use WP_REST_Server;
-// use WP_Error;
 
-/**
- * EnvatoLicenseRestApi Class
- */
 class EnvatoLicenseRestApi extends WP_REST_Controller {
 
     /**
      * Initialize the class
      */
-    function __construct() {
+    public function __construct() {
         $this->namespace = 'envatolicenser/v1';
     }
 
@@ -28,7 +31,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
             [
                 [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [ $this, 'active_license' ],
+                    'callback'            => [$this, 'active_license'],
                     'args'                => $this->get_active_collection_params(),
                     'permission_callback' => '__return_true',
                 ],
@@ -39,7 +42,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
             [
                 [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [ $this, 'deactive_license' ],
+                    'callback'            => [$this, 'deactive_license'],
                     'args'                => $this->get_collection_params(),
                     'permission_callback' => '__return_true',
                 ],
@@ -61,7 +64,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
         $response = rest_ensure_response( $envatolicense_verify );
         return $response;
     }
-    
+
     /**
      * Retrieves a list of address items.
      *
@@ -84,22 +87,22 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
     public function get_active_collection_params() {
 
         return array(
-			'context'  => $this->get_context_param(),
-			'code'     => array(
-				'description'       => __( 'Envato purchase code.' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
+            'context' => $this->get_context_param(),
+            'code'    => array(
+                'description'       => __( 'Envato purchase code.' ),
+                'type'              => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'validate_callback' => 'rest_validate_request_arg',
                 'required'          => true,
             ),
-            'domain'     => array(
-				'description'       => __( 'API Request URL' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
+            'domain'  => array(
+                'description'       => __( 'API Request URL' ),
+                'type'              => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'validate_callback' => 'rest_validate_request_arg',
                 'required'          => true,
             ),
-		);
+        );
     }
 
     /**
@@ -110,16 +113,15 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
     public function get_collection_params() {
 
         return array(
-			'context'  => $this->get_context_param(),
-			'code'     => array(
-				'description'       => __( 'Envato purchase code.' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
+            'context' => $this->get_context_param(),
+            'code'    => array(
+                'description'       => __( 'Envato purchase code.' ),
+                'type'              => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'validate_callback' => 'rest_validate_request_arg',
                 'required'          => true,
             ),
-		);
+        );
     }
 
-    
 }

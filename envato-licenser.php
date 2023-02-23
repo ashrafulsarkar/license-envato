@@ -38,7 +38,7 @@
  * **********************************************************************
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -62,9 +62,9 @@ final class Envato_Licenser {
     private function __construct() {
         $this->define_constants();
 
-        register_activation_hook( __FILE__, [ $this, 'activate' ] );
+        register_activation_hook( __FILE__, [$this, 'activate'] );
 
-        add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
+        add_action( 'plugins_loaded', [$this, 'init_plugin'] );
     }
 
     /**
@@ -73,9 +73,12 @@ final class Envato_Licenser {
      * @return \Envato_Licenser
      */
     public static function init() {
+        /**
+         * @var mixed
+         */
         static $instance = false;
 
-        if ( ! $instance ) {
+        if ( !$instance ) {
             $instance = new self();
         }
 
@@ -91,7 +94,7 @@ final class Envato_Licenser {
         define( 'ENVATO_LICENSER_VERSION', self::version );
         define( 'ENVATO_LICENSER_FILE_URL', __FILE__ );
         define( 'ENVATO_LICENSER_FILE_PATH', __DIR__ );
-        define( 'ENVATO_LICENSER_BASE_URL', plugin_basename(ENVATO_LICENSER_FILE_URL) );
+        define( 'ENVATO_LICENSER_BASE_URL', plugin_basename( ENVATO_LICENSER_FILE_URL ) );
         define( 'ENVATO_LICENSER_URL', plugins_url( '', ENVATO_LICENSER_FILE_URL ) );
         define( 'ENVATO_LICENSER_ASSETS', ENVATO_LICENSER_URL . '/assets' );
     }

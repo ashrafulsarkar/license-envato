@@ -1,9 +1,14 @@
 <?php
+/**
+ * Activation()
+ * Activation class
+ *
+ * @author: Ashraful Sarkar Naiem
+ * @since 1.0.0
+ */
+
 namespace EnvatoLicenser;
 
-/**
- * Activation class
- */
 class Activation {
 
     /**
@@ -22,7 +27,7 @@ class Activation {
     public function add_version() {
         $installed = get_option( 'envato_licenser_installed' );
 
-        if ( ! $installed ) {
+        if ( !$installed ) {
             update_option( 'envato_licenser_installed', time() );
         }
 
@@ -53,7 +58,7 @@ class Activation {
           PRIMARY KEY (`id`)
         ) $charset_collate";
 
-        if ( ! function_exists( 'dbDelta' ) ) {
+        if ( !function_exists( 'dbDelta' ) ) {
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         }
 

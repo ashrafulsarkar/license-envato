@@ -1,23 +1,33 @@
 <?php
+/**
+ * Menu()
+ * The Menu handler class
+ * 
+ * @author: Ashraful Sarkar Naiem
+ * @since 1.0.0
+ */
 
 namespace EnvatoLicenser\Admin;
 
-/**
- * The Menu handler class
- */
 class Menu {
 
     /**
+     * __construct()
      * Initialize the class
+     * 
+     * @return void
+     * @since 1.0.0 
      */
     function __construct() {
         add_action( 'admin_menu', [ $this, 'admin_menu' ] );
     }
 
     /**
+     * admin_menu()
      * Register admin menu
-     *
+     * 
      * @return void
+     * @since 1.0.0 
      */
     public function admin_menu() {
         $parent_slug = 'envatolicenser';
@@ -34,9 +44,11 @@ class Menu {
     }
 
     /**
+     * settings()
      * Handles the settings page
-     *
+     * 
      * @return void
+     * @since 1.0.0 
      */
     public function settings() {
         $settings = new Settings();
@@ -44,9 +56,11 @@ class Menu {
     }
 
     /**
-     * Handles the settings page
-     *
+     * documentation()
+     * Handles the documentation page
+     * 
      * @return void
+     * @since 1.0.0 
      */
     public function documentation() {
         $documentation = new Documentation();
@@ -54,9 +68,11 @@ class Menu {
     }
 
     /**
-     * Handles the settings page
-     *
+     * allusers()
+     * Handles the All User page
+     * 
      * @return void
+     * @since 1.0.0 
      */
     public function allusers() {
         $user = new Allusers();
@@ -64,12 +80,13 @@ class Menu {
     }
 
     /**
+     * enqueue_assets()
      * Enqueue scripts and styles
-     *
+     * 
      * @return void
+     * @since 1.0.0 
      */
     public function enqueue_assets() {
         wp_enqueue_style( 'envatolicenser-admin-style' );
-        // wp_enqueue_script( 'academy-admin-script' );
     }
 }

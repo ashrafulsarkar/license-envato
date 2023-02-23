@@ -1,17 +1,21 @@
 <?php
+/**
+ * API()
+ * API Class
+ *
+ * @author: Ashraful Sarkar Naiem
+ * @since 1.0.0
+ */
 
 namespace EnvatoLicenser;
 
-/**
- * API Class
- */
 class API {
 
     /**
      * Initialize the class
      */
-    function __construct() {
-        add_action( 'rest_api_init', [ $this, 'register_api' ] );
+    public function __construct() {
+        add_action( 'rest_api_init', [$this, 'register_api'] );
     }
 
     /**

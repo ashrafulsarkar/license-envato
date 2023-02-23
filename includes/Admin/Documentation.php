@@ -1,14 +1,21 @@
 <?php
+/**
+ * Documentation()
+ * 
+ * @author: Ashraful Sarkar Naiem
+ * @since 1.0.0
+ */
 
 namespace EnvatoLicenser\Admin;
-
 
 class Documentation {
 
     /**
-     * Plugin page handler
+     * plugin_page()
+     * call documentationView
      *
      * @return void
+     * @since 1.0.0 
      */
     public function plugin_page() {
         $documentationView = __DIR__ . '/views/documentationView.php';
