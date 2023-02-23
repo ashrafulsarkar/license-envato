@@ -13,7 +13,7 @@ if ($get_token_secret) {
             <tbody>
                 <tr>
                     <th scope="row">
-                        <label for="token_secret"><?php _e('Token secret key')?></label>
+                        <label for="token_secret"><?php _e('Token secret key', 'envatolicenser')?></label>
                     </th>
                     <td>
                         <input name="token_secret" type="text" id="token_secret" value="<?php echo $envato_licenser_token_secret;?>" class="regular-text">

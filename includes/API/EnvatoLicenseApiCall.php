@@ -56,7 +56,7 @@ class EnvatoLicenseApiCall {
         ?>
         <?php if ( empty( $EnvatoUserInfo ) ) {?>
             <div class="alert alert-danger" role="alert">
-                <?php _e( "API Information is not valid or not set." );?>
+                <?php _e( "API Information is not valid or not set.", 'envatolicenser' );?>
             </div>
         <?php } elseif ( !empty( $EnvatoUserInfo->error ) ) {
             ?>
