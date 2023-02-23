@@ -67,6 +67,7 @@ final class Envato_Licenser {
         register_activation_hook( __FILE__, [$this, 'activate'] );
 
         add_action( 'plugins_loaded', [$this, 'init_plugin'] );
+        add_action( 'plugins_loaded', [$this, 'load_textdomain'] );
     }
 
     /**
@@ -85,6 +86,10 @@ final class Envato_Licenser {
         }
 
         return $instance;
+    }
+
+    public function load_textdomain(){
+        load_plugin_textdomain("envatolicenser", false, dirname(__FILE__) . "/languages");
     }
 
     /**
