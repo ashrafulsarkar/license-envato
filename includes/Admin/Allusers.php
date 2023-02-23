@@ -103,53 +103,54 @@ class Allusers extends WP_List_Table {
             $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
             $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
             $envato_licenser_Error = isset( $envatolicense_deactive->errors ) ? $envatolicense_deactive->errors : '';
+            
             if ( $envato_licenser_Error ) {
-
                 if ( $envato_licenser_Error['already_deactivated'] ) {
-                    ?>
-                    <div class="notice notice-error is-dismissible">
-                        <p><?php echo $envato_licenser_Error['already_deactivated'][0]; ?></p>
-                    </div>
-                    <?php
+                    $message = urlencode($envato_licenser_Error['already_deactivated'][0]);
+                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
+                    echo"<script> window.location='{$url}';</script>";
                 } elseif ( $envato_licenser_Error['deactivated_error'] ) {
-                    ?>
-                    <div class="notice notice-error is-dismissible">
-                        <p><?php echo $envato_licenser_Error['deactivated_error'][0]; ?></p>
-                    </div>
-                    <?php
+                    $message = urlencode($envato_licenser_Error['deactivated_error'][0]);
+                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
+                    echo"<script> window.location='{$url}';</script>";
                 } elseif ( $envato_licenser_Error['invalid_code'] ) {
-                    ?>
-                    <div class="notice notice-error is-dismissible">
-                        <p><?php echo $envato_licenser_Error['invalid_code'][0]; ?></p>
-                    </div>
-                    <?php
+                    $message = urlencode($envato_licenser_Error['invalid_code'][0]);
+                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
+                    echo"<script> window.location='{$url}';</script>";
                 } elseif ( $envato_licenser_Error['parameter_request'] ) {
-                    ?>
-                    <div class="notice notice-error is-dismissible">
-                        <p><?php echo $envato_licenser_Error['parameter_request'][0]; ?></p>
-                    </div>
-                    <?php
+                    $message = urlencode($envato_licenser_Error['parameter_request'][0]);
+                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
+                    echo"<script> window.location='{$url}';</script>";
                 } else {
-                    ?>
-                    <div class="notice notice-error is-dismissible">
-                        <p><?php _e( 'Something wrong! Check Error!', 'sample-text-domain' );?></p>
-                    </div>
-                    <?php
+                    $url = admin_url("admin.php?page=envatolicenser&error=Something wrong! Check Error!");
+                    echo"<script> window.location='{$url}';</script>";
                 }
 
             } elseif ( $envatolicense_deactive['deactive'] ) {
-                ?>
-                <div class="notice notice-success is-dismissible">
-                    <p><?php echo $envatolicense_deactive['deactive']; ?></p>
-                </div>
-                <?php
+                $message = urlencode($envatolicense_deactive['deactive']);
+                $url = admin_url("admin.php?page=envatolicenser&success={$message}");
+                echo"<script> window.location='{$url}';</script>";
             } else {
-                ?>
-                <div class="notice notice-error is-dismissible">
-                    <p><?php _e( 'Something wrong!', 'sample-text-domain' );?></p>
-                </div>
-                <?php
+                $url = admin_url("admin.php?page=envatolicenser&error=Something+wrong!");
+                echo"<script> window.location='{$url}';</script>";
             }
+        }
+
+        $codeerror = isset( $_GET['error'] ) ? $_GET['error'] : '';
+        $codesuccess = isset( $_GET['success'] ) ? $_GET['success'] : '';
+        
+        if ($codeerror) {
+            ?>
+            <div class="notice notice-error is-dismissible">
+                <p><?php echo $codeerror; ?></p>
+            </div>
+            <?php
+        }elseif($codesuccess){
+            ?>
+            <div class="notice notice-success is-dismissible">
+                <p><?php echo $codesuccess; ?></p>
+            </div>
+            <?php
         }
 
         global $wpdb;

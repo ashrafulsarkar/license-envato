@@ -108,10 +108,6 @@ final class Envato_Licenser {
 
         new EnvatoLicenser\Assets();
 
-        // if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-        //     new EnvatoLicenser\Ajax();
-        // }
-
         if ( is_admin() ) {
             new EnvatoLicenser\Admin();
         }
