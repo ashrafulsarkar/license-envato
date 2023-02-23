@@ -17,6 +17,7 @@ if ($get_token_secret) {
                     </th>
                     <td>
                         <input name="token_secret" type="text" id="token_secret" value="<?php echo $envato_licenser_token_secret;?>" class="regular-text">
+                        <p class="description" id="token_secret-description"><?php _e('If you want more secure token, use token secret key.', 'envatolicenser');?></p>
                     </td>
                 </tr>
             </tbody>

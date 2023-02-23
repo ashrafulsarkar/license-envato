@@ -10,7 +10,7 @@ class Allusers extends WP_List_Table {
     // Define the number of items to display per page
     private $per_page = 20;
     private $search;
-    private $search_by = 'purchasecode';
+    private $search_by;
 
     function __construct() {
         parent::__construct( array(
@@ -51,7 +51,7 @@ class Allusers extends WP_List_Table {
             'itemid' => 'Item id',
             'purchasecode' => 'Purchase code',
             'supported_until' => 'Supported until',
-            'activation' => 'Activation',
+            'domain' => 'Activated domain',
             'action' => 'Action',
         );
         return $columns;
@@ -60,7 +60,7 @@ class Allusers extends WP_List_Table {
     function column_default($item, $column_name) {
         switch ($column_name) {
             case 'action':
-                if ($item['activation']) {
+                if ($item['domain']) {
                     return sprintf('<a href="?page=%s&action=%s&purchasecode=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['purchasecode']);
                 }else{
                     return esc_html__('Deactivated','envatolicenser');
@@ -80,7 +80,7 @@ class Allusers extends WP_List_Table {
             $code['code'] = $purchasecode;
             $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
             $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
-            $envato_licenser_Error = $envatolicense_deactive->errors; 
+            $envato_licenser_Error = isset($envatolicense_deactive->errors) ? $envatolicense_deactive->errors : '';
             if ($envato_licenser_Error) {
 
                 if ($envato_licenser_Error['already_deactivated']) {
@@ -132,9 +132,11 @@ class Allusers extends WP_List_Table {
 
         global $wpdb;
 
-        $query = "SELECT `username`, `itemid`, `activation`, `purchasecode`, `supported_until` FROM `{$wpdb->prefix}envato_licenser_userlist`";
+        $query = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `supported_until` FROM `{$wpdb->prefix}envato_licenser_userlist`";
 
         $this->search = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
+        $this->search_by = isset($_REQUEST['search_by']) ? $_REQUEST['search_by'] : '';
+        
         // Apply search filter for Purchase code
         if ( $this->search_by == 'purchasecode' ) {
             $query .= $wpdb->prepare(
@@ -142,6 +144,7 @@ class Allusers extends WP_List_Table {
                 $this->search
             );
         }
+        $query .= " ORDER BY `id` DESC";
 
         // Retrieve data from your custom database
         $data = $wpdb->get_results( $query, ARRAY_A );

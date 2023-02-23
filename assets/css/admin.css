@@ -53,6 +53,19 @@ input#unlink_envato_token {
 .deactivate:hover {
     color: #b32d2e;
 }
+.display_code {
+    overflow-y: scroll;
+    height: 300px;
+    width: 80%;
+    border: 1px solid #999999;
+    border-radius: 2px;
+    word-wrap: break-word;
+    background: #fff;
+    resize: none;
+}
+.display_code.small_box {
+    height: 100px;
+}
 @media screen and (max-width: 860px) {
     .license_activation {
         display: inherit;

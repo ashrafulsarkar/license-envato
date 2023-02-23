@@ -29,7 +29,8 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
                 [
                     'methods'             => WP_REST_Server::CREATABLE,
                     'callback'            => [ $this, 'active_license' ],
-                    'args'                => $this->get_collection_params(),
+                    'args'                => $this->get_active_collection_params(),
+                    'permission_callback' => '__return_true',
                 ],
             ]
         );
@@ -40,6 +41,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
                     'methods'             => WP_REST_Server::CREATABLE,
                     'callback'            => [ $this, 'deactive_license' ],
                     'args'                => $this->get_collection_params(),
+                    'permission_callback' => '__return_true',
                 ],
             ]
         );
@@ -79,6 +81,32 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
      *
      * @return array
      */
+    public function get_active_collection_params() {
+
+        return array(
+			'context'  => $this->get_context_param(),
+			'code'     => array(
+				'description'       => __( 'Envato purchase code.' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+                'required'          => true,
+            ),
+            'domain'     => array(
+				'description'       => __( 'API Request URL' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+                'required'          => true,
+            ),
+		);
+    }
+
+    /**
+     * Retrieves the query params for collections.
+     *
+     * @return array
+     */
     public function get_collection_params() {
 
         return array(
@@ -89,7 +117,9 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
                 'required'          => true,
-			)
+            ),
 		);
     }
+
+    
 }

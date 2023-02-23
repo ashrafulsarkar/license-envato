@@ -28,6 +28,7 @@ class Menu {
         add_submenu_page( $parent_slug, __( 'All Users', 'envatolicenser' ), __( 'All Users', 'envatolicenser' ), $capability, $parent_slug, [ $this, 'allusers' ] );
 
         add_submenu_page( $parent_slug, __( 'Settings', 'envatolicenser' ), __( 'Settings', 'envatolicenser' ), $capability, $parent_slug.'-settings', [ $this, 'settings' ] );
+        add_submenu_page( $parent_slug, __( 'Documentation', 'envatolicenser' ), __( 'Documentation', 'envatolicenser' ), $capability, $parent_slug.'-documentation', [ $this, 'documentation' ] );
 
         add_action( 'admin_init', [ $this, 'enqueue_assets' ] );
     }
@@ -39,7 +40,17 @@ class Menu {
      */
     public function settings() {
         $settings = new Settings();
-        $settings-> plugin_page();
+        $settings->plugin_page();
+    }
+
+    /**
+     * Handles the settings page
+     *
+     * @return void
+     */
+    public function documentation() {
+        $documentation = new Documentation();
+        $documentation->plugin_page();
     }
 
     /**
@@ -49,7 +60,7 @@ class Menu {
      */
     public function allusers() {
         $user = new Allusers();
-        $user-> plugin_page();
+        $user->plugin_page();
     }
 
     /**

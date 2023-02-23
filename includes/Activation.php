@@ -45,7 +45,7 @@ class Activation {
           `itemid` varchar(30) NOT NULL DEFAULT '',
           `purchasecode` varchar(255) NOT NULL DEFAULT '',
           `token` varchar(255) NOT NULL DEFAULT '',
-          `activation` TINYINT(2) NOT NULL DEFAULT '0',
+          `domain` varchar(255) NOT NULL DEFAULT '',
           `licensetype` varchar(255) NOT NULL DEFAULT '',
           `sold_at` varchar(255) NOT NULL DEFAULT '',
           `support_amount` varchar(255) NOT NULL DEFAULT '',

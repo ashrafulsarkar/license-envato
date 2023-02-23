@@ -58,7 +58,6 @@ class EnvatoLicenseApiCall {
             ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo wp_kses_post($EnvatoUserInfo->error_msg); ?>
-                
             </div>
             <?php
         }else{
@@ -196,13 +195,14 @@ class EnvatoLicenseApiCall {
 
     public function envatolicense_verify( $args ){
         $purchaseCode = isset($args['code']) ? $args['code'] : '';
+        $requestDomain = isset($args['domain']) ? $args['domain'] : '';
 
-        if (empty($purchaseCode)) {
+        if (empty($purchaseCode) || empty($requestDomain)) {
             return new WP_Error( 'parameter_request', __( "Sent an invalid request, such as lacking required request parameter.", "envatolicenser" ), ["status"=> 400] );
         }
 
         if (!preg_match("/^[a-zA-Z0-9\-]+$/", $purchaseCode)) {
-            return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+            return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 404] );
         }
 
         if (get_option('envato_licenser_token_valid') == false) {
@@ -212,11 +212,16 @@ class EnvatoLicenseApiCall {
         $get_license = $this->get_licence_verify_into_db($purchaseCode);
 
         if ( !empty($get_license)) {
-            if ($get_license[0]->token && $get_license[0]->activation == 1) {
-                return new WP_Error( 'already_activated', __( "Already activate another domain.", "envatolicenser" ), ["status"=> 406] );
+            if ($get_license[0]->token && !empty($get_license[0]->domain)) {
+                if ($get_license[0]->domain == $requestDomain) {
+                    $token['token'] = $get_license[0]->token;
+                    return $token;
+                }else{
+                    return new WP_Error( 'already_activated', __( "Already activate another domain.", "envatolicenser" ), ["status"=> 406] );
+                }
             }else{
                 $username = $get_license[0]->username;
-                $genarateNewToken = $this->genarateNewToken($purchaseCode, $username);
+                $genarateNewToken = $this->genarateNewToken($purchaseCode, $username, $requestDomain);
                 if ($genarateNewToken) {
                     $token['token'] = $genarateNewToken;
                     return $token;
@@ -229,9 +234,9 @@ class EnvatoLicenseApiCall {
                 $data=json_decode($data);
 
                 if(!empty($data->type) && $data->type=="curl_error"){
-                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 404] );
                 }elseif(!empty($data->message) && $data->message=="Unauthorized"){
-                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 404] );
                 }else{
                     $skip_properties=array("description","classification_url","author_username","classification","site","author_url","author_image","summary","rating_count","trending","attributes","tags","previews");
                     if(!empty($data->item)){
@@ -247,16 +252,16 @@ class EnvatoLicenseApiCall {
                         }
                     }
                     if(!empty($data->buyer)){
-                        $save_data_db = $this->savedataIntoDB($data, $purchaseCode);
+                        $save_data_db = $this->savedataIntoDB($data, $purchaseCode, $requestDomain);
                         if ($save_data_db) {
                             $token['token'] = $save_data_db;
                             return $token;
                         }
                     }
-                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 404] );
                 }
             }else{
-                return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 400] );
+                return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "envatolicenser" ), ["status"=> 404] );
             }
         }
     }
@@ -278,16 +283,15 @@ class EnvatoLicenseApiCall {
      */
     public function get_licence_verify_into_db($purchase_code){
         global $wpdb;
-        $result = $wpdb->get_results("SELECT `itemid`,`token`,`username`, `activation` FROM `{$wpdb->prefix}envato_licenser_userlist` WHERE `purchasecode` = '{$purchase_code}'");
+        $result = $wpdb->get_results("SELECT `itemid`,`token`,`username`, `domain` FROM `{$wpdb->prefix}envato_licenser_userlist` WHERE `purchasecode` = '{$purchase_code}'");
         return $result;
     }
 
-    private function savedataIntoDB($data, $purchaseCode){
+    private function savedataIntoDB($data, $purchaseCode, $domain){
         $licenseType = $data->license;
         $sold_at = $data->sold_at;
         $support_amount = $data->support_amount;
         $supported_until = $data->supported_until;
-        $activation = '1';
         $itemid = $data->item->id;
         $username = $data->buyer;
         $token_secret = get_option('envato_licenser_token_secret');
@@ -296,7 +300,7 @@ class EnvatoLicenseApiCall {
         global $wpdb;
         $table_name = $wpdb->prefix."envato_licenser_userlist";
 
-        $sql = $wpdb->prepare( "INSERT INTO ".$table_name." ( username, itemid, purchasecode, token, activation, licensetype, sold_at, support_amount, supported_until ) VALUES ( %s, %d, %s, %s, %d, %s, %s, %s, %s )", $username, $itemid, $purchaseCode, $token, $activation, $licenseType, $sold_at, $support_amount, $supported_until );
+        $sql = $wpdb->prepare( "INSERT INTO ".$table_name." ( username, itemid, purchasecode, token, domain, licensetype, sold_at, support_amount, supported_until ) VALUES ( %s, %d, %s, %s, %s, %s, %s, %s, %s )", $username, $itemid, $purchaseCode, $token, $domain, $licenseType, $sold_at, $support_amount, $supported_until );
         $wpdb->query($sql);
 
         $id = $wpdb->insert_id;
@@ -306,13 +310,13 @@ class EnvatoLicenseApiCall {
         return false;
     }
 
-    public function genarateNewToken($purchaseCode, $username){
+    public function genarateNewToken($purchaseCode, $username, $requestDomain){
         $token_secret = get_option('envato_licenser_token_secret');
         $token = hash( 'md5', $username.$purchaseCode.time().$token_secret );
 
         global $wpdb;
         $table_name  = $wpdb->prefix."envato_licenser_userlist";
-        $sql = $wpdb->prepare("UPDATE $table_name SET `token` = %s ,`activation` = '1' WHERE `purchasecode` = %s",$token, $purchaseCode );
+        $sql = $wpdb->prepare("UPDATE $table_name SET `token` = %s ,`domain` = %s WHERE `purchasecode` = %s",$token, $requestDomain, $purchaseCode );
 
         $wpdb->query($sql);
         $id = $wpdb->rows_affected;
@@ -336,12 +340,12 @@ class EnvatoLicenseApiCall {
         $get_license = $this->get_licence_verify_into_db($purchaseCode);
 
         if ( !empty($get_license)) {
-            if ($get_license[0]->activation == 1) {
+            if ($get_license[0]->domain) {
 
                 global $wpdb;
                 $table_name  = $wpdb->prefix."envato_licenser_userlist";
 
-                $sql = $wpdb->prepare("UPDATE $table_name SET `activation` = '0' WHERE `purchasecode` = %s", $purchaseCode );
+                $sql = $wpdb->prepare("UPDATE $table_name SET `domain` = '' WHERE `purchasecode` = %s", $purchaseCode );
                 $wpdb->query($sql);
 
                 $id = $wpdb->rows_affected;
