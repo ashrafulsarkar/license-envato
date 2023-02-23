@@ -1,4 +1,4 @@
-=== Envato Licenser ===
+=== License For Envato ===
 Contributors: ashrafulsarkar
 Tags: license, license manager, license key, software license, envato license, theme license, plugin license
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
@@ -9,7 +9,7 @@ Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Envato Licenser is a Envato theme & plugin license management Software.
+"License For Envato" is a Envato theme & plugin license management Software.
 
 == Description ==
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Envato Licenser
+ * Plugin Name: License For Envato
  * Plugin URI: https://github.com/ashrafulsarkar/envato-licenser
  * Description: Manage your envato market items theme & plugin license.
  * Version: 1.0.0
