@@ -30,15 +30,15 @@ class Menu {
      * @since 1.0.0 
      */
     public function admin_menu() {
-        $parent_slug = 'envatolicenser';
+        $parent_slug = 'licenseenvato';
         $capability = 'manage_options';
 
-        add_menu_page( __( 'Envato Licenser', 'envatolicenser' ), __( 'Envato Licenser', 'envatolicenser' ), $capability, $parent_slug, [ $this, 'allusers' ], 'dashicons-admin-network' );
+        add_menu_page( __( 'Envato Licenser', 'licenseenvato' ), __( 'Envato Licenser', 'licenseenvato' ), $capability, $parent_slug, [ $this, 'allusers' ], 'dashicons-admin-network' );
 
-        add_submenu_page( $parent_slug, __( 'All Users', 'envatolicenser' ), __( 'All Users', 'envatolicenser' ), $capability, $parent_slug, [ $this, 'allusers' ] );
+        add_submenu_page( $parent_slug, __( 'All Users', 'licenseenvato' ), __( 'All Users', 'licenseenvato' ), $capability, $parent_slug, [ $this, 'allusers' ] );
 
-        add_submenu_page( $parent_slug, __( 'Settings', 'envatolicenser' ), __( 'Settings', 'envatolicenser' ), $capability, $parent_slug.'-settings', [ $this, 'settings' ] );
-        add_submenu_page( $parent_slug, __( 'Documentation', 'envatolicenser' ), __( 'Documentation', 'envatolicenser' ), $capability, $parent_slug.'-documentation', [ $this, 'documentation' ] );
+        add_submenu_page( $parent_slug, __( 'Settings', 'licenseenvato' ), __( 'Settings', 'licenseenvato' ), $capability, $parent_slug.'-settings', [ $this, 'settings' ] );
+        add_submenu_page( $parent_slug, __( 'Documentation', 'licenseenvato' ), __( 'Documentation', 'licenseenvato' ), $capability, $parent_slug.'-documentation', [ $this, 'documentation' ] );
 
         add_action( 'admin_init', [ $this, 'enqueue_assets' ] );
     }

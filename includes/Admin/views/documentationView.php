@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( 'Documentation', 'envatolicenser' ); ?></h1>
+    <h1 class="wp-heading-inline"><?php _e( 'Documentation', 'licenseenvato' ); ?></h1>
 </div>
 
 <?php
@@ -168,24 +168,24 @@ class licenseCodeVerifyForm {
 EOD;
 
 ?>
-<h2><?php _e('Step 1 (Your Site)', 'envatolicenser');?></h2>
+<h2><?php _e('Step 1 (Your Site)', 'licenseenvato');?></h2>
 <ul>
-    <li><?php _e('1. Install this plugin on your site.', 'envatolicenser');?></li>
-    <li><?php _e('2. Goto plugin settings > Activate Envato Token.', 'envatolicenser');?></li>
+    <li><?php _e('1. Install this plugin on your site.', 'licenseenvato');?></li>
+    <li><?php _e('2. Goto plugin settings > Activate Envato Token.', 'licenseenvato');?></li>
 </ul>
-<p><?php _e('Alright, the Plugin settings are done. If you want more unique license tokens add a Token secret key in the General Setting area. (Any letter/word)', 'envatolicenser');?></p>
-<h2><?php _e('Step 2 (Your Theme/Plugin)', 'envatolicenser');?></h2>
+<p><?php _e('Alright, the Plugin settings are done. If you want more unique license tokens add a Token secret key in the General Setting area. (Any letter/word)', 'licenseenvato');?></p>
+<h2><?php _e('Step 2 (Your Theme/Plugin)', 'licenseenvato');?></h2>
 <ul>
-    <li><?php _e('1. Goto your theme or plugin.', 'envatolicenser');?></li>
-    <li><?php _e('2. Copy this code.', 'envatolicenser');?></li>
-    <li><?php _e('3. Add this code to your theme or plugin.', 'envatolicenser');?></li>
+    <li><?php _e('1. Goto your theme or plugin.', 'licenseenvato');?></li>
+    <li><?php _e('2. Copy this code.', 'licenseenvato');?></li>
+    <li><?php _e('3. Add this code to your theme or plugin.', 'licenseenvato');?></li>
 </ul>
 <textarea class="display_code" readonly><?php echo $code;?></textarea>
 <ul>
-    <li><?php _e('4. Replace <b>YOUR_SITE_URL</b> >', 'envatolicenser');?> <b><?php echo get_option( 'siteurl' );?></b></li>
-    <li><?php _e('5. Replace <b>TEXT_DOMAIN</b>', 'envatolicenser');?></li>
+    <li><?php _e('4. Replace <b>YOUR_SITE_URL</b> >', 'licenseenvato');?> <b><?php echo get_option( 'siteurl' );?></b></li>
+    <li><?php _e('5. Replace <b>TEXT_DOMAIN</b>', 'licenseenvato');?></li>
 </ul>
-<h2><?php _e('Step 3 (Your Theme/Plugin)', 'envatolicenser');?></h2>
-<p><?php _e('Now call this Class, where you want to add your theme/plugin License Box.', 'envatolicenser');?></p>
+<h2><?php _e('Step 3 (Your Theme/Plugin)', 'licenseenvato');?></h2>
+<p><?php _e('Now call this Class, where you want to add your theme/plugin License Box.', 'licenseenvato');?></p>
 <textarea class="display_code small_box" readonly><?php echo $callCode;?></textarea>
-<p><?php _e('Congratulations! All Setup is done. Enjoy and conditionally manage what you want.', 'envatolicenser');?></p>
+<p><?php _e('Congratulations! All Setup is done. Enjoy and conditionally manage what you want.', 'licenseenvato');?></p>

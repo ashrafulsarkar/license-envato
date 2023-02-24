@@ -85,7 +85,7 @@ class Allusers extends WP_List_Table {
             if ( $item['domain'] ) {
                 return sprintf( '<a href="?page=%s&action=%s&purchasecode=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['purchasecode'] );
             } else {
-                return esc_html__( 'Deactivated', 'envatolicenser' );
+                return esc_html__( 'Deactivated', 'licenseenvato' );
             }
         default:
             return $item[$column_name];
@@ -208,7 +208,7 @@ class Allusers extends WP_List_Table {
             // Add the search input field
             echo '<div class="alignleft actions">';
             echo '<form method="get">';
-            echo '<input type="hidden" name="page" value="envatolicenser"/>';
+            echo '<input type="hidden" name="page" value="licenseenvato"/>';
             echo '<input type="search" id="search" name="s" value="' . $this->search . '"/>';
 
             // Add the search by dropdown

@@ -1,10 +1,10 @@
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( 'Settings', 'envatolicenser' ); ?></h1>
+    <h1 class="wp-heading-inline"><?php _e( 'Settings', 'licenseenvato' ); ?></h1>
     <?php $action = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general'; ?>
     <nav class="nav-tab-wrapper">
         <?php $envatoLicenser_nav = [ 
-            'general' => __('General', 'envatolicenser'), 
-            'envato' => __('Envato', 'envatolicenser'), 
+            'general' => __('General', 'licenseenvato'), 
+            'envato' => __('Envato', 'licenseenvato'), 
             ];
         
             $envatoLicenser_nav_array =  apply_filters( 'envato_licenser_settings_nav', $envatoLicenser_nav );
