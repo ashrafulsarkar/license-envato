@@ -21,10 +21,10 @@ Are you a theme or plugin developer and selling your product in the Envato marke
 Installation procedure:
 
 1. Deactivate plugin if you have the previous version installed.
-2. Extract "envato-licenser.zip" archive content to the "/wp-content/plugins/envato-licenser" directory.
-3. Activate "Envato Licenser" plugin via 'Plugins' menu in WordPress admin menu.
-4. Go to the "Envato Licenser"-"Settings" menu item and setup Envato token.
-4. For More Documentation "Envato Licenser"-"Documentation" menu.
+2. Extract "license-for-envato.zip" archive content to the "/wp-content/plugins/license-for-envato" directory.
+3. Activate "License For Envato" plugin via 'Plugins' menu in WordPress admin menu.
+4. Go to the "License For Envato"-"Settings" menu item and setup Envato token.
+4. For More Documentation "License For Envato"-"Documentation" menu.
 
 == Changelog ==
 = 1.0.0 =

@@ -98,12 +98,12 @@ final class Envato_Licenser {
      * @return void
      */
     public function define_constants() {
-        define( 'ENVATO_LICENSER_VERSION', self::version );
-        define( 'ENVATO_LICENSER_FILE_URL', __FILE__ );
-        define( 'ENVATO_LICENSER_FILE_PATH', __DIR__ );
-        define( 'ENVATO_LICENSER_BASE_URL', plugin_basename( ENVATO_LICENSER_FILE_URL ) );
-        define( 'ENVATO_LICENSER_URL', plugins_url( '', ENVATO_LICENSER_FILE_URL ) );
-        define( 'ENVATO_LICENSER_ASSETS', ENVATO_LICENSER_URL . '/assets' );
+        define( 'LICENSE_ENVATO_VERSION', self::version );
+        define( 'LICENSE_ENVATO_FILE_URL', __FILE__ );
+        define( 'LICENSE_ENVATO_FILE_PATH', __DIR__ );
+        define( 'LICENSE_ENVATO_BASE_URL', plugin_basename( LICENSE_ENVATO_FILE_URL ) );
+        define( 'LICENSE_ENVATO_URL', plugins_url( '', LICENSE_ENVATO_FILE_URL ) );
+        define( 'LICENSE_ENVATO_ASSETS', LICENSE_ENVATO_URL . '/assets' );
     }
 
     /**

@@ -31,7 +31,7 @@ class Activation {
             update_option( 'envato_licenser_installed', time() );
         }
 
-        update_option( 'envato_licenser_version', ENVATO_LICENSER_VERSION );
+        update_option( 'LICENSE_ENVATO_VERSION', LICENSE_ENVATO_VERSION );
     }
 
     /**

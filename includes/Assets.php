@@ -27,8 +27,8 @@ class Assets {
     public function get_styles() {
         return [
             'envatolicenser-admin-style' => [
-                'src'     => ENVATO_LICENSER_ASSETS . '/css/admin.css',
-                'version' => filemtime( ENVATO_LICENSER_FILE_PATH . '/assets/css/admin.css' ),
+                'src'     => LICENSE_ENVATO_ASSETS . '/css/admin.css',
+                'version' => filemtime( LICENSE_ENVATO_FILE_PATH . '/assets/css/admin.css' ),
             ],
         ];
     }
