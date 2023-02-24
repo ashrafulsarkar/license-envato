@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser;
+namespace LicenseEnvato;
 
 class Activation {
 
@@ -25,10 +25,10 @@ class Activation {
      * Add time and version on DB
      */
     public function add_version() {
-        $installed = get_option( 'envato_licenser_installed' );
+        $installed = get_option( 'license_envato_installed' );
 
         if ( !$installed ) {
-            update_option( 'envato_licenser_installed', time() );
+            update_option( 'license_envato_installed', time() );
         }
 
         update_option( 'LICENSE_ENVATO_VERSION', LICENSE_ENVATO_VERSION );
@@ -44,7 +44,7 @@ class Activation {
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        $schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}envato_licenser_userlist` (
+        $schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}license_envato_userlist` (
           `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
           `username` varchar(100) NOT NULL DEFAULT '',
           `itemid` varchar(30) NOT NULL DEFAULT '',

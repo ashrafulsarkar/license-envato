@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser\Admin;
+namespace LicenseEnvato\Admin;
 
 class Menu {
 

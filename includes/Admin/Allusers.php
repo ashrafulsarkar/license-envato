@@ -6,9 +6,9 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser\Admin;
+namespace LicenseEnvato\Admin;
 
-use EnvatoLicenser\API\EnvatoLicenseApiCall;
+use LicenseEnvato\API\EnvatoLicenseApiCall;
 use WP_List_Table;
 
 class Allusers extends WP_List_Table {
@@ -102,23 +102,23 @@ class Allusers extends WP_List_Table {
             $code['code'] = $purchasecode;
             $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
             $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
-            $envato_licenser_Error = isset( $envatolicense_deactive->errors ) ? $envatolicense_deactive->errors : '';
+            $license_envato_Error = isset( $envatolicense_deactive->errors ) ? $envatolicense_deactive->errors : '';
             
-            if ( $envato_licenser_Error ) {
-                if ( $envato_licenser_Error['already_deactivated'] ) {
-                    $message = urlencode($envato_licenser_Error['already_deactivated'][0]);
+            if ( $license_envato_Error ) {
+                if ( $license_envato_Error['already_deactivated'] ) {
+                    $message = urlencode($license_envato_Error['already_deactivated'][0]);
                     $url = admin_url("admin.php?page=envatolicenser&error={$message}");
                     echo"<script> window.location='{$url}';</script>";
-                } elseif ( $envato_licenser_Error['deactivated_error'] ) {
-                    $message = urlencode($envato_licenser_Error['deactivated_error'][0]);
+                } elseif ( $license_envato_Error['deactivated_error'] ) {
+                    $message = urlencode($license_envato_Error['deactivated_error'][0]);
                     $url = admin_url("admin.php?page=envatolicenser&error={$message}");
                     echo"<script> window.location='{$url}';</script>";
-                } elseif ( $envato_licenser_Error['invalid_code'] ) {
-                    $message = urlencode($envato_licenser_Error['invalid_code'][0]);
+                } elseif ( $license_envato_Error['invalid_code'] ) {
+                    $message = urlencode($license_envato_Error['invalid_code'][0]);
                     $url = admin_url("admin.php?page=envatolicenser&error={$message}");
                     echo"<script> window.location='{$url}';</script>";
-                } elseif ( $envato_licenser_Error['parameter_request'] ) {
-                    $message = urlencode($envato_licenser_Error['parameter_request'][0]);
+                } elseif ( $license_envato_Error['parameter_request'] ) {
+                    $message = urlencode($license_envato_Error['parameter_request'][0]);
                     $url = admin_url("admin.php?page=envatolicenser&error={$message}");
                     echo"<script> window.location='{$url}';</script>";
                 } else {
@@ -155,7 +155,7 @@ class Allusers extends WP_List_Table {
 
         global $wpdb;
 
-        $query = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `supported_until` FROM `{$wpdb->prefix}envato_licenser_userlist`";
+        $query = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `supported_until` FROM `{$wpdb->prefix}license_envato_userlist`";
 
         $this->search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
         $this->search_by = isset( $_REQUEST['search_by'] ) ? $_REQUEST['search_by'] : '';

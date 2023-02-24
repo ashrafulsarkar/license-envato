@@ -7,10 +7,10 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser\Admin;
+namespace LicenseEnvato\Admin;
 
-use EnvatoLicenser\Error\Form_Error;
-use EnvatoLicenser\API\EnvatoLicenseApiCall;
+use LicenseEnvato\Error\Form_Error;
+use LicenseEnvato\API\EnvatoLicenseApiCall;
 
 class Settings {
 
@@ -24,7 +24,7 @@ class Settings {
      * @since 1.0.0 
      */
     public function plugin_page() {
-        $envato_licenser_api = new EnvatoLicenseApiCall();
+        $license_envato_api = new EnvatoLicenseApiCall();
         $settingsView = __DIR__ . '/views/settingsView.php';
         if ( file_exists( $settingsView ) ) {
             include $settingsView;

@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser\API;
+namespace LicenseEnvato\API;
 
 use WP_Error;
 
@@ -23,7 +23,7 @@ class EnvatoLicenseApiCall {
             return;
         }
 
-        if ( !wp_verify_nonce( $_POST['_wpnonce'], 'envato_licenser_envato_token' ) ) {
+        if ( !wp_verify_nonce( $_POST['_wpnonce'], 'license_envato_envato_token' ) ) {
             wp_die( 'Are you cheating?' );
         }
 
@@ -33,7 +33,7 @@ class EnvatoLicenseApiCall {
 
         $envato_token = isset( $_POST['envato_token'] ) ? sanitize_text_field( $_POST['envato_token'] ) : '';
 
-        $user_option_key = hash( 'crc32b', 'envato_licenser_envato' ) . "_user";
+        $user_option_key = hash( 'crc32b', 'license_envato_envato' ) . "_user";
         $profile = get_option( $user_option_key );
         if ( $profile ) {
 
@@ -41,7 +41,7 @@ class EnvatoLicenseApiCall {
             update_option( $user_option_key, $profile );
         }
 
-        $option_key = hash( 'crc32b', 'envato_licenser_envato' ) . "_token";
+        $option_key = hash( 'crc32b', 'license_envato_envato' ) . "_token";
         update_option( $option_key, $envato_token );
     }
 
@@ -102,7 +102,7 @@ class EnvatoLicenseApiCall {
      * @return mixed
      */
     public function get_envato_userdata() {
-        $option_key = hash( 'crc32b', 'envato_licenser_envato' ) . "_user";
+        $option_key = hash( 'crc32b', 'license_envato_envato' ) . "_user";
 
         $profile = get_option( $option_key );
         if ( !empty( $profile->account->username ) ) {
@@ -131,7 +131,7 @@ class EnvatoLicenseApiCall {
             if ( !empty( $ejson ) ) {
                 $ejson = json_decode( $ejson );
                 if ( !empty( $ejson->username ) ) {
-                    update_option( 'envato_licenser_token_valid', true );
+                    update_option( 'license_envato_token_valid', true );
                     $json->account->username = $ejson->username;
                 }
 
@@ -151,7 +151,7 @@ class EnvatoLicenseApiCall {
      */
     private function apicall( $url, $postarray = array() ) {
 
-        $envato_token = $this->envato_licenser_get_option( '_token' );
+        $envato_token = $this->license_envato_get_option( '_token' );
 
         if ( empty( $envato_token ) ) {
             return NULL;
@@ -186,13 +186,13 @@ class EnvatoLicenseApiCall {
     }
 
     /**
-     * envato_licenser_get_option()
+     * license_envato_get_option()
      * 
      * @param mixed $key
      * @return mixed
      */
-    public function envato_licenser_get_option( $key ) {
-        $option_key = hash( 'crc32b', 'envato_licenser_envato' ) . $key;
+    public function license_envato_get_option( $key ) {
+        $option_key = hash( 'crc32b', 'license_envato_envato' ) . $key;
         return get_option( $option_key, null );
     }
 
@@ -206,7 +206,7 @@ class EnvatoLicenseApiCall {
             return;
         }
 
-        if ( !wp_verify_nonce( $_POST['_wpnonce'], 'envato_licenser_unlink' ) ) {
+        if ( !wp_verify_nonce( $_POST['_wpnonce'], 'license_envato_unlink' ) ) {
             wp_die( 'Are you cheating?' );
         }
 
@@ -214,8 +214,8 @@ class EnvatoLicenseApiCall {
             wp_die( 'Are you cheating?' );
         }
 
-        update_option( 'envato_licenser_token_valid', false );
-        $option_key = hash( 'crc32b', 'envato_licenser_envato' ) . "_token";
+        update_option( 'license_envato_token_valid', false );
+        $option_key = hash( 'crc32b', 'license_envato_envato' ) . "_token";
         update_option( $option_key, '' );
     }
 
@@ -237,7 +237,7 @@ class EnvatoLicenseApiCall {
             return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 404] );
         }
 
-        if ( get_option( 'envato_licenser_token_valid' ) == false ) {
+        if ( get_option( 'license_envato_token_valid' ) == false ) {
             return new WP_Error( 'envato_connection_error', __( "Envato Auth Error, Contact your theme or plugin author.", "licenseenvato" ), ["status" => 401] );
         }
 
@@ -318,7 +318,7 @@ class EnvatoLicenseApiCall {
      */
     public function get_licence_verify_into_db( $purchase_code ) {
         global $wpdb;
-        $result = $wpdb->get_results( "SELECT `itemid`,`token`,`username`, `domain` FROM `{$wpdb->prefix}envato_licenser_userlist` WHERE `purchasecode` = '{$purchase_code}'" );
+        $result = $wpdb->get_results( "SELECT `itemid`,`token`,`username`, `domain` FROM `{$wpdb->prefix}license_envato_userlist` WHERE `purchasecode` = '{$purchase_code}'" );
         return $result;
     }
 
@@ -337,11 +337,11 @@ class EnvatoLicenseApiCall {
         $supported_until = $data->supported_until;
         $itemid = $data->item->id;
         $username = $data->buyer;
-        $token_secret = get_option( 'envato_licenser_token_secret' );
+        $token_secret = get_option( 'license_envato_token_secret' );
         $token = hash( 'md5', $username . $purchaseCode . time() . $token_secret );
 
         global $wpdb;
-        $table_name = $wpdb->prefix . "envato_licenser_userlist";
+        $table_name = $wpdb->prefix . "license_envato_userlist";
 
         $sql = $wpdb->prepare( "INSERT INTO " . $table_name . " ( username, itemid, purchasecode, token, domain, licensetype, sold_at, support_amount, supported_until ) VALUES ( %s, %d, %s, %s, %s, %s, %s, %s, %s )", $username, $itemid, $purchaseCode, $token, $domain, $licenseType, $sold_at, $support_amount, $supported_until );
         $wpdb->query( $sql );
@@ -362,11 +362,11 @@ class EnvatoLicenseApiCall {
      * @return mixed
      */
     public function genarateNewToken( $purchaseCode, $username, $requestDomain ) {
-        $token_secret = get_option( 'envato_licenser_token_secret' );
+        $token_secret = get_option( 'license_envato_token_secret' );
         $token = hash( 'md5', $username . $purchaseCode . time() . $token_secret );
 
         global $wpdb;
-        $table_name = $wpdb->prefix . "envato_licenser_userlist";
+        $table_name = $wpdb->prefix . "license_envato_userlist";
         $sql = $wpdb->prepare( "UPDATE $table_name SET `token` = %s ,`domain` = %s WHERE `purchasecode` = %s", $token, $requestDomain, $purchaseCode );
 
         $wpdb->query( $sql );
@@ -400,7 +400,7 @@ class EnvatoLicenseApiCall {
             if ( $get_license[0]->domain ) {
 
                 global $wpdb;
-                $table_name = $wpdb->prefix . "envato_licenser_userlist";
+                $table_name = $wpdb->prefix . "license_envato_userlist";
 
                 $sql = $wpdb->prepare( "UPDATE $table_name SET `domain` = '' WHERE `purchasecode` = %s", $purchaseCode );
                 $wpdb->query( $sql );

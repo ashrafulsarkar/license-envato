@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser;
+namespace LicenseEnvato;
 
 class Admin {
 
@@ -32,7 +32,7 @@ class Admin {
      */
     public function plugin_menu_links( $actions ) {
         $mylinks = array(
-            '<a href="' . admin_url( 'admin.php?page=envatolicenser-settings' ) . '">Settings</a>',
+            '<a href="' . admin_url( 'admin.php?page=licenseenvato-settings' ) . '">Settings</a>',
         );
         $actions = array_merge( $mylinks, $actions );
         return $actions;

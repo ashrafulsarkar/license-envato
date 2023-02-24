@@ -4,21 +4,21 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitcb4338fd547c3b2f079a79d42f5d1f9a
+class ComposerStaticInit24462beaedaca5a7b497cc87d49c37f6
 {
     public static $files = array (
-        'ce5a8dd923762b78490f04dc2b9cc652' => __DIR__ . '/../..' . '/includes/functions.php',
+        '48a0c493cd6757d584d285a110a175e9' => __DIR__ . '/../..' . '/includes/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'E' => 
+        'L' => 
         array (
-            'EnvatoLicenser\\' => 15,
+            'LicenseEnvato\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'EnvatoLicenser\\' => 
+        'LicenseEnvato\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
@@ -31,9 +31,9 @@ class ComposerStaticInitcb4338fd547c3b2f079a79d42f5d1f9a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitcb4338fd547c3b2f079a79d42f5d1f9a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitcb4338fd547c3b2f079a79d42f5d1f9a::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitcb4338fd547c3b2f079a79d42f5d1f9a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit24462beaedaca5a7b497cc87d49c37f6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit24462beaedaca5a7b497cc87d49c37f6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit24462beaedaca5a7b497cc87d49c37f6::$classMap;
 
         }, null, ClassLoader::class);
     }

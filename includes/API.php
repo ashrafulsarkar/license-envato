@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser;
+namespace LicenseEnvato;
 
 class API {
 

@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'EnvatoLicenser\\' => array($baseDir . '/includes'),
+    'LicenseEnvato\\' => array($baseDir . '/includes'),
 );

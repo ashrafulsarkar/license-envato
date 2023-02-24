@@ -7,7 +7,7 @@
             'envato' => __('Envato', 'licenseenvato'), 
             ];
         
-            $envatoLicenser_nav_array =  apply_filters( 'envato_licenser_settings_nav', $envatoLicenser_nav );
+            $envatoLicenser_nav_array =  apply_filters( 'license_envato_settings_nav', $envatoLicenser_nav );
             if ($envatoLicenser_nav_array) {
                 $html = '';
                 foreach ( $envatoLicenser_nav_array as $key => $val ) {
@@ -22,7 +22,7 @@
 
     <?php
     $dir = __DIR__;
-    $envatoLicenser_nav_view =  apply_filters( 'envato_licenser_settings_view', $dir, $action );
+    $envatoLicenser_nav_view =  apply_filters( 'license_envato_settings_view', $dir, $action );
 
     if ($envatoLicenser_nav_view) {
         $template = "{$envatoLicenser_nav_view}/{$action}.php";

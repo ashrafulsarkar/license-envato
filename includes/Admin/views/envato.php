@@ -1,19 +1,19 @@
 <h3><?php _e( 'Envato Account Settings', 'licenseenvato' ); ?></h3>
 <?php
-$envato_licenser_api->envato_token_handler();
-$envato_licenser_api->deactive_envato_token();
+$license_envato_api->envato_token_handler();
+$license_envato_api->deactive_envato_token();
 
-$get_envato_licenser_envato_token = $envato_licenser_api->envato_licenser_get_option( '_token' );
-if ($get_envato_licenser_envato_token) {
-    $envato_licenser_user_data = $envato_licenser_api->getAPIUserHtmlDetails();
-    echo $envato_licenser_user_data;
+$get_license_envato_envato_token = $license_envato_api->license_envato_get_option( '_token' );
+if ($get_license_envato_envato_token) {
+    $license_envato_user_data = $license_envato_api->getAPIUserHtmlDetails();
+    echo $license_envato_user_data;
 }
 
-if (get_option('envato_licenser_token_valid') == false) { 
+if (get_option('license_envato_token_valid') == false) { 
     ?>
     <div class="license_activation">
-        <div class="envato_licenser_form">
-            <form action="" method="post" class="envato_licenser">
+        <div class="license_envato_form">
+            <form action="" method="post" class="license_envato">
                 <div class="token_box">
                     <div class="label">
                         <h4>
@@ -21,13 +21,13 @@ if (get_option('envato_licenser_token_valid') == false) {
                         </h4>
                     </div>
                     <div class="input_box">
-                        <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo $get_envato_licenser_envato_token;?>">
+                        <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo $get_license_envato_envato_token;?>">
                     </div>
                     <p class="description"><?php echo _e( 'You need a “personal token” before you can validate purchase codes for your items. This is similar to a password that grants limited access to your account, but it’s exclusively for the API.', 'licenseenvato' ); ?>  <a href="https://build.envato.com/create-token" target="_blank"><?php echo _e( 'Create a token.', 'licenseenvato' ); ?></a>
                     </p>
                 </div>
                 
-                <?php wp_nonce_field( 'envato_licenser_envato_token' ); ?>
+                <?php wp_nonce_field( 'license_envato_envato_token' ); ?>
                 <?php submit_button( __( 'Save Envato Token', 'licenseenvato' ), 'primary', 'submit_envato_token' ); ?>
             </form>
         </div>
@@ -50,7 +50,7 @@ if (get_option('envato_licenser_token_valid') == false) {
     </div>
 <?php }else{ ?>
     <form action="" method="post">
-        <?php wp_nonce_field( 'envato_licenser_unlink' ); ?>
+        <?php wp_nonce_field( 'license_envato_unlink' ); ?>
         <?php submit_button( __( 'Deactivated Envato Account', 'licenseenvato' ), 'danger', 'unlink_envato_token' ); ?>
     </form>
     

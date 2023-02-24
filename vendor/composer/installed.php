@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
-        'name' => 'ashrafulsarkar/envato-licenser',
+        'reference' => 'a6503ab1935a4160fe3353cdac262e44bf6785e4',
+        'name' => 'ashrafulsarkar/license-envato',
         'dev' => true,
     ),
     'versions' => array(
-        'ashrafulsarkar/envato-licenser' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+        'ashrafulsarkar/license-envato' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => 'a6503ab1935a4160fe3353cdac262e44bf6785e4',
             'dev_requirement' => false,
         ),
     ),

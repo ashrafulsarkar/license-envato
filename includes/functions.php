@@ -16,7 +16,7 @@ function general_setting_handler() {
         wp_die( 'Are you cheating?' );
     }
 
-    $token_secret_key = isset( $_POST['token_secret'] ) ? sanitize_text_field( $_POST['token_secret'] ) : 'Envato Licenser';
+    $token_secret_key = isset( $_POST['token_secret'] ) ? sanitize_text_field( $_POST['token_secret'] ) : 'LicenseEnvato';
 
-    update_option( 'envato_licenser_token_secret', $token_secret_key );
+    update_option( 'license_envato_token_secret', $token_secret_key );
 }

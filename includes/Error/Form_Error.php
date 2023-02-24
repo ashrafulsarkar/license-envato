@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser\Error;
+namespace LicenseEnvato\Error;
 
 trait Form_Error {
 

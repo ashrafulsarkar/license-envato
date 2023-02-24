@@ -49,7 +49,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * The main plugin class
  */
-final class Envato_Licenser {
+final class License_Envato {
 
     /**
      * Plugin version
@@ -73,7 +73,7 @@ final class Envato_Licenser {
     /**
      * Initializes a singleton instance
      *
-     * @return \Envato_Licenser
+     * @return \License_Envato
      */
     public static function init() {
         /**
@@ -113,13 +113,13 @@ final class Envato_Licenser {
      */
     public function init_plugin() {
 
-        new EnvatoLicenser\Assets();
+        new LicenseEnvato\Assets();
 
         if ( is_admin() ) {
-            new EnvatoLicenser\Admin();
+            new LicenseEnvato\Admin();
         }
 
-        new EnvatoLicenser\API();
+        new LicenseEnvato\API();
     }
 
     /**
@@ -128,7 +128,7 @@ final class Envato_Licenser {
      * @return void
      */
     public function activate() {
-        $activation = new EnvatoLicenser\Activation();
+        $activation = new LicenseEnvato\Activation();
         $activation->run();
     }
 }
@@ -136,9 +136,9 @@ final class Envato_Licenser {
 /**
  * Initializes the main plugin
  *
- * @return \Envato_Licenser
+ * @return \License_Envato
  */
-function envato_licencer() {
-    return Envato_Licenser::init();
+function licence_envato() {
+    return License_Envato::init();
 }
-envato_licencer();
+licence_envato();

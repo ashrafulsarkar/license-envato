@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-namespace EnvatoLicenser\API;
+namespace LicenseEnvato\API;
 
 use WP_REST_Controller;
 use WP_REST_Server;
