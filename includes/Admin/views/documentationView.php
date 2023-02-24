@@ -75,7 +75,7 @@ class licenseCodeVerifyForm {
         $purchase_code = isset( $_POST['purchase_code'] ) ? sanitize_text_field( $_POST['purchase_code'] ) : '';
 
         if ($purchase_code) {
-            $url = self::LICENCE_CALL_URL."/wp-json/envatolicenser/v1/active";
+            $url = self::LICENCE_CALL_URL."/wp-json/licenseenvato/v1/active";
             $domain = $this->domain();
             $response = $this->apicall($url, $purchase_code, $domain);
             $date = json_decode($response);
@@ -119,7 +119,7 @@ class licenseCodeVerifyForm {
         $envato_deactivate = isset( $_POST['envato_deactivate'] ) ? sanitize_text_field( $_POST['envato_deactivate'] ) : '';
 
         if ($envato_deactivate) {
-            $url = self::LICENCE_CALL_URL."/wp-json/envatolicenser/v1/deactive";
+            $url = self::LICENCE_CALL_URL."/wp-json/licenseenvato/v1/deactive";
             
             $response = $this->apicall($url, $code);
 	        $date = json_decode($response);

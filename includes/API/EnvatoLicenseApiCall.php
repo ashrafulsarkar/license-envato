@@ -387,11 +387,11 @@ class EnvatoLicenseApiCall {
         $purchaseCode = isset( $args['code'] ) ? $args['code'] : '';
 
         if ( empty( $purchaseCode ) ) {
-            return new WP_Error( 'parameter_request', __( "Sent an invalid request, such as lacking required request parameter.", "licenseenvato" ), ["status" => 400] );
+            return new WP_Error( 'deactivated_error', __( "Sent an invalid request, such as lacking required request parameter.", "licenseenvato" ), ["status" => 400] );
         }
 
         if ( !preg_match( "/^[a-zA-Z0-9\-]+$/", $purchaseCode ) ) {
-            return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 400] );
+            return new WP_Error( 'deactivated_error', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 400] );
         }
 
         $get_license = $this->get_licence_verify_into_db( $purchaseCode );
@@ -408,7 +408,7 @@ class EnvatoLicenseApiCall {
                 $id = $wpdb->rows_affected;
 
                 if ( $id ) {
-                    $deactive['deactive'] = 'Deactivated successfully';
+                    $deactive['deactive'] = 'Deactivated successfully.';
                     return $deactive;
                 }
                 return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", "licenseenvato" ), ["status" => 406] );
@@ -416,7 +416,7 @@ class EnvatoLicenseApiCall {
                 return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", "licenseenvato" ), ["status" => 406] );
             }
         } else {
-            return new WP_Error( 'deactivated_error', __( "This license code not found.", "licenseenvato" ), ["status" => 406] );
+            return new WP_Error( 'deactivated_error', __( "This license code is not found.", "licenseenvato" ), ["status" => 406] );
         }
     }
 }

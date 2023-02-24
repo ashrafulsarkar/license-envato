@@ -18,7 +18,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
      * Initialize the class
      */
     public function __construct() {
-        $this->namespace = 'envatolicenser/v1';
+        $this->namespace = 'licenseenvato/v1';
     }
 
     /**
@@ -74,8 +74,8 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
      */
     public function deactive_license( $request ) {
         $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
-        $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $request );
-        $response = rest_ensure_response( $envatolicense_deactive );
+        $licenseenvato_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $request );
+        $response = rest_ensure_response( $licenseenvato_deactive );
         return $response;
     }
 

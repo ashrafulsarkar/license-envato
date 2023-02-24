@@ -93,45 +93,41 @@ class Allusers extends WP_List_Table {
     }
 
     public function prepare_items() {
-
         $deactivate = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+        
         if ( $deactivate == 'deactivate' ) {
 
             $purchasecode = isset( $_REQUEST['purchasecode'] ) ? $_REQUEST['purchasecode'] : '';
             $code = [];
             $code['code'] = $purchasecode;
             $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
-            $envatolicense_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
-            $license_envato_Error = isset( $envatolicense_deactive->errors ) ? $envatolicense_deactive->errors : '';
+            $licenseenvato_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
+            $license_envato_Error = isset( $licenseenvato_deactive->errors ) ? $licenseenvato_deactive->errors : '';
             
             if ( $license_envato_Error ) {
-                if ( $license_envato_Error['already_deactivated'] ) {
-                    $message = urlencode($license_envato_Error['already_deactivated'][0]);
-                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
-                    echo"<script> window.location='{$url}';</script>";
-                } elseif ( $license_envato_Error['deactivated_error'] ) {
+                $deactivated_error = isset( $license_envato_Error['deactivated_error'] ) ? $license_envato_Error['deactivated_error'] : '';
+                $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? $license_envato_Error['already_deactivated'] : '';
+                if ( $deactivated_error ) {
                     $message = urlencode($license_envato_Error['deactivated_error'][0]);
-                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
+                    $url = admin_url("admin.php?page=licenseenvato&error={$message}");
                     echo"<script> window.location='{$url}';</script>";
-                } elseif ( $license_envato_Error['invalid_code'] ) {
-                    $message = urlencode($license_envato_Error['invalid_code'][0]);
-                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
-                    echo"<script> window.location='{$url}';</script>";
-                } elseif ( $license_envato_Error['parameter_request'] ) {
-                    $message = urlencode($license_envato_Error['parameter_request'][0]);
-                    $url = admin_url("admin.php?page=envatolicenser&error={$message}");
+                } elseif ( $already_deactivated ) {
+                    $message = urlencode($license_envato_Error['already_deactivated'][0]);
+                    $url = admin_url("admin.php?page=licenseenvato&error={$message}");
                     echo"<script> window.location='{$url}';</script>";
                 } else {
-                    $url = admin_url("admin.php?page=envatolicenser&error=Something wrong! Check Error!");
+                    $message = urlencode('Something wrong! Check Error!');
+                    $url = admin_url("admin.php?page=licenseenvato&error={$message}");
                     echo"<script> window.location='{$url}';</script>";
                 }
 
-            } elseif ( $envatolicense_deactive['deactive'] ) {
-                $message = urlencode($envatolicense_deactive['deactive']);
-                $url = admin_url("admin.php?page=envatolicenser&success={$message}");
+            } elseif ( $licenseenvato_deactive['deactive'] ) {
+                $message = urlencode($licenseenvato_deactive['deactive']);
+                $url = admin_url("admin.php?page=licenseenvato&success={$message}");
                 echo"<script> window.location='{$url}';</script>";
             } else {
-                $url = admin_url("admin.php?page=envatolicenser&error=Something+wrong!");
+                $message = urlencode('Something wrong!');
+                $url = admin_url("admin.php?page=licenseenvato&error={$message}");
                 echo"<script> window.location='{$url}';</script>";
             }
         }

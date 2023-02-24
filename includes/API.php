@@ -24,7 +24,7 @@ class API {
      * @return void
      */
     public function register_api() {
-        $envatoLicense = new API\EnvatoLicenseRestApi();
-        $envatoLicense->register_routes();
+        $licenseEnvato = new API\EnvatoLicenseRestApi();
+        $licenseEnvato->register_routes();
     }
 }

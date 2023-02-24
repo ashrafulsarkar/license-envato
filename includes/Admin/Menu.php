@@ -33,7 +33,7 @@ class Menu {
         $parent_slug = 'licenseenvato';
         $capability = 'manage_options';
 
-        add_menu_page( __( 'Envato Licenser', 'licenseenvato' ), __( 'Envato Licenser', 'licenseenvato' ), $capability, $parent_slug, [ $this, 'allusers' ], 'dashicons-admin-network' );
+        add_menu_page( __( 'License Envato', 'licenseenvato' ), __( 'License Envato', 'licenseenvato' ), $capability, $parent_slug, [ $this, 'allusers' ], 'dashicons-admin-network' );
 
         add_submenu_page( $parent_slug, __( 'All Users', 'licenseenvato' ), __( 'All Users', 'licenseenvato' ), $capability, $parent_slug, [ $this, 'allusers' ] );
 
@@ -87,6 +87,6 @@ class Menu {
      * @since 1.0.0 
      */
     public function enqueue_assets() {
-        wp_enqueue_style( 'envatolicenser-admin-style' );
+        wp_enqueue_style( 'licenseenvato-admin-style' );
     }
 }
