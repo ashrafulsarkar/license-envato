@@ -1,0 +1,243 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2023-02-24 18:08+0600\n"
+"PO-Revision-Date: 2023-02-24 18:08+0600\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: assets\n"
+"X-Poedit-SearchPathExcluded-2: vendor\n"
+
+#: includes/API/EnvatoLicenseApiCall.php:59
+msgid "API Information is not valid or not set."
+msgstr ""
+
+#: includes/API/EnvatoLicenseApiCall.php:76
+msgid "Envato Account Details"
+msgstr ""
+
+#: includes/API/EnvatoLicenseApiCall.php:233
+#: includes/API/EnvatoLicenseApiCall.php:390
+msgid "Sent an invalid request, such as lacking required request parameter."
+msgstr ""
+
+#: includes/API/EnvatoLicenseApiCall.php:237
+#: includes/API/EnvatoLicenseApiCall.php:269
+#: includes/API/EnvatoLicenseApiCall.php:271
+#: includes/API/EnvatoLicenseApiCall.php:293
+#: includes/API/EnvatoLicenseApiCall.php:296
+#: includes/API/EnvatoLicenseApiCall.php:394
+msgid "Invalid purchase code."
+msgstr ""
+
+#: includes/API/EnvatoLicenseApiCall.php:241
+msgid "Envato Auth Error, Contact your theme or plugin author."
+msgstr ""
+
+#: includes/API/EnvatoLicenseApiCall.php:252
+msgid "Already activate another domain."
+msgstr ""
+
+#: includes/API/EnvatoLicenseApiCall.php:414
+#: includes/API/EnvatoLicenseApiCall.php:416
+msgid "Already deactivate this license."
+msgstr ""
+
+#: includes/API/EnvatoLicenseApiCall.php:419
+msgid "This license code is not found."
+msgstr ""
+
+#: includes/API/EnvatoLicenseRestApi.php:92
+#: includes/API/EnvatoLicenseRestApi.php:118
+msgid "Envato purchase code."
+msgstr ""
+
+#: includes/API/EnvatoLicenseRestApi.php:99
+msgid "API Request URL"
+msgstr ""
+
+#: includes/Admin/Menu.php:36
+msgid "License Envato"
+msgstr ""
+
+#: includes/Admin/Menu.php:38
+msgid "All Users"
+msgstr ""
+
+#: includes/Admin/Menu.php:40 includes/Admin/views/settingsView.php:2
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/Menu.php:41 includes/Admin/views/documentationView.php:2
+msgid "Documentation"
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:171
+msgid "Step 1 (Your Site)"
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:173
+msgid "1. Install this plugin on your site."
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:174
+msgid "2. Goto plugin settings > Activate Envato Token."
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:176
+msgid ""
+"Alright, the Plugin settings are done. If you want more unique license "
+"tokens add a Token secret key in the General Setting area. (Any letter/word)"
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:177
+msgid "Step 2 (Your Theme/Plugin)"
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:179
+msgid "1. Goto your theme or plugin."
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:180
+msgid "2. Copy this code."
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:181
+msgid "3. Add this code to your theme or plugin."
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:185
+msgid "4. Replace <b>YOUR_SITE_URL</b> >"
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:186
+msgid "5. Replace <b>TEXT_DOMAIN</b>"
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:188
+msgid "Step 3 (Your Theme/Plugin)"
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:189
+msgid ""
+"Now call this Class, where you want to add your theme/plugin License Box."
+msgstr ""
+
+#: includes/Admin/views/documentationView.php:191
+msgid ""
+"Congratulations! All Setup is done. Enjoy and conditionally manage what you "
+"want."
+msgstr ""
+
+#: includes/Admin/views/envato.php:1
+msgid "Envato Account Settings"
+msgstr ""
+
+#: includes/Admin/views/envato.php:20
+msgid "Your Personal Token Here"
+msgstr ""
+
+#: includes/Admin/views/envato.php:26
+msgid ""
+"You need a “personal token” before you can validate purchase codes for your "
+"items. This is similar to a password that grants limited access to your "
+"account, but it’s exclusively for the API."
+msgstr ""
+
+#: includes/Admin/views/envato.php:26
+msgid "Create a token."
+msgstr ""
+
+#: includes/Admin/views/envato.php:31
+msgid "Save Envato Token"
+msgstr ""
+
+#: includes/Admin/views/envato.php:35
+msgid "Minimum Permission"
+msgstr ""
+
+#: includes/Admin/views/envato.php:37
+msgid "View and search Envato sites"
+msgstr ""
+
+#: includes/Admin/views/envato.php:38
+msgid "View your Envato Account username"
+msgstr ""
+
+#: includes/Admin/views/envato.php:39
+msgid "View your email address"
+msgstr ""
+
+#: includes/Admin/views/envato.php:40
+msgid "View your account profile details"
+msgstr ""
+
+#: includes/Admin/views/envato.php:41
+msgid "View your account financial history"
+msgstr ""
+
+#: includes/Admin/views/envato.php:42
+msgid "Download your purchased items"
+msgstr ""
+
+#: includes/Admin/views/envato.php:43
+msgid "View your items' sales history"
+msgstr ""
+
+#: includes/Admin/views/envato.php:44
+msgid "Verify purchases of your items"
+msgstr ""
+
+#: includes/Admin/views/envato.php:45
+msgid "List purchases you've made"
+msgstr ""
+
+#: includes/Admin/views/envato.php:46
+msgid "Verify purchases you've made"
+msgstr ""
+
+#: includes/Admin/views/envato.php:47
+msgid "View your purchases of the app creator's items"
+msgstr ""
+
+#: includes/Admin/views/envato.php:54
+msgid "Deactivated Envato Account"
+msgstr ""
+
+#: includes/Admin/views/general.php:1
+msgid "General Settings"
+msgstr ""
+
+#: includes/Admin/views/general.php:17
+msgid "Token secret key"
+msgstr ""
+
+#: includes/Admin/views/general.php:21
+msgid "If you want more secure token, use token secret key."
+msgstr ""
+
+#: includes/Admin/views/general.php:28
+msgid "Save Changes"
+msgstr ""
+
+#: includes/Admin/views/settingsView.php:6
+msgid "General"
+msgstr ""
+
+#: includes/Admin/views/settingsView.php:7
+msgid "Envato"
+msgstr ""
+
+#: includes/Admin/views/userview.php:2
+msgid "User List"
+msgstr ""
