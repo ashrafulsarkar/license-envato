@@ -83,7 +83,7 @@ class Allusers extends WP_List_Table {
         switch ( $column_name ) {
         case 'action':
             if ( $item['domain'] ) {
-                return sprintf( '<a href="?page=%s&action=%s&purchasecode=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['purchasecode'] );
+                return sprintf( '<a href="?page=%s&action=%s&token=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['token'] );
             } else {
                 return esc_html__( 'Deactivated', 'licenseenvato' );
             }
@@ -97,9 +97,9 @@ class Allusers extends WP_List_Table {
         
         if ( $deactivate == 'deactivate' ) {
 
-            $purchasecode = isset( $_REQUEST['purchasecode'] ) ? $_REQUEST['purchasecode'] : '';
+            $token = isset( $_REQUEST['token'] ) ? $_REQUEST['token'] : '';
             $code = [];
-            $code['code'] = $purchasecode;
+            $code['token'] = $token;
             $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
             $licenseenvato_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
             $license_envato_Error = isset( $licenseenvato_deactive->errors ) ? $licenseenvato_deactive->errors : '';
@@ -151,7 +151,7 @@ class Allusers extends WP_List_Table {
 
         global $wpdb;
 
-        $query = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `supported_until` FROM `{$wpdb->prefix}license_envato_userlist`";
+        $query = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM `{$wpdb->prefix}license_envato_userlist`";
 
         $this->search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
         $this->search_by = isset( $_REQUEST['search_by'] ) ? $_REQUEST['search_by'] : '';

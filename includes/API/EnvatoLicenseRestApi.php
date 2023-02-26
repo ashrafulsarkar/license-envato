@@ -114,8 +114,8 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
 
         return array(
             'context' => $this->get_context_param(),
-            'code'    => array(
-                'description'       => __( 'Envato purchase code.', 'licenseenvato' ),
+            'token'    => array(
+                'description'       => __( 'Token', 'licenseenvato' ),
                 'type'              => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
                 'validate_callback' => 'rest_validate_request_arg',

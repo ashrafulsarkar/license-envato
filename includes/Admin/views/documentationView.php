@@ -104,7 +104,7 @@ class licenseCodeVerifyForm {
 	}
 
     private function licenceDeactivate(){
-        $code = get_option('envato_purchase_code');
+        $code = get_option('envato_token');
         if ( ! isset( $_POST['submit_deactivate'] ) ) {
             return;
         }
@@ -149,7 +149,7 @@ class licenseCodeVerifyForm {
             );
         }else{
             $body = array(
-                'code' => $purchase_code,
+                'token' => $purchase_code,
             );
         }
         
