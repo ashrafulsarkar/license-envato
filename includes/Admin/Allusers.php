@@ -105,8 +105,8 @@ class Allusers extends WP_List_Table {
             $license_envato_Error = isset( $licenseenvato_deactive->errors ) ? $licenseenvato_deactive->errors : '';
             
             if ( $license_envato_Error ) {
-                $deactivated_error = isset( $license_envato_Error['deactivated_error'] ) ? $license_envato_Error['deactivated_error'] : '';
-                $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? $license_envato_Error['already_deactivated'] : '';
+                $deactivated_error = isset( $license_envato_Error['deactivated_error'] ) ? sanitize_text_field( $license_envato_Error['deactivated_error'] ) : '';
+                $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? sanitize_text_field( $license_envato_Error['already_deactivated'] ) : '';
                 if ( $deactivated_error ) {
                     $message = urlencode($license_envato_Error['deactivated_error'][0]);
                     $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
