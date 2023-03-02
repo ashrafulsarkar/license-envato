@@ -63,6 +63,9 @@ input#unlink_envato_token {
     background: #fff;
     resize: none;
 }
+.display_code code {
+    background: none;
+}
 .display_code.small_box {
     height: 100px;
 }

@@ -1,6 +1,6 @@
 <div class="wrap">
     <h1 class="wp-heading-inline"><?php _e( 'Settings', 'licenseenvato' ); ?></h1>
-    <?php $action = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general'; ?>
+    <?php $action = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general'; ?>
     <nav class="nav-tab-wrapper">
         <?php $licenseEnvato_nav = [ 
             'general' => __('General', 'licenseenvato'), 

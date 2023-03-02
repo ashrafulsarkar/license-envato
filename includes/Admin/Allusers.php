@@ -83,7 +83,7 @@ class Allusers extends WP_List_Table {
         switch ( $column_name ) {
         case 'action':
             if ( $item['domain'] ) {
-                return sprintf( '<a href="?page=%s&action=%s&token=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', $_REQUEST['page'], 'deactivate', $item['token'] );
+                return sprintf( '<a href="?page=%s&action=%s&token=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', sanitize_text_field( $_REQUEST['page'] ), 'deactivate', $item['token'] );
             } else {
                 return esc_html__( 'Deactivated', 'licenseenvato' );
             }
@@ -93,11 +93,11 @@ class Allusers extends WP_List_Table {
     }
 
     public function prepare_items() {
-        $deactivate = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+        $deactivate = isset( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
         
         if ( $deactivate == 'deactivate' ) {
 
-            $token = isset( $_REQUEST['token'] ) ? $_REQUEST['token'] : '';
+            $token = isset( $_REQUEST['token'] ) ? sanitize_text_field( $_REQUEST['token'] ) : '';
             $code = [];
             $code['token'] = $token;
             $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
@@ -109,42 +109,42 @@ class Allusers extends WP_List_Table {
                 $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? $license_envato_Error['already_deactivated'] : '';
                 if ( $deactivated_error ) {
                     $message = urlencode($license_envato_Error['deactivated_error'][0]);
-                    $url = admin_url("admin.php?page=licenseenvato&error={$message}");
+                    $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
                     echo"<script> window.location='{$url}';</script>";
                 } elseif ( $already_deactivated ) {
                     $message = urlencode($license_envato_Error['already_deactivated'][0]);
-                    $url = admin_url("admin.php?page=licenseenvato&error={$message}");
+                    $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
                     echo"<script> window.location='{$url}';</script>";
                 } else {
                     $message = urlencode('Something wrong! Check Error!');
-                    $url = admin_url("admin.php?page=licenseenvato&error={$message}");
+                    $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
                     echo"<script> window.location='{$url}';</script>";
                 }
 
             } elseif ( $licenseenvato_deactive['deactive'] ) {
                 $message = urlencode($licenseenvato_deactive['deactive']);
-                $url = admin_url("admin.php?page=licenseenvato&success={$message}");
+                $url = esc_url( admin_url("admin.php?page=licenseenvato&success={$message}") );
                 echo"<script> window.location='{$url}';</script>";
             } else {
                 $message = urlencode('Something wrong!');
-                $url = admin_url("admin.php?page=licenseenvato&error={$message}");
+                $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
                 echo"<script> window.location='{$url}';</script>";
             }
         }
 
-        $codeerror = isset( $_GET['error'] ) ? $_GET['error'] : '';
-        $codesuccess = isset( $_GET['success'] ) ? $_GET['success'] : '';
+        $codeerror = isset( $_GET['error'] ) ? sanitize_text_field( $_GET['error'] ) : '';
+        $codesuccess = isset( $_GET['success'] ) ? sanitize_text_field( $_GET['success'] ) : '';
         
         if ($codeerror) {
             ?>
             <div class="notice notice-error is-dismissible">
-                <p><?php echo $codeerror; ?></p>
+                <p><?php echo esc_html( $codeerror ); ?></p>
             </div>
             <?php
         }elseif($codesuccess){
             ?>
             <div class="notice notice-success is-dismissible">
-                <p><?php echo $codesuccess; ?></p>
+                <p><?php echo esc_html( $codesuccess ); ?></p>
             </div>
             <?php
         }
@@ -153,8 +153,8 @@ class Allusers extends WP_List_Table {
 
         $query = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM `{$wpdb->prefix}license_envato_userlist`";
 
-        $this->search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
-        $this->search_by = isset( $_REQUEST['search_by'] ) ? $_REQUEST['search_by'] : '';
+        $this->search = isset( $_REQUEST['s'] ) ? sanitize_text_field( $_REQUEST['s'] ) : '';
+        $this->search_by = isset( $_REQUEST['search_by'] ) ? sanitize_text_field( $_REQUEST['search_by'] ) : '';
 
         // Apply search filter for Purchase code
         if ( $this->search_by == 'purchasecode' ) {

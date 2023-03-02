@@ -2,8 +2,8 @@
 Contributors: ashrafulsarkar
 Tags: license, license manager, license key, software license, envato license, theme license, plugin license
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
-Requires at least: 6.0.0
-Tested up to: 6.0.0
+Requires at least: 5.6
+Tested up to: 6.1.1
 Stable tag: 1.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
