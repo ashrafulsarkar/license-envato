@@ -105,30 +105,24 @@ class Allusers extends WP_List_Table {
             $license_envato_Error = isset( $licenseenvato_deactive->errors ) ? $licenseenvato_deactive->errors : '';
             
             if ( $license_envato_Error ) {
-                $deactivated_error = isset( $license_envato_Error['deactivated_error'] ) ? sanitize_text_field( $license_envato_Error['deactivated_error'] ) : '';
-                $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? sanitize_text_field( $license_envato_Error['already_deactivated'] ) : '';
+                $deactivated_error = isset( $license_envato_Error['deactivated_error'] ) ? $license_envato_Error['deactivated_error'] : '';
+                $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? $license_envato_Error['already_deactivated'] : '';
                 if ( $deactivated_error ) {
                     $message = urlencode($license_envato_Error['deactivated_error'][0]);
-                    $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
-                    echo"<script> window.location='{$url}';</script>";
+                    echo licenseEnvato__redirect('error', $message);
                 } elseif ( $already_deactivated ) {
                     $message = urlencode($license_envato_Error['already_deactivated'][0]);
-                    $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
-                    echo"<script> window.location='{$url}';</script>";
+                    echo licenseEnvato__redirect('error', $message);
                 } else {
                     $message = urlencode('Something wrong! Check Error!');
-                    $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
-                    echo"<script> window.location='{$url}';</script>";
+                    echo licenseEnvato__redirect('error', $message);
                 }
-
             } elseif ( $licenseenvato_deactive['deactive'] ) {
                 $message = urlencode($licenseenvato_deactive['deactive']);
-                $url = esc_url( admin_url("admin.php?page=licenseenvato&success={$message}") );
-                echo"<script> window.location='{$url}';</script>";
+                echo licenseEnvato__redirect('success', $message);
             } else {
                 $message = urlencode('Something wrong!');
-                $url = esc_url( admin_url("admin.php?page=licenseenvato&error={$message}") );
-                echo"<script> window.location='{$url}';</script>";
+                echo licenseEnvato__redirect('error', $message);
             }
         }
 

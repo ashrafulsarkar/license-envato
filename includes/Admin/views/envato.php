@@ -6,7 +6,7 @@ $license_envato_api->deactive_envato_token();
 $get_license_envato_envato_token = $license_envato_api->license_envato_get_option( '_token' );
 if ($get_license_envato_envato_token) {
     $license_envato_user_data = $license_envato_api->getAPIUserHtmlDetails();
-    echo $license_envato_user_data;
+    echo wp_kses_post( $license_envato_user_data );
 }
 
 if (get_option('license_envato_token_valid') == false) { 
@@ -21,7 +21,7 @@ if (get_option('license_envato_token_valid') == false) {
                         </h4>
                     </div>
                     <div class="input_box">
-                        <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo $get_license_envato_envato_token;?>">
+                        <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo esc_html( $get_license_envato_envato_token );?>">
                     </div>
                     <p class="description"><?php echo _e( 'You need a “personal token” before you can validate purchase codes for your items. This is similar to a password that grants limited access to your account, but it’s exclusively for the API.', 'licenseenvato' ); ?>  <a href="https://build.envato.com/create-token" target="_blank"><?php echo _e( 'Create a token.', 'licenseenvato' ); ?></a>
                     </p>

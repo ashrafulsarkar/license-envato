@@ -1,6 +1,6 @@
 <h3><?php _e( 'General Settings', 'licenseenvato' ); ?></h3>
 <?php
-general_setting_handler();
+licenseEnvato_general_setting_handler();
 $get_token_secret = get_option('license_envato_token_secret');
 $license_envato_token_secret = '';
 if ($get_token_secret) {

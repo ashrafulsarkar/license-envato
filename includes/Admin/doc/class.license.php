@@ -28,7 +28,7 @@ class licenseCodeVerifyForm {
             ?>
             <?php
             if ($this->licenceDeactivate_error) {?>
-                <p class="licence_error"><?php echo $this->licenceDeactivate_error;?></p>
+                <p class="licence_error"><?php echo esc_html( $this->licenceDeactivate_error );?></p>
             <?php }?>
             <p><?php _e('You can click this button to deactivate your license code from this domain if you are going to transfer your website to some other domain or server.', 'TEXT_DOMAIN');?></p>
             <form method="post">
@@ -40,7 +40,7 @@ class licenseCodeVerifyForm {
         }else{ ?>
             <?php
             if ($this->licenceActivate_error) {?>
-                <p class="licence_error"><?php echo $this->licenceActivate_error;?></p>
+                <p class="licence_error"><?php echo esc_html( $this->licenceActivate_error );?></p>
             <?php }?>
             <form method="post">
                 <label for="purchase_code"><?php _e( 'Purchase code', 'TEXT_DOMAIN' ); ?> (<a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank"><?php _e('Where can I get my purchase code?', 'TEXT_DOMAIN');?></a>)</label>
