@@ -3,14 +3,14 @@
  * Plugin Name: License For Envato
  * Plugin URI: https://github.com/ashrafulsarkar/envato-licenser
  * Description: Manage your envato market items theme & plugin license.
- * Version: 1.0.0
- * Author: Ashraful Sarkar
+ * Version: 1.1.0
+ * Author: Ashraful Sarkar Naiem
  * Author URI: https://github.com/ashrafulsarkar
  * Requires at least: 6.0
  * Requires PHP:      7.2
  * License: GNU General Public License v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: licenseenvato
+ * Text Domain: license-envato
  * Domain Path: /languages/
  */
 
@@ -89,7 +89,7 @@ final class License_Envato {
     }
 
     public function load_textdomain(){
-        load_plugin_textdomain("licenseenvato", false, dirname(__FILE__) . "/languages");
+        load_plugin_textdomain('license-envato', false, dirname(__FILE__) . "/languages");
     }
 
     /**

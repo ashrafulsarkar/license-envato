@@ -56,7 +56,7 @@ class EnvatoLicenseApiCall {
         ?>
         <?php if ( empty( $EnvatoUserInfo ) ) {?>
             <div class="alert alert-danger" role="alert">
-                <?php _e( "API Information is not valid or not set.", 'licenseenvato' );?>
+                <?php esc_html_e( "API Information is not valid or not set.", 'license-envato' );?>
             </div>
         <?php } elseif ( !empty( $EnvatoUserInfo->error ) ) {
             ?>
@@ -73,7 +73,7 @@ class EnvatoLicenseApiCall {
         } else {
             ?>
             <div class="card">
-                <h2><?php _e( 'Envato Account Details', 'licenseenvato' );?></h2>
+                <h2><?php esc_html_e( 'Envato Account Details', 'license-envato' );?></h2>
                 <div class="envato_account_details">
                     <div class="account_img">
                         <img src="<?php echo wp_kses_post( $EnvatoUserInfo->account->image ); ?>" class="card-img img-fluid" alt="<?php echo wp_kses_post( $EnvatoUserInfo->account->surname ); ?>">
@@ -228,17 +228,18 @@ class EnvatoLicenseApiCall {
     public function envatolicense_verify( $args ) {
         $purchaseCode = isset( $args['code'] ) ? $args['code'] : '';
         $requestDomain = isset( $args['domain'] ) ? $args['domain'] : '';
+        $requestItemid = isset( $args['itemid'] ) ? $args['itemid'] : '';
 
-        if ( empty( $purchaseCode ) || empty( $requestDomain ) ) {
-            return new WP_Error( 'parameter_request', __( "Sent an invalid request, such as lacking required request parameter.", "licenseenvato" ), ["status" => 400] );
+        if ( empty( $purchaseCode ) || empty( $requestDomain ) || empty($requestItemid) ) {
+            return new WP_Error( 'parameter_request', __( "Sent an invalid request, such as lacking required request parameter.", 'license-envato' ), ["status" => 400] );
         }
 
         if ( !preg_match( "/^[a-zA-Z0-9\-]+$/", $purchaseCode ) ) {
-            return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 404] );
+            return new WP_Error( 'invalid_code', __( "Invalid purchase code.", 'license-envato' ), ["status" => 404] );
         }
 
         if ( get_option( 'license_envato_token_valid' ) == false ) {
-            return new WP_Error( 'envato_connection_error', __( "Envato Auth Error, Contact your theme or plugin author.", "licenseenvato" ), ["status" => 401] );
+            return new WP_Error( 'envato_connection_error', __( "Envato Auth Error, Contact your theme or plugin author.", 'license-envato' ), ["status" => 401] );
         }
 
         $get_license = $this->get_licence_verify_into_db( 'purchasecode', $purchaseCode );
@@ -246,10 +247,14 @@ class EnvatoLicenseApiCall {
         if ( !empty( $get_license ) ) {
             if ( $get_license[0]->token && !empty( $get_license[0]->domain ) ) {
                 if ( $get_license[0]->domain == $requestDomain ) {
-                    $token['token'] = $get_license[0]->token;
-                    return $token;
+                    if ($get_license[0]->itemid == $requestItemid) {
+                        $token['token'] = $get_license[0]->token;
+                        return $token;
+                    }else {
+                        return new WP_Error( 'invalid_code', __( "Invalid purchase code for this item.", 'license-envato' ), ["status" => 406] );
+                    }
                 } else {
-                    return new WP_Error( 'already_activated', __( "Already activate another domain.", "licenseenvato" ), ["status" => 406] );
+                    return new WP_Error( 'already_activated', __( "Already activate another domain.", 'license-envato' ), ["status" => 406] );
                 }
             } else {
                 $username = $get_license[0]->username;
@@ -266,9 +271,9 @@ class EnvatoLicenseApiCall {
                 $data = json_decode( $data );
 
                 if ( !empty( $data->type ) && $data->type == "curl_error" ) {
-                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 404] );
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", 'license-envato' ), ["status" => 404] );
                 } elseif ( !empty( $data->message ) && $data->message == "Unauthorized" ) {
-                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 404] );
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", 'license-envato' ), ["status" => 404] );
                 } else {
                     $skip_properties = array( "description", "classification_url", "author_username", "classification", "site", "author_url", "author_image", "summary", "rating_count", "trending", "attributes", "tags", "previews" );
                     if ( !empty( $data->item ) ) {
@@ -290,10 +295,10 @@ class EnvatoLicenseApiCall {
                             return $token;
                         }
                     }
-                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 404] );
+                    return new WP_Error( 'invalid_code', __( "Invalid purchase code.", 'license-envato' ), ["status" => 404] );
                 }
             } else {
-                return new WP_Error( 'invalid_code', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 404] );
+                return new WP_Error( 'invalid_code', __( "Invalid purchase code.", 'license-envato' ), ["status" => 404] );
             }
         }
     }
@@ -388,11 +393,11 @@ class EnvatoLicenseApiCall {
         $token = isset( $args['token'] ) ? $args['token'] : '';
 
         if ( empty( $token ) ) {
-            return new WP_Error( 'deactivated_error', __( "Sent an invalid request, such as lacking required request parameter.", "licenseenvato" ), ["status" => 400] );
+            return new WP_Error( 'deactivated_error', __( "Sent an invalid request, such as lacking required request parameter.", 'license-envato' ), ["status" => 400] );
         }
 
         if ( !preg_match( "/^[a-zA-Z0-9\-]+$/", $token ) ) {
-            return new WP_Error( 'deactivated_error', __( "Invalid purchase code.", "licenseenvato" ), ["status" => 400] );
+            return new WP_Error( 'deactivated_error', __( "Invalid purchase code.", 'license-envato' ), ["status" => 400] );
         }
 
         $get_license = $this->get_licence_verify_into_db( 'token', $token );
@@ -412,12 +417,12 @@ class EnvatoLicenseApiCall {
                     $deactive['deactive'] = 'Deactivated successfully.';
                     return $deactive;
                 }
-                return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", "licenseenvato" ), ["status" => 406] );
+                return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", 'license-envato' ), ["status" => 406] );
             } else {
-                return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", "licenseenvato" ), ["status" => 406] );
+                return new WP_Error( 'already_deactivated', __( "Already deactivate this license.", 'license-envato' ), ["status" => 406] );
             }
         } else {
-            return new WP_Error( 'deactivated_error', __( "This token is not valid.", "licenseenvato" ), ["status" => 406] );
+            return new WP_Error( 'deactivated_error', __( "This token is not valid.", 'license-envato' ), ["status" => 406] );
         }
     }
 }

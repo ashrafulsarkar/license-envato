@@ -19,7 +19,7 @@ class licenseCodeVerifyForm {
     }
 
     public function LicenceHTMLForm(){ ?>
-        <h2><?php _e('License Activation Form', 'TEXT_DOMAIN');?></h2>
+        <h2><?php esc_html_e('License Activation Form', 'license-envato');?></h2>
         <?php
         $token = get_option('envato_token');
         $isActivated = get_option('envato_is_activated');
@@ -30,11 +30,11 @@ class licenseCodeVerifyForm {
             if ($this->licenceDeactivate_error) {?>
                 <p class="licence_error"><?php echo esc_html( $this->licenceDeactivate_error );?></p>
             <?php }?>
-            <p><?php _e('You can click this button to deactivate your license code from this domain if you are going to transfer your website to some other domain or server.', 'TEXT_DOMAIN');?></p>
+            <p><?php esc_html_e('You can click this button to deactivate your license code from this domain if you are going to transfer your website to some other domain or server.', 'license-envato');?></p>
             <form method="post">
                 <input type="hidden" name="envato_deactivate" value="1">
                 <?php wp_nonce_field( 'submit_deactivate' ); ?>
-                <?php submit_button( __( 'Deactivate', 'TEXT_DOMAIN' ), 'danger', 'submit_deactivate' ); ?>
+                <?php submit_button( esc_html__( 'Deactivate', 'license-envato' ), 'danger', 'submit_deactivate' ); ?>
             </form>
             <?php
         }else{ ?>
@@ -43,11 +43,11 @@ class licenseCodeVerifyForm {
                 <p class="licence_error"><?php echo esc_html( $this->licenceActivate_error );?></p>
             <?php }?>
             <form method="post">
-                <label for="purchase_code"><?php _e( 'Purchase code', 'TEXT_DOMAIN' ); ?> (<a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank"><?php _e('Where can I get my purchase code?', 'TEXT_DOMAIN');?></a>)</label>
+                <label for="purchase_code"><?php esc_html_e('Purchase code', 'license-envato'); ?> (<a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank"><?php esc_html_e('Where can I get my purchase code?', 'license-envato');?></a>)</label>
                 <input type="text" style="width:100%" id="purchase_code" name="purchase_code" placeholder="Example: 1e71cs5f-13d9-41e8-a140-2cff01d96afb">
                 
                 <?php wp_nonce_field( 'submit_activate' ); ?>
-                <?php submit_button( __( 'Activate', 'TEXT_DOMAIN' ), 'danger', 'submit_activate' ); ?>
+                <?php submit_button( esc_html__( 'Activate', 'license-envato' ), 'danger', 'submit_activate' ); ?>
             </form>
             <?php
         }
@@ -77,8 +77,9 @@ class licenseCodeVerifyForm {
             $date = json_decode($response);
 
             $token = isset( $date->token ) ? $date->token : '';
+            $itemid = isset( $date->itemid ) ? $date->itemid : '';
             if ($token) {
-                update_option('envato_is_activated', true);
+                update_option('envato_is_activated_'.$itemid, true);
                 update_option('envato_token', $token);
                 update_option('envato_purchase_code', $purchase_code);
             }else{

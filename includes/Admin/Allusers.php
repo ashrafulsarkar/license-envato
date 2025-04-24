@@ -85,7 +85,7 @@ class Allusers extends WP_List_Table {
             if ( $item['domain'] ) {
                 return sprintf( '<a href="?page=%s&action=%s&token=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', sanitize_text_field( $_REQUEST['page'] ), 'deactivate', $item['token'] );
             } else {
-                return esc_html__( 'Deactivated', 'licenseenvato' );
+                return esc_html__( 'Deactivated', 'license-envato' );
             }
         default:
             return $item[$column_name];
@@ -96,7 +96,6 @@ class Allusers extends WP_List_Table {
         $deactivate = isset( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
         
         if ( $deactivate == 'deactivate' ) {
-
             $token = isset( $_REQUEST['token'] ) ? sanitize_text_field( $_REQUEST['token'] ) : '';
             $code = [];
             $code['token'] = $token;
@@ -108,21 +107,21 @@ class Allusers extends WP_List_Table {
                 $deactivated_error = isset( $license_envato_Error['deactivated_error'] ) ? $license_envato_Error['deactivated_error'] : '';
                 $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? $license_envato_Error['already_deactivated'] : '';
                 if ( $deactivated_error ) {
-                    $message = urlencode($license_envato_Error['deactivated_error'][0]);
-                    echo licenseEnvato__redirect('error', $message);
+                    $message = urlencode(esc_html($license_envato_Error['deactivated_error'][0]));
+                    return licenseEnvato__redirect('error', $message);
                 } elseif ( $already_deactivated ) {
-                    $message = urlencode($license_envato_Error['already_deactivated'][0]);
-                    echo licenseEnvato__redirect('error', $message);
+                    $message = urlencode(esc_html($license_envato_Error['already_deactivated'][0]));
+                    return licenseEnvato__redirect('error', $message);
                 } else {
-                    $message = urlencode('Something wrong! Check Error!');
-                    echo licenseEnvato__redirect('error', $message);
+                    $message = urlencode(esc_html__('Something wrong! Check Error!', 'license-envato'));
+                    return licenseEnvato__redirect('error', $message);
                 }
             } elseif ( $licenseenvato_deactive['deactive'] ) {
-                $message = urlencode($licenseenvato_deactive['deactive']);
-                echo licenseEnvato__redirect('success', $message);
+                $message = urlencode(esc_html($licenseenvato_deactive['deactive']));
+                return licenseEnvato__redirect('success', $message);
             } else {
-                $message = urlencode('Something wrong!');
-                echo licenseEnvato__redirect('error', $message);
+                $message = urlencode(esc_html__('Something wrong!', 'license-envato'));
+                return licenseEnvato__redirect('error', $message);
             }
         }
 
@@ -152,9 +151,11 @@ class Allusers extends WP_List_Table {
 
         // Apply search filter for Purchase code
         if ( $this->search_by == 'purchasecode' ) {
+            $wild = '%';
+            $like = $wild . $wpdb->esc_like( $this->search ) . $wild;
             $query .= $wpdb->prepare(
-                " WHERE `purchasecode` LIKE '%%%s%%'",
-                $this->search
+                " WHERE `purchasecode` LIKE %s",
+                $like
             );
         }
         $query .= " ORDER BY `id` DESC";
@@ -199,7 +200,7 @@ class Allusers extends WP_List_Table {
             echo '<div class="alignleft actions">';
             echo '<form method="get">';
             echo '<input type="hidden" name="page" value="licenseenvato"/>';
-            echo '<input type="search" id="search" name="s" value="' . $this->search . '"/>';
+            echo '<input type="search" id="search" name="s" value="' . esc_attr( $this->search ) . '"/>';
 
             // Add the search by dropdown
             echo '<select name="search_by">';

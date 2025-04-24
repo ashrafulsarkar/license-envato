@@ -56,7 +56,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
      *
      * @param  \WP_Rest_Request $request
      *
-     * @return json
+     * @return \WP_REST_Response
      */
     public function active_license( $request ) {
         $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
@@ -70,7 +70,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
      *
      * @param  \WP_Rest_Request $request
      *
-     * @return json
+     * @return \WP_REST_Response
      */
     public function deactive_license( $request ) {
         $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
@@ -89,14 +89,21 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
         return array(
             'context' => $this->get_context_param(),
             'code'    => array(
-                'description'       => __( 'Envato purchase code.', 'licenseenvato' ),
+                'description'       => __( 'Envato purchase code.', 'license-envato' ),
                 'type'              => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
                 'validate_callback' => 'rest_validate_request_arg',
                 'required'          => true,
             ),
             'domain'  => array(
-                'description'       => __( 'API Request URL', 'licenseenvato' ),
+                'description'       => __( 'API Request URL', 'license-envato' ),
+                'type'              => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'validate_callback' => 'rest_validate_request_arg',
+                'required'          => true,
+            ),
+            'itemid'  => array(
+                'description'       => __( 'Envato Item Id', 'license-envato' ),
                 'type'              => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
                 'validate_callback' => 'rest_validate_request_arg',
@@ -115,7 +122,7 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
         return array(
             'context' => $this->get_context_param(),
             'token'    => array(
-                'description'       => __( 'Token', 'licenseenvato' ),
+                'description'       => __( 'Token', 'license-envato' ),
                 'type'              => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
                 'validate_callback' => 'rest_validate_request_arg',
