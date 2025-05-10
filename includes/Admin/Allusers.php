@@ -36,11 +36,12 @@ class Allusers extends WP_List_Table {
 
     public function plugin_page() {
         $table = new Allusers();
+        $table->prepare_items();
+
         $userview = __DIR__ . '/views/userview.php';
         if ( file_exists( $userview ) ) {
-            include $userview;
+            include $userview; // This view will use $table->display()
         }
-
     }
 
     /**
@@ -83,7 +84,19 @@ class Allusers extends WP_List_Table {
         switch ( $column_name ) {
         case 'action':
             if ( $item['domain'] ) {
-                return sprintf( '<a href="?page=%s&action=%s&token=%s" class="deactivate"  onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>', sanitize_text_field( $_REQUEST['page'] ), 'deactivate', $item['token'] );
+                $page_value = '';
+                if (isset($_REQUEST['page'])) {
+                    $page_value = sanitize_text_field(wp_unslash($_REQUEST['page']));
+                }
+                
+                // Add nonce for security
+                $deactivate_nonce = wp_create_nonce( 'license_envato_deactivate_action_' . $item['token'] );
+                return sprintf( '<a href="?page=%s&action=%s&token=%s&_wpnonce=%s" class="deactivate" onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};">Deactivate</a>',
+                    esc_attr( $page_value ),
+                    'deactivate',
+                    esc_attr( $item['token'] ),
+                    esc_attr( $deactivate_nonce )
+                );
             } else {
                 return esc_html__( 'Deactivated', 'license-envato' );
             }
@@ -93,40 +106,9 @@ class Allusers extends WP_List_Table {
     }
 
     public function prepare_items() {
-        $deactivate = isset( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
-        
-        if ( $deactivate == 'deactivate' ) {
-            $token = isset( $_REQUEST['token'] ) ? sanitize_text_field( $_REQUEST['token'] ) : '';
-            $code = [];
-            $code['token'] = $token;
-            $EnvatoLicenseApiCall = new EnvatoLicenseApiCall;
-            $licenseenvato_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
-            $license_envato_Error = isset( $licenseenvato_deactive->errors ) ? $licenseenvato_deactive->errors : '';
-            
-            if ( $license_envato_Error ) {
-                $deactivated_error = isset( $license_envato_Error['deactivated_error'] ) ? $license_envato_Error['deactivated_error'] : '';
-                $already_deactivated = isset( $license_envato_Error['already_deactivated'] ) ? $license_envato_Error['already_deactivated'] : '';
-                if ( $deactivated_error ) {
-                    $message = urlencode(esc_html($license_envato_Error['deactivated_error'][0]));
-                    return licenseEnvato__redirect('error', $message);
-                } elseif ( $already_deactivated ) {
-                    $message = urlencode(esc_html($license_envato_Error['already_deactivated'][0]));
-                    return licenseEnvato__redirect('error', $message);
-                } else {
-                    $message = urlencode(esc_html__('Something wrong! Check Error!', 'license-envato'));
-                    return licenseEnvato__redirect('error', $message);
-                }
-            } elseif ( $licenseenvato_deactive['deactive'] ) {
-                $message = urlencode(esc_html($licenseenvato_deactive['deactive']));
-                return licenseEnvato__redirect('success', $message);
-            } else {
-                $message = urlencode(esc_html__('Something wrong!', 'license-envato'));
-                return licenseEnvato__redirect('error', $message);
-            }
-        }
-
-        $codeerror = isset( $_GET['error'] ) ? sanitize_text_field( $_GET['error'] ) : '';
-        $codesuccess = isset( $_GET['success'] ) ? sanitize_text_field( $_GET['success'] ) : '';
+        // Messages from redirect (error or success) are displayed here
+        $codeerror = isset( $_GET['error'] ) ? sanitize_text_field( wp_unslash( $_GET['error'] ) ) : '';
+        $codesuccess = isset( $_GET['success'] ) ? sanitize_text_field( wp_unslash( $_GET['success'] ) ) : '';
         
         if ($codeerror) {
             ?>
@@ -134,7 +116,7 @@ class Allusers extends WP_List_Table {
                 <p><?php echo esc_html( $codeerror ); ?></p>
             </div>
             <?php
-        }elseif($codesuccess){
+        } elseif ($codesuccess) {
             ?>
             <div class="notice notice-success is-dismissible">
                 <p><?php echo esc_html( $codesuccess ); ?></p>
@@ -144,50 +126,57 @@ class Allusers extends WP_List_Table {
 
         global $wpdb;
 
-        $query = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM `{$wpdb->prefix}license_envato_userlist`";
-
-        $this->search = isset( $_REQUEST['s'] ) ? sanitize_text_field( $_REQUEST['s'] ) : '';
-        $this->search_by = isset( $_REQUEST['search_by'] ) ? sanitize_text_field( $_REQUEST['search_by'] ) : '';
-
-        // Apply search filter for Purchase code
-        if ( $this->search_by == 'purchasecode' ) {
-            $wild = '%';
-            $like = $wild . $wpdb->esc_like( $this->search ) . $wild;
-            $query .= $wpdb->prepare(
-                " WHERE `purchasecode` LIKE %s",
-                $like
-            );
+        if (isset($_REQUEST['s'])) {
+            $search_nonce = isset($_REQUEST['search_nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['search_nonce'])) : '';
+            if (!wp_verify_nonce($search_nonce, 'license_envato_search_action')) {
+                wp_die(esc_html__('Search security check failed.', 'license-envato'));
+            }
         }
-        $query .= " ORDER BY `id` DESC";
 
-        // Retrieve data from your custom database
-        $data = $wpdb->get_results( $query, ARRAY_A );
+        $this->search = isset($_REQUEST['s']) ? sanitize_text_field(wp_unslash($_REQUEST['s'])) : '';
+        $this->search_by = isset($_REQUEST['search_by']) ? sanitize_text_field(wp_unslash($_REQUEST['search_by'])) : '';
 
-        // Define the columns for the table
+        // Prepare for database query
+        $sql_select_from = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist";
+        $sql_where = "";
+        $sql_order_by = " ORDER BY `id` DESC";
+        $query_args = array();
+
+        if ($this->search_by === 'purchasecode' && !empty($this->search)) {
+            $sql_where = " WHERE `purchasecode` LIKE %s"; // Placeholder added here
+            $query_args[] = '%' . $wpdb->esc_like($this->search) . '%';
+        }
+        
+        // Construct the complete SQL query template
+        $sql_template = $sql_select_from . $sql_where . $sql_order_by; 
+
+        if (!empty($query_args)) {
+            // If there are args, prepare the query template with them
+            $executable_query = $wpdb->prepare($sql_template, $query_args); 
+        } else {
+            // No args, so no placeholders were added. $sql_template is a static string.
+            $executable_query = $sql_template; 
+        }
+        
+        $cache_key = 'license_envato_users_' . md5($executable_query);
+        $data = wp_cache_get($cache_key, 'license_envato');
+        
+        if (false === $data) {
+            $data = $wpdb->get_results($executable_query, ARRAY_A); 
+            wp_cache_set($cache_key, $data, 'license_envato', 3600); 
+        }
+
         $columns = $this->get_columns();
-
-        // Set the columns and data for the table
         $this->_column_headers = array( $columns, array(), array() );
-
-        // Set the number of items to display per page
         $this->set_items_per_page( 20 );
-
-        // Set the current page
         $current_page = $this->get_pagenum();
-
-        // Get the total number of items
         $total_items = count( $data );
-
-        // Slice the data to display only the items for the current page
         $data = array_slice( $data, (  ( $current_page - 1 ) * $this->per_page ), $this->per_page );
-
-        // Set the pagination arguments
         $this->set_pagination_args( array(
             'total_items' => $total_items,
             'per_page'    => $this->per_page,
             'total_pages' => ceil( $total_items / $this->per_page ),
         ) );
-
         $this->items = $data;
     }
 
@@ -196,22 +185,18 @@ class Allusers extends WP_List_Table {
      */
     public function extra_tablenav( $which ) {
         if ( $which == 'top' ) {
-            // Add the search input field
             echo '<div class="alignleft actions">';
             echo '<form method="get">';
             echo '<input type="hidden" name="page" value="licenseenvato"/>';
+            // Add nonce field for search form
+            wp_nonce_field('license_envato_search_action', 'search_nonce');
             echo '<input type="search" id="search" name="s" value="' . esc_attr( $this->search ) . '"/>';
-
-            // Add the search by dropdown
             echo '<select name="search_by">';
             echo '<option value="purchasecode" ' . selected( $this->search_by, 'purchasecode', false ) . '>Purchase Code</option>';
             echo '</select>';
-
-            // Add the submit button
             echo '<input type="submit" id="search-submit" class="button" value="Search">';
             echo '</form>';
             echo '</div>';
-
         }
     }
 }

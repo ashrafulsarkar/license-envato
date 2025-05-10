@@ -15,8 +15,9 @@
 </ul>
 <p class="display_code" readonly><?php show_source(LICENSE_ENVATO_FILE_PATH . '/includes/Admin/doc/class.license.php');?></p>
 <ul>
-    <li><?php esc_html_e('4. Replace <b>YOUR_SITE_URL</b> >', 'license-envato');?> <b><?php echo esc_html(get_option( 'siteurl' ));?></b></li>
-    <li><?php esc_html_e('5. Replace <b>TEXT_DOMAIN</b>', 'license-envato');?></li>
+    <li><?php esc_html_e('4. Replace "YOUR_SITE_URL" >', 'license-envato');?> <b><?php echo esc_html(get_option( 'siteurl' ));?></b></li>
+    <li><?php esc_html_e('5. Replace "TEXT_DOMAIN"', 'license-envato');?></li>
+    <li><?php esc_html_e('6. Replace "YOUR_PREFIX"', 'license-envato');?></li>
 </ul>
 <h2><?php esc_html_e('Step 3 (Your Theme/Plugin)', 'license-envato');?></h2>
 <p><?php esc_html_e('Now call this Class, where you want to add your theme/plugin License Box.', 'license-envato');?></p>

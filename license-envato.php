@@ -46,6 +46,67 @@ if ( !defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+// Early handler for deactivation requests before any output is generated
+function license_envato_process_deactivation_early() {
+    if (!is_admin()) {
+        return;
+    }
+    
+    if (isset($_REQUEST['page']) && $_REQUEST['page'] === 'licenseenvato' &&
+        isset($_REQUEST['action']) && $_REQUEST['action'] === 'deactivate') {
+
+        // Prevent any output before our redirect
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        $token_value = isset( $_REQUEST['token'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['token'] ) ) : '';
+        $nonce_value = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
+
+        if ( ! wp_verify_nonce( $nonce_value, 'license_envato_deactivate_action_' . $token_value ) ) {
+            wp_die( esc_html__( 'Security check failed. Please try again.', 'license-envato' ) );
+        }
+        
+        $code = [];
+        $code['token'] = $token_value;
+        
+        // Need to manually include the API class if autoload hasn't run yet
+        if (!class_exists('\LicenseEnvato\API\EnvatoLicenseApiCall')) {
+            require_once __DIR__ . '/includes/API/EnvatoLicenseApiCall.php';
+        }
+        
+        $EnvatoLicenseApiCall = new \LicenseEnvato\API\EnvatoLicenseApiCall;
+        $licenseenvato_deactive = $EnvatoLicenseApiCall->envatolicense_deactive( $code );
+        
+        $redirect_url = add_query_arg(
+            array(
+                'page' => 'licenseenvato',
+            ),
+            admin_url('admin.php')
+        );
+        
+        if ( is_wp_error( $licenseenvato_deactive ) ) {
+            $error_message = $licenseenvato_deactive->get_error_message();
+            $redirect_url = add_query_arg( 'error', urlencode(esc_html($error_message)), $redirect_url );
+        } elseif ( isset($licenseenvato_deactive['deactive']) ) {
+            $success_message = $licenseenvato_deactive['deactive'];
+            $redirect_url = add_query_arg( 'success', urlencode(esc_html($success_message)), $redirect_url );
+        } else {
+            $redirect_url = add_query_arg( 'error', urlencode(esc_html__('Something wrong!', 'license-envato')), $redirect_url );
+        }
+        
+        // Disable any error output to prevent "headers already sent"
+        @error_reporting(0);
+        @ini_set('display_errors', 0);
+        
+        // Force the redirect without using wp_redirect (which can check headers sent)
+        header("Location: " . $redirect_url);
+        exit;
+    }
+}
+// Hook with very high priority (1) to run early
+add_action('plugins_loaded', 'license_envato_process_deactivation_early', 1);
+
 /**
  * The main plugin class
  */
