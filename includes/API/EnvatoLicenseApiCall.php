@@ -400,8 +400,8 @@ class EnvatoLicenseApiCall {
         $table_name = $wpdb->prefix . "license_envato_userlist";
 
         // Use wpdb->insert instead of direct query
-        $inserted = $wpdb->insert(
-            $wpdb->prefix . 'license_envato_userlist',
+        $wpdb->insert(
+            $table_name,
             array(
                 'username' => $username,
                 'itemid' => $itemid,
