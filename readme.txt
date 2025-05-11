@@ -45,5 +45,10 @@ Installation procedure:
 4. Full details Documentation page for wp installation.
 
 == Changelog ==
+= 1.1.0 - 11-05-2025 =
+* Tested up to - 6.8
+* Vulnerable to Local File Inclusion issue fixed
+* Multiple Product verification issue fixed
+
 = 1.0.0 - 04-03-2023 =
 * Initial Release
