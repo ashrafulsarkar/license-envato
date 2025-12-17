@@ -3,7 +3,7 @@ Contributors: ashrafulsarkar
 Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 1.1.0
 Requires PHP: 7.2
 License: GPLv2 or later
