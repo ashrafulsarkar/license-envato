@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: WordPress plugin deploy
         id: deploy
         uses: 10up/action-wordpress-plugin-deploy@stable

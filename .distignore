@@ -2,6 +2,10 @@ README.md
 .distignore
 .gitignore
 composer.json
+composer.lock
+docs
 docs/*
+node_modules
 .github
 .git
+.wordpress-org
