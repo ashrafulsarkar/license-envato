@@ -44,7 +44,7 @@ class EnvatoLicenseApiCall {
         }
 
         $option_key = hash( 'crc32b', 'license_envato_envato' ) . "_token";
-        update_option( $option_key, $envato_token );
+        update_option( $option_key, license_envato_encrypt_option( $envato_token ) );
     }
 
     /**
@@ -180,7 +180,7 @@ class EnvatoLicenseApiCall {
      */
     private function apicall( $url, $postarray = array() ) {
 
-        $envato_token = $this->license_envato_get_option( '_token' );
+        $envato_token = $this->get_envato_token();
 
         if ( empty( $envato_token ) ) {
             return NULL;
@@ -192,7 +192,7 @@ class EnvatoLicenseApiCall {
             'httpversion' => '1.0',
             'blocking'    => true,
             'headers'     => $headers,
-            'sslverify'   => false,
+            'sslverify'   => true,
             'cookies'     => array(),
         );
         if ( is_array( $postarray ) && count( $postarray ) > 0 ) {
@@ -223,6 +223,20 @@ class EnvatoLicenseApiCall {
     public function license_envato_get_option( $key ) {
         $option_key = hash( 'crc32b', 'license_envato_envato' ) . $key;
         return get_option( $option_key, null );
+    }
+
+    /**
+     * get_envato_token()
+     * Returns the decrypted Envato API token.
+     *
+     * @return string
+     */
+    public function get_envato_token() {
+        $encrypted = $this->license_envato_get_option( '_token' );
+        if ( empty( $encrypted ) ) {
+            return '';
+        }
+        return license_envato_decrypt_option( $encrypted );
     }
 
     /**
@@ -393,8 +407,7 @@ class EnvatoLicenseApiCall {
         $supported_until = $data->supported_until;
         $itemid = $data->item->id;
         $username = $data->buyer;
-        $token_secret = get_option( 'license_envato_token_secret' );
-        $token = hash( 'md5', $username . $purchaseCode . time() . $token_secret );
+        $token = bin2hex( random_bytes( 32 ) );
 
         global $wpdb;
         $table_name = $wpdb->prefix . "license_envato_userlist";
@@ -432,8 +445,7 @@ class EnvatoLicenseApiCall {
      * @return mixed
      */
     public function genarateNewToken( $purchaseCode, $username, $requestDomain ) {
-        $token_secret = get_option( 'license_envato_token_secret' );
-        $token = hash( 'md5', $username . $purchaseCode . time() . $token_secret );
+        $token = bin2hex( random_bytes( 32 ) );
 
         global $wpdb;
         
@@ -452,6 +464,7 @@ class EnvatoLicenseApiCall {
         );
 
         if ( $updated ) {
+            wp_cache_delete( 'license_verify_purchasecode_' . md5( $purchaseCode ), 'license_envato_db' );
             return $token;
         }
         return false;
@@ -490,6 +503,7 @@ class EnvatoLicenseApiCall {
                 );
 
                 if ( $updated ) {
+                    wp_cache_delete( 'license_verify_token_' . md5( $token ), 'license_envato_db' );
                     $deactive['deactive'] = 'Deactivated successfully.';
                     return $deactive;
                 }

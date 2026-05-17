@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>License For Envato — Documentation</title>
+    <meta name="description" content="Official documentation for the License For Envato WordPress plugin. Validate Envato purchase codes on your WordPress themes and plugins.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --accent:       #16a34a;
+            --accent-light: #dcfce7;
+            --accent-text:  #166534;
+            --bg:           #ffffff;
+            --bg-subtle:    #f8fafc;
+            --bg-muted:     #f1f5f9;
+            --border:       #e2e8f0;
+            --border-strong:#cbd5e1;
+            --text:         #0f172a;
+            --text-muted:   #475569;
+            --text-faint:   #94a3b8;
+            --code-bg:      #0f172a;
+            --code-header:  #1e293b;
+            --code-border:  #334155;
+            --code-text:    #e2e8f0;
+            --code-muted:   #94a3b8;
+            --radius-sm:    6px;
+            --radius:       8px;
+            --radius-lg:    12px;
+            --font:         'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono:    'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        html { scroll-behavior: smooth; font-size: 15px; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #ffffff;
+            color: #374151;
+        }
+
+        /* ─── Layout ─────────────────────────────────────────── */
+        .le-doc-layout {
+            display: flex;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* ─── Sidebar ─────────────────────────────────────────── */
+        .le-doc-sidebar {
+            width: 270px;
+            min-width: 270px;
+            background: #ffffff;
+            color: #374151;
+            border-right: 1px solid #e8ecf1;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: thin;
+            scrollbar-color: #d1d5db #ffffff;
+        }
+        .le-doc-sidebar::-webkit-scrollbar { width: 4px; }
+        .le-doc-sidebar::-webkit-scrollbar-track { background: #ffffff; }
+        .le-doc-sidebar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+        .le-doc-brand {
+            padding: 28px 22px 22px;
+            border-bottom: 1px solid #e8ecf1;
+        }
+        .le-doc-brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+            text-decoration: none;
+        }
+        .le-doc-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: #83b04c;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .le-doc-brand-icon svg { width: 18px; height: 18px; fill: #fff; }
+        .le-doc-brand-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .le-doc-brand-sub {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            display: block;
+        }
+        .le-doc-brand-version {
+            display: inline-block;
+            background: #f0f7e6;
+            color: #56803a;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-top: 10px;
+            border: 1px solid #c9e0a5;
+        }
+
+        .le-doc-nav { padding: 12px 0 24px; flex: 1; }
+        .le-doc-nav-group { margin-bottom: 4px; }
+        .le-doc-nav-group-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #9ca3af;
+            padding: 10px 22px 4px;
+            display: block;
+        }
+        .le-doc-nav a {
+            display: block;
+            padding: 7px 22px;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.4;
+            border-left: 3px solid transparent;
+            transition: all .15s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .le-doc-nav a:hover {
+            color: #111827;
+            background: #f9fafb;
+            border-left-color: #d1d5db;
+        }
+        .le-doc-nav a.is-active {
+            color: #56803a;
+            background: #f0f7e6;
+            border-left-color: #83b04c;
+            font-weight: 600;
+        }
+
+        .le-doc-sidebar-footer {
+            padding: 16px 22px;
+            border-top: 1px solid #e8ecf1;
+        }
+        .le-doc-sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 12px;
+            transition: color .15s;
+        }
+        .le-doc-sidebar-footer a:hover { color: #4b5563; }
+        .le-doc-sidebar-footer svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+        /* ─── Main Content ────────────────────────────────────── */
+        .le-doc-content {
+            flex: 1;
+            min-width: 0;
+            background: #ffffff;
+            padding: 0 0 80px;
+        }
+
+        .le-doc-hero {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e8ecf1;
+            border-left: 4px solid #83b04c;
+            padding: 48px 52px;
+        }
+        .le-doc-hero h1 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 10px;
+        }
+        .le-doc-hero p {
+            color: #6b7280;
+            font-size: 15px;
+            margin: 0;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        .le-doc-hero-badge {
+            display: inline-block;
+            background: #83b04c;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 20px;
+            letter-spacing: .4px;
+            margin-bottom: 16px;
+        }
+        .le-doc-hero-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .le-doc-hero-tag {
+            background: #ffffff;
+            border: 1px solid #e5e9ef;
+            color: #6b7280;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 4px;
+        }
+
+        .le-doc-sections { padding: 0 52px; }
+
+        .le-doc-section {
+            padding: 52px 0;
+            border-bottom: 1px solid #e8ecf1;
+        }
+        .le-doc-section:last-child { border-bottom: none; }
+
+        .le-doc-section h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 6px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .le-section-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #83b04c;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .le-doc-section h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #374151;
+            margin: 30px 0 10px;
+            padding: 0;
+        }
+        .le-doc-section p,
+        .le-doc-section li {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .le-doc-section ul { margin: 10px 0 0 18px; }
+        .le-doc-section ul li { list-style: disc; margin-bottom: 5px; }
+        .le-doc-section-lead {
+            color: #6b7280;
+            font-size: 15px;
+            margin: 6px 0 28px;
+            line-height: 1.7;
+        }
+
+        /* ─── Steps ───────────────────────────────────────────── */
+        .le-steps { display: flex; flex-direction: column; gap: 14px; margin: 22px 0; }
+        .le-step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            background: #f9fafb;
+            border: 1px solid #e8ecf1;
+            border-radius: 10px;
+            padding: 18px 22px;
+        }
+        .le-step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            background: #83b04c;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 50%;
+        }
+        .le-step-body { flex: 1; }
+        .le-step-body strong { color: #111827; font-size: 14px; display: block; margin-bottom: 4px; }
+        .le-step-body span { color: #6b7280; font-size: 13px; line-height: 1.6; }
+
+        /* ─── Code Blocks ─────────────────────────────────────── */
+        .le-code-block {
+            background: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 22px 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,.05);
+        }
+        .le-code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 18px;
+            background: #eaecef;
+            border-bottom: 1px solid #d1d5db;
+        }
+        .le-code-block-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            font-family: "SFMono-Regular", Consolas, monospace;
+        }
+        .le-code-copy-btn {
+            background: #ffffff;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 11px;
+            padding: 3px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .15s;
+        }
+        .le-code-copy-btn:hover { background: #f3f4f6; color: #111827; border-color: #9ca3af; }
+        .le-code-block pre {
+            margin: 0;
+            padding: 22px;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 12.5px;
+            line-height: 1.7;
+            color: #24292e;
+            background: transparent;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        /* ─── Notice Boxes ────────────────────────────────────── */
+        .le-notice {
+            display: flex;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 22px 0;
+            font-size: 13.5px;
+            line-height: 1.7;
+            align-items: flex-start;
+        }
+        .le-notice-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+        .le-notice.le-notice--tip  { background: #f0f7e6; border-left: 4px solid #83b04c; color: #3d5c1a; }
+        .le-notice.le-notice--info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e3a5f; }
+        .le-notice.le-notice--warn { background: #fffbeb; border-left: 4px solid #f59e0b; color: #7c4a00; }
+        .le-notice a { color: inherit; text-decoration: underline; }
+
+        /* ─── Tables ──────────────────────────────────────────── */
+        .le-doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin: 16px 0;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e8ecf1;
+            box-shadow: 0 1px 3px rgba(0,0,0,.04);
+        }
+        .le-doc-table th {
+            background: #f3f4f6;
+            color: #374151;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            padding: 11px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e8ecf1;
+        }
+        .le-doc-table td {
+            padding: 11px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            color: #4b5563;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        .le-doc-table tr:last-child td { border-bottom: none; }
+        .le-doc-table tr:hover td { background: #f9fafb; }
+        .le-doc-table code {
+            background: #f3f4f6;
+            color: #c0392b;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 11.5px;
+        }
+        .le-method-badge {
+            display: inline-block;
+            padding: 2px 9px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+        .le-method-post { background: #10b981; color: #fff; }
+
+        /* ─── Inline code ─────────────────────────────────────── */
+        .le-doc-section code {
+            background: #f3f4f6;
+            color: #c0392b;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 12.5px;
+        }
+
+        /* ─── Hero action buttons ────────────────────────────────── */
+        .le-hero-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        .le-hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all .15s ease;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .le-hero-btn svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+        .le-hero-btn-github {
+            background: #24292e;
+            color: #ffffff;
+            border-color: #1a1e22;
+        }
+        .le-hero-btn-github:hover { background: #1a1e22; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+        .le-hero-btn-star {
+            background: #ffffff;
+            color: #24292e;
+            border-color: #d1d5db;
+        }
+        .le-hero-btn-star:hover { background: #f9fafb; border-color: #9ca3af; box-shadow: 0 2px 6px rgba(0,0,0,.07); }
+        .le-hero-btn-star svg { fill: #f59e0b; }
+        .le-hero-btn-wp {
+            background: #ffffff;
+            color: #3858e9;
+            border-color: #d1d5db;
+        }
+        .le-hero-btn-wp:hover { background: #f5f7ff; border-color: #9ca3af; box-shadow: 0 2px 6px rgba(0,0,0,.07); }
+        .le-hero-btn-wp svg { fill: #3858e9; }
+
+        /* ─── Global scroll ───────────────────────────────────── */
+        html { scroll-behavior: smooth; }
+
+        /* ─── Responsive ──────────────────────────────────────── */
+        @media (max-width: 1100px) {
+            .le-doc-sidebar { width: 230px; min-width: 230px; }
+            .le-doc-sections { padding: 0 30px; }
+            .le-doc-hero { padding: 36px 30px; }
+        }
+        @media (max-width: 820px) {
+            .le-doc-layout { flex-direction: column; }
+            .le-doc-sidebar { width: 100%; min-width: 0; position: relative; height: auto; max-height: 230px; }
+            .le-doc-sections { padding: 0 18px; }
+            .le-doc-hero { padding: 28px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="le-doc-layout">
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+    <aside class="le-doc-sidebar" id="le-sidebar">
+        <div class="le-doc-brand">
+            <a class="le-doc-brand-logo" href="#">
+                <div class="le-doc-brand-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/></svg>
+                </div>
+                <p class="le-doc-brand-name">License For Envato</p>
+            </a>
+            <span class="le-doc-brand-sub">Documentation</span>
+            <span class="le-doc-brand-version">v1.2.0</span>
+        </div>
+
+        <nav class="le-doc-nav" id="le-nav">
+            <div class="le-doc-nav-group">
+                <span class="le-doc-nav-group-label">Getting Started</span>
+                <a href="#overview"   class="le-nav-link">Overview</a>
+                <a href="#step-1"     class="le-nav-link">Step 1 — Server Setup</a>
+                <a href="#step-2"     class="le-nav-link">Step 2 — Client Integration</a>
+                <a href="#step-3"     class="le-nav-link">Step 3 — Display Form</a>
+            </div>
+            <div class="le-doc-nav-group">
+                <span class="le-doc-nav-group-label">Reference</span>
+                <a href="#rest-api"       class="le-nav-link">REST API</a>
+                <a href="#code-reference" class="le-nav-link">Code Reference</a>
+            </div>
+        </nav>
+
+        <div class="le-doc-sidebar-footer">
+            <a href="https://github.com/ashrafulsarkar/license-envato" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                View on GitHub
+            </a>
+        </div>
+    </aside>
+
+    <!-- ══ CONTENT ══════════════════════════════════════════════ -->
+    <div class="le-doc-content">
+
+        <div class="le-doc-hero">
+            <span class="le-doc-hero-badge">v1.2.0</span>
+            <h1>License For Envato</h1>
+            <p>Easily integrate and manage Envato purchase-code license validation on your WordPress themes and plugins. Follow the three steps below to get started.</p>
+            <div class="le-doc-hero-tags">
+                <span class="le-doc-hero-tag">WordPress Plugin</span>
+                <span class="le-doc-hero-tag">Envato API</span>
+                <span class="le-doc-hero-tag">License Management</span>
+                <span class="le-doc-hero-tag">REST API</span>
+            </div>
+            <div class="le-hero-actions">
+                <a class="le-hero-btn le-hero-btn-github" href="https://github.com/ashrafulsarkar/license-envato" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    View on GitHub
+                </a>
+                <a class="le-hero-btn le-hero-btn-wp" href="https://wordpress.org/plugins/license-envato/" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08-3.927-11.685c.637-.03 1.232-.105 1.232-.105.577-.075.507-.93-.075-.899 0 0-1.755.135-2.87.135-.21 0-.45-.003-.705-.012C3.502 4.097 7.539 2 12 2c3.328 0 6.362 1.271 8.637 3.353-.055-.002-.109-.009-.164-.009-1.065 0-1.814.93-1.814 1.932 0 .9.525 1.65 1.08 2.535.42.735.899 1.68.899 3.045 0 .944-.362 2.055-.826 3.585l-1.08 3.615-3.914-11.64zM12 22c-1.086 0-2.128-.168-3.11-.475l3.307-9.61 3.384 9.27c.024.059.051.114.078.167C14.384 21.77 13.207 22 12 22zm0-20C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2z"/></svg>
+                    WordPress Plugin
+                </a>
+            </div>
+        </div>
+
+        <div class="le-doc-sections">
+
+            <!-- ── OVERVIEW ──────────────────────────────────── -->
+            <section class="le-doc-section" id="overview">
+                <h2>Overview</h2>
+                <p class="le-doc-section-lead">License For Envato acts as a license server: it validates Envato purchase codes through the official Envato API and stores per-domain activation records in your database.</p>
+
+                <h3>How It Works</h3>
+                <div class="le-steps">
+                    <div class="le-step">
+                        <span class="le-step-num">1</span>
+                        <div class="le-step-body">
+                            <strong>Server Setup</strong>
+                            <span>Install the plugin on your WordPress site and connect your Envato personal token.</span>
+                        </div>
+                    </div>
+                    <div class="le-step">
+                        <span class="le-step-num">2</span>
+                        <div class="le-step-body">
+                            <strong>Client Integration</strong>
+                            <span>Copy the provided PHP class into your theme or plugin and set your site URL and item ID.</span>
+                        </div>
+                    </div>
+                    <div class="le-step">
+                        <span class="le-step-num">3</span>
+                        <div class="le-step-body">
+                            <strong>Display License Form</strong>
+                            <span>Instantiate the class wherever you want to display the activation / deactivation form.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="le-notice le-notice--info">
+                    <span class="le-notice-icon">ℹ</span>
+                    <div>Your WordPress site (the server) communicates with the Envato API. Customer sites (the clients) communicate with your WordPress site via the REST API provided by this plugin.</div>
+                </div>
+            </section>
+
+            <!-- ── STEP 1 ─────────────────────────────────────── -->
+            <section class="le-doc-section" id="step-1">
+                <h2>
+                    <span class="le-section-num">1</span>
+                    Server Setup
+                </h2>
+                <p class="le-doc-section-lead">Configure this plugin on the WordPress site that will act as your license server.</p>
+
+                <h3>Install &amp; Activate</h3>
+                <ul>
+                    <li>Install and activate the <strong>License For Envato</strong> plugin on your WordPress site.</li>
+                    <li>Navigate to <strong>License Envato → Settings → Envato</strong> tab.</li>
+                    <li>Paste your Envato personal token and click <strong>Save Envato Token</strong>.</li>
+                </ul>
+
+                <h3>Create Your Envato Token</h3>
+                <p>Your token needs the following minimum permissions:</p>
+
+                <table class="le-doc-table">
+                    <thead>
+                        <tr><th>Required Permission</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>View and search Envato sites</td></tr>
+                        <tr><td>View your Envato Account username</td></tr>
+                        <tr><td>View your email address</td></tr>
+                        <tr><td>Verify purchases of your items</td></tr>
+                        <tr><td>List purchases you've made</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="le-notice le-notice--tip">
+                    <span class="le-notice-icon">💡</span>
+                    <div>Optionally set a <strong>Token Secret Key</strong> under the General settings tab for added token entropy.</div>
+                </div>
+
+                <h3>Your Server URL</h3>
+                <p>Use the following URL (your WordPress site URL) in your client integration (Step 2):</p>
+                <div class="le-code-block">
+                    <div class="le-code-block-header">
+                        <span class="le-code-block-label">Your Site URL</span>
+                        <button class="le-code-copy-btn" data-copy="https://YOUR_SITE_URL">Copy</button>
+                    </div>
+                    <pre>https://YOUR_SITE_URL</pre>
+                </div>
+            </section>
+
+            <!-- ── STEP 2 ─────────────────────────────────────── -->
+            <section class="le-doc-section" id="step-2">
+                <h2>
+                    <span class="le-section-num">2</span>
+                    Client Integration
+                </h2>
+                <p class="le-doc-section-lead">Copy the class below into your theme or plugin. It handles license activation and deactivation by calling your server's REST API.</p>
+
+                <h3>Setup Instructions</h3>
+                <ul>
+                    <li>Copy the full class code below into your theme's <code>functions.php</code> or a dedicated file in your plugin.</li>
+                    <li>Replace <code>YOUR_SITE_URL</code> with your server URL (shown in Step 1).</li>
+                    <li>Replace <code>TEXT_DOMAIN</code> with your theme/plugin's text domain.</li>
+                    <li>Replace <code>YOUR_PREFIX</code> with a unique prefix for your product (e.g. <code>mytheme</code>).</li>
+                </ul>
+
+                <div class="le-notice le-notice--warn">
+                    <span class="le-notice-icon">⚠</span>
+                    <div>Each product should use a unique <code>PREFIX</code> to avoid collisions in the WordPress options table.</div>
+                </div>
+
+                <h3>The Integration Class</h3>
+                <div class="le-code-block">
+                    <div class="le-code-block-header">
+                        <span class="le-code-block-label">PHP · class.license.php</span>
+                        <button class="le-code-copy-btn" data-copy-target="code-class">Copy</button>
+                    </div>
+                    <pre id="code-class">&lt;?php
+/**
+ * licenseCodeVerifyForm()
+ */
+
+class licenseCodeVerifyForm {
+
+    const LICENCE_CALL_URL = "YOUR_SITE_URL";
+    const PREFIX = "YOUR_PREFIX";
+
+    private $licenceActivate_error;
+    private $licenceDeactivate_error;
+
+    public function __construct() {
+
+        $this-&gt;licenceActivate_error = $this-&gt;licenceActivate();
+        $this-&gt;licenceDeactivate_error = $this-&gt;licenceDeactivate();
+
+        $this-&gt;LicenceHTMLForm();
+    }
+
+    public function LicenceHTMLForm(){ ?&gt;
+        &lt;h2&gt;&lt;?php esc_html_e('License Activation Form', 'TEXT_DOMAIN');?&gt;&lt;/h2&gt;
+        &lt;?php
+        $token = get_option(self::PREFIX.'_envato_token');
+        $isActivated = get_option(self::PREFIX.'_envato_is_activated');
+
+        if ($token &amp;&amp; $isActivated) {
+            ?&gt;
+            &lt;?php
+            if ($this-&gt;licenceDeactivate_error) {?&gt;
+                &lt;p class="licence_error"&gt;&lt;?php echo esc_html( $this-&gt;licenceDeactivate_error );?&gt;&lt;/p&gt;
+            &lt;?php }?&gt;
+            &lt;p&gt;&lt;?php esc_html_e('You can click this button to deactivate your license code from this domain if you are going to transfer your website to some other domain or server.', 'TEXT_DOMAIN');?&gt;&lt;/p&gt;
+            &lt;form method="post"&gt;
+                &lt;input type="hidden" name="envato_deactivate" value="1"&gt;
+                &lt;?php wp_nonce_field( 'submit_deactivate' ); ?&gt;
+                &lt;?php submit_button( esc_html__( 'Deactivate', 'TEXT_DOMAIN' ), 'danger', 'submit_deactivate' ); ?&gt;
+            &lt;/form&gt;
+            &lt;?php
+        } else { ?&gt;
+            &lt;?php
+            if ($this-&gt;licenceActivate_error) {?&gt;
+                &lt;p class="licence_error"&gt;&lt;?php echo esc_html( $this-&gt;licenceActivate_error );?&gt;&lt;/p&gt;
+            &lt;?php }?&gt;
+            &lt;form method="post"&gt;
+                &lt;label for="purchase_code"&gt;&lt;?php esc_html_e('Purchase code', 'TEXT_DOMAIN'); ?&gt;
+                    (&lt;a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-"
+                       target="_blank"&gt;&lt;?php esc_html_e('Where can I get my purchase code?', 'TEXT_DOMAIN');?&gt;&lt;/a&gt;)
+                &lt;/label&gt;
+                &lt;input type="text" style="width:100%" id="purchase_code" name="purchase_code"
+                       placeholder="Example: 1e71cs5f-13d9-41e8-a140-2cff01d96afb"&gt;
+                &lt;?php wp_nonce_field( 'submit_activate' ); ?&gt;
+                &lt;?php submit_button( esc_html__( 'Activate', 'TEXT_DOMAIN' ), 'danger', 'submit_activate' ); ?&gt;
+            &lt;/form&gt;
+            &lt;?php
+        }
+    }
+
+    private function licenceActivate() {
+        if ( ! isset( $_POST['submit_activate'] ) ) {
+            return;
+        }
+        if ( ! isset( $_POST['purchase_code'] ) || empty( $_POST['purchase_code'] ) ) {
+            return 'Please Enter Purchase Code.';
+        }
+        // Unslash and sanitize nonce
+        $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+        if ( ! wp_verify_nonce( $nonce, 'submit_activate' ) ) {
+            wp_die( 'Are you cheating?' );
+        }
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( 'Are you cheating?' );
+        }
+        // Unslash and sanitize purchase_code
+        $purchase_code = isset( $_POST['purchase_code'] )
+            ? sanitize_text_field( wp_unslash( $_POST['purchase_code'] ) )
+            : '';
+
+        if ( $purchase_code ) {
+            $url    = self::LICENCE_CALL_URL . "/wp-json/licenseenvato/v1/active";
+            $domain = $this-&gt;domain();
+            $itemid = get_option( self::PREFIX . '_envato_itemid' );
+
+            $response = $this-&gt;apicall( $url, $purchase_code, $domain, $itemid );
+            $data     = json_decode( $response );
+
+            $token  = isset( $data-&gt;token )  ? $data-&gt;token  : '';
+            $itemid = isset( $data-&gt;itemid ) ? $data-&gt;itemid : '';
+            if ( $token ) {
+                update_option( self::PREFIX . '_envato_is_activated_' . $itemid, true );
+                update_option( self::PREFIX . '_envato_token', $token );
+                update_option( self::PREFIX . '_envato_purchase_code', $purchase_code );
+                update_option( self::PREFIX . '_envato_itemid', $itemid );
+            } else {
+                $statusCode    = isset( $data-&gt;code )    ? $data-&gt;code    : '';
+                $statusMessage = isset( $data-&gt;message ) ? $data-&gt;message : '';
+                if ( $statusCode ) {
+                    return $statusMessage;
+                }
+            }
+        }
+    }
+
+    private function domain() {
+        $domain = get_option( 'siteurl' );
+        $domain = str_replace( 'http://',  '', $domain );
+        $domain = str_replace( 'https://', '', $domain );
+        $domain = str_replace( 'www',      '', $domain );
+        return urlencode( $domain );
+    }
+
+    private function licenceDeactivate() {
+        $code = get_option( self::PREFIX . '_envato_token' );
+        if ( ! isset( $_POST['submit_deactivate'] ) ) {
+            return;
+        }
+        // Unslash and sanitize nonce
+        $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+        if ( ! wp_verify_nonce( $nonce, 'submit_deactivate' ) ) {
+            wp_die( 'Are you cheating?' );
+        }
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( 'Are you cheating?' );
+        }
+        // Unslash and sanitize envato_deactivate
+        $envato_deactivate = isset( $_POST['envato_deactivate'] )
+            ? sanitize_text_field( wp_unslash( $_POST['envato_deactivate'] ) )
+            : '';
+
+        if ( $envato_deactivate ) {
+            $url      = self::LICENCE_CALL_URL . "/wp-json/licenseenvato/v1/deactive";
+            $response = $this-&gt;apicall( $url, $code );
+            $date     = json_decode( $response );
+
+            $statusCode    = isset( $date-&gt;code )    ? $date-&gt;code    : '';
+            $statusMessage = isset( $date-&gt;message ) ? $date-&gt;message : '';
+
+            if ( $statusCode === 'already_deactivated' ) {
+                delete_option( self::PREFIX . '_envato_is_activated' );
+                delete_option( self::PREFIX . '_envato_token' );
+                delete_option( self::PREFIX . '_envato_purchase_code' );
+                delete_option( self::PREFIX . '_envato_itemid' );
+            } elseif ( $statusCode ) {
+                return $statusMessage;
+            } else {
+                delete_option( self::PREFIX . '_envato_is_activated' );
+                delete_option( self::PREFIX . '_envato_token' );
+                delete_option( self::PREFIX . '_envato_purchase_code' );
+                delete_option( self::PREFIX . '_envato_itemid' );
+            }
+        }
+    }
+
+    private function apicall( $url, $purchase_code, $domain = null, $itemid = null ) {
+        if ( $domain ) {
+            $body = array(
+                'code'   =&gt; $purchase_code,
+                'domain' =&gt; $domain,
+                'itemid' =&gt; $itemid,
+            );
+        } else {
+            $body = array(
+                'token' =&gt; $purchase_code,
+            );
+        }
+
+        $headers  = array( 'Content-Type' =&gt; 'application/json' );
+        $response = wp_remote_post( $url, array(
+            'method'  =&gt; 'POST',
+            'headers' =&gt; $headers,
+            'body'    =&gt; json_encode( $body ),
+        ) );
+
+        return $response['body'];
+    }
+}
+?&gt;</pre>
+                </div>
+            </section>
+
+            <!-- ── STEP 3 ─────────────────────────────────────── -->
+            <section class="le-doc-section" id="step-3">
+                <h2>
+                    <span class="le-section-num">3</span>
+                    Display the License Form
+                </h2>
+                <p class="le-doc-section-lead">Once the class is in place, call it wherever you want to render the activation / deactivation form — for example, on your plugin's settings page.</p>
+
+                <div class="le-code-block">
+                    <div class="le-code-block-header">
+                        <span class="le-code-block-label">PHP · function-call.php</span>
+                        <button class="le-code-copy-btn" data-copy-target="code-call">Copy</button>
+                    </div>
+                    <pre id="code-call">&lt;?php new licenseCodeVerifyForm(); ?&gt;</pre>
+                </div>
+
+                <div class="le-notice le-notice--tip">
+                    <span class="le-notice-icon">🎉</span>
+                    <div>That's it! Customers can now activate and deactivate their Envato purchase codes directly from your theme or plugin settings page.</div>
+                </div>
+            </section>
+
+            <!-- ── REST API ──────────────────────────────────── -->
+            <section class="le-doc-section" id="rest-api">
+                <h2>REST API Reference</h2>
+                <p class="le-doc-section-lead">The plugin exposes two public REST endpoints under the namespace <code>licenseenvato/v1</code>.</p>
+
+                <h3>Activate License</h3>
+                <table class="le-doc-table">
+                    <tbody>
+                        <tr>
+                            <td><strong>Endpoint</strong></td>
+                            <td><code>https://YOUR_SITE_URL/wp-json/licenseenvato/v1/active</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Method</strong></td>
+                            <td><span class="le-method-badge le-method-post">POST</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Auth</strong></td>
+                            <td>Public (no authentication required)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Activate — Parameters</h3>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>code</code></td>
+                            <td>string</td>
+                            <td>✔</td>
+                            <td>Envato purchase code</td>
+                        </tr>
+                        <tr>
+                            <td><code>domain</code></td>
+                            <td>string</td>
+                            <td>✔</td>
+                            <td>Customer's domain (URL-encoded)</td>
+                        </tr>
+                        <tr>
+                            <td><code>itemid</code></td>
+                            <td>string</td>
+                            <td>✔</td>
+                            <td>Envato item / product ID</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Deactivate License</h3>
+                <table class="le-doc-table">
+                    <tbody>
+                        <tr>
+                            <td><strong>Endpoint</strong></td>
+                            <td><code>https://YOUR_SITE_URL/wp-json/licenseenvato/v1/deactive</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Method</strong></td>
+                            <td><span class="le-method-badge le-method-post">POST</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Auth</strong></td>
+                            <td>Public (no authentication required)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Deactivate — Parameters</h3>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>token</code></td>
+                            <td>string</td>
+                            <td>✔</td>
+                            <td>License token returned during activation</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Example Request (Activate)</h3>
+                <div class="le-code-block">
+                    <div class="le-code-block-header">
+                        <span class="le-code-block-label">PHP · wp_remote_post</span>
+                        <button class="le-code-copy-btn" data-copy-target="code-api-example">Copy</button>
+                    </div>
+                    <pre id="code-api-example">$response = wp_remote_post( 'https://YOUR_SITE_URL/wp-json/licenseenvato/v1/active', [
+    'headers' =&gt; [ 'Content-Type' =&gt; 'application/json' ],
+    'body'    =&gt; json_encode( [
+        'code'   =&gt; $purchase_code,
+        'domain' =&gt; urlencode( $domain ),
+        'itemid' =&gt; $item_id,
+    ] ),
+] );
+$data = json_decode( wp_remote_retrieve_body( $response ) );
+// $data-&gt;token — store this token; you will need it for deactivation</pre>
+                </div>
+            </section>
+
+            <!-- ── CODE REFERENCE ────────────────────────────── -->
+            <section class="le-doc-section" id="code-reference">
+                <h2>Code Reference</h2>
+                <p class="le-doc-section-lead">A quick reference for the key constants and methods inside the integration class.</p>
+
+                <h3>Constants</h3>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr>
+                            <th>Constant</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>LICENCE_CALL_URL</code></td>
+                            <td>Base URL of your license server (your WordPress site URL).</td>
+                        </tr>
+                        <tr>
+                            <td><code>PREFIX</code></td>
+                            <td>Unique prefix used for <code>wp_options</code> keys. Change this per product to avoid collisions.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Key Methods</h3>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Visibility</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>LicenceHTMLForm()</code></td>
+                            <td>public</td>
+                            <td>Renders the activate / deactivate form HTML.</td>
+                        </tr>
+                        <tr>
+                            <td><code>licenceActivate()</code></td>
+                            <td>private</td>
+                            <td>Handles the activation POST, calls REST API, stores token.</td>
+                        </tr>
+                        <tr>
+                            <td><code>licenceDeactivate()</code></td>
+                            <td>private</td>
+                            <td>Handles deactivation POST, calls REST API, clears options.</td>
+                        </tr>
+                        <tr>
+                            <td><code>apicall()</code></td>
+                            <td>private</td>
+                            <td>Sends POST request to the server REST endpoint.</td>
+                        </tr>
+                        <tr>
+                            <td><code>domain()</code></td>
+                            <td>private</td>
+                            <td>Returns the current site's domain (URL-encoded).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>wp_options Keys (Client-side)</h3>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr>
+                            <th>Option Key</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>{PREFIX}_envato_token</code></td>
+                            <td>Stored license token returned by the server on activation.</td>
+                        </tr>
+                        <tr>
+                            <td><code>{PREFIX}_envato_is_activated</code></td>
+                            <td>Boolean — whether the license is currently active.</td>
+                        </tr>
+                        <tr>
+                            <td><code>{PREFIX}_envato_purchase_code</code></td>
+                            <td>The raw Envato purchase code entered by the customer.</td>
+                        </tr>
+                        <tr>
+                            <td><code>{PREFIX}_envato_itemid</code></td>
+                            <td>Envato item ID associated with the activated license.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="le-notice le-notice--info">
+                    <span class="le-notice-icon">ℹ</span>
+                    <div>Replace <code>{PREFIX}</code> with the value you set for the <code>PREFIX</code> constant — for example, if your prefix is <code>mytheme</code>, the token key would be <code>mytheme_envato_token</code>.</div>
+                </div>
+            </section>
+
+        </div><!-- /.le-doc-sections -->
+    </div><!-- /.le-doc-content -->
+
+</div><!-- /.le-doc-layout -->
+
+<script>
+(function () {
+    'use strict';
+
+    /* ── Active nav highlight via IntersectionObserver ── */
+    var sections = document.querySelectorAll('.le-doc-section[id]');
+    var navLinks  = document.querySelectorAll('#le-nav .le-nav-link');
+
+    function setActive(id) {
+        navLinks.forEach(function (link) {
+            if (link.getAttribute('href') === '#' + id) {
+                link.classList.add('is-active');
+            } else {
+                link.classList.remove('is-active');
+            }
+        });
+    }
+
+    if ('IntersectionObserver' in window && sections.length) {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    setActive(entry.target.id);
+                }
+            });
+        }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+        sections.forEach(function (s) { observer.observe(s); });
+    }
+
+    /* ── Smooth scroll for nav links ── */
+    navLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            var target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    /* ── Copy buttons ── */
+    document.querySelectorAll('.le-code-copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var text = '';
+            var targetId = btn.getAttribute('data-copy-target');
+            if (targetId) {
+                var el = document.getElementById(targetId);
+                if (el) text = el.textContent || '';
+            } else {
+                text = btn.getAttribute('data-copy') || '';
+            }
+            if (!text) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.textContent = '✓ Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                });
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); } catch (err) {}
+                document.body.removeChild(ta);
+                btn.textContent = '✓ Copied';
+                setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+            }
+        });
+    });
+
+}());
+</script>
+
+</body>
+</html>

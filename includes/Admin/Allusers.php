@@ -101,7 +101,7 @@ class Allusers extends WP_List_Table {
                 return esc_html__( 'Deactivated', 'license-envato' );
             }
         default:
-            return $item[$column_name];
+            return esc_html( $item[$column_name] );
         }
     }
 

@@ -38,9 +38,52 @@ class Menu {
         add_submenu_page( $parent_slug, __( 'All Users', 'license-envato' ), __( 'All Users', 'license-envato' ), $capability, $parent_slug, [ $this, 'allusers' ] );
 
         add_submenu_page( $parent_slug, __( 'Settings', 'license-envato' ), __( 'Settings', 'license-envato' ), $capability, $parent_slug.'-settings', [ $this, 'settings' ] );
-        add_submenu_page( $parent_slug, __( 'Documentation', 'license-envato' ), __( 'Documentation', 'license-envato' ), $capability, $parent_slug.'-documentation', [ $this, 'documentation' ] );
+        add_submenu_page( $parent_slug, __( 'Documentation', 'license-envato' ), __( 'Documentation', 'license-envato' ), $capability, $parent_slug.'-documentation', '__return_null' );
 
         add_action( 'admin_init', [ $this, 'enqueue_assets' ] );
+        add_action( 'admin_init', [ $this, 'docs_redirect' ] );
+        add_action( 'admin_footer', [ $this, 'docs_menu_link' ] );
+    }
+
+    /**
+     * docs_redirect()
+     * Redirect direct page visits to the external GitHub Pages documentation.
+     * Runs on admin_init (before any output) so wp_safe_redirect works.
+     *
+     * @return void
+     * @since 1.1.0
+     */
+    public function docs_redirect() {
+        if (
+            isset( $_GET['page'] ) &&
+            $_GET['page'] === 'licenseenvato-documentation' &&
+            current_user_can( 'manage_options' )
+        ) {
+            wp_safe_redirect( 'https://ashrafulsarkar.github.io/license-envato/' );
+            exit;
+        }
+    }
+
+    /**
+     * docs_menu_link()
+     * Patch the Documentation sidebar link so it opens in a new tab.
+     *
+     * @return void
+     * @since 1.1.0
+     */
+    public function docs_menu_link() {
+        ?>
+        <script>
+        (function () {
+            var link = document.querySelector('#adminmenu a[href*="licenseenvato-documentation"]');
+            if (link) {
+                link.href = 'https://ashrafulsarkar.github.io/license-envato/';
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+            }
+        }());
+        </script>
+        <?php
     }
 
     /**
@@ -53,18 +96,6 @@ class Menu {
     public function settings() {
         $settings = new Settings();
         $settings->plugin_page();
-    }
-
-    /**
-     * documentation()
-     * Handles the documentation page
-     * 
-     * @return void
-     * @since 1.0.0 
-     */
-    public function documentation() {
-        $documentation = new Documentation();
-        $documentation->plugin_page();
     }
 
     /**

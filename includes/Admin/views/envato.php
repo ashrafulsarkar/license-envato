@@ -3,7 +3,7 @@
 $license_envato_api->envato_token_handler();
 $license_envato_api->deactive_envato_token();
 
-$get_license_envato_envato_token = $license_envato_api->license_envato_get_option( '_token' );
+$get_license_envato_envato_token = $license_envato_api->get_envato_token();
 if ($get_license_envato_envato_token) {
     $license_envato_user_data = $license_envato_api->getAPIUserHtmlDetails();
     echo wp_kses_post( $license_envato_user_data );

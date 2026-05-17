@@ -3,7 +3,7 @@
  * Plugin Name: License For Envato
  * Plugin URI: https://github.com/ashrafulsarkar/envato-licenser
  * Description: Manage your envato market items theme & plugin license.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Ashraful Sarkar Naiem
  * Author URI: https://github.com/ashrafulsarkar
  * Requires at least: 6.0
@@ -66,7 +66,11 @@ function license_envato_process_deactivation_early() {
         if ( ! wp_verify_nonce( $nonce_value, 'license_envato_deactivate_action_' . $token_value ) ) {
             wp_die( esc_html__( 'Security check failed. Please try again.', 'license-envato' ) );
         }
-        
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( esc_html__( 'You do not have permission to perform this action.', 'license-envato' ) );
+        }
+
         $code = [];
         $code['token'] = $token_value;
         
@@ -95,12 +99,7 @@ function license_envato_process_deactivation_early() {
             $redirect_url = add_query_arg( 'error', urlencode(esc_html__('Something wrong!', 'license-envato')), $redirect_url );
         }
         
-        // Disable any error output to prevent "headers already sent"
-        @error_reporting(0);
-        @ini_set('display_errors', 0);
-        
-        // Force the redirect without using wp_redirect (which can check headers sent)
-        header("Location: " . $redirect_url);
+        wp_safe_redirect( $redirect_url );
         exit;
     }
 }
@@ -111,13 +110,6 @@ add_action('plugins_loaded', 'license_envato_process_deactivation_early', 1);
  * The main plugin class
  */
 final class License_Envato {
-
-    /**
-     * Plugin version
-     *
-     * @var string
-     */
-    const version = '1.0.0';
 
     /**
      * Class construcotr
@@ -159,7 +151,8 @@ final class License_Envato {
      * @return void
      */
     public function define_constants() {
-        define( 'LICENSE_ENVATO_VERSION', self::version );
+        $plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ) );
+        define( 'LICENSE_ENVATO_VERSION', $plugin_data['Version'] );
         define( 'LICENSE_ENVATO_FILE_URL', __FILE__ );
         define( 'LICENSE_ENVATO_FILE_PATH', __DIR__ );
         define( 'LICENSE_ENVATO_BASE_URL', plugin_basename( LICENSE_ENVATO_FILE_URL ) );
