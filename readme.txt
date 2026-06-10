@@ -3,7 +3,7 @@ Contributors: ashrafulsarkar
 Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 7.0
 Stable tag: 1.2.0
 Requires PHP: 7.2
 License: GPLv2 or later
@@ -80,7 +80,7 @@ Bugs can be reported on the [GitHub repository](https://github.com/ashrafulsarka
 
 == Screenshots ==
 
-1. Connect your Envato personal token under Settings → Envato tab.
+1. Connect your Envato personal token under Settings - Envato tab.
 2. Account details displayed after a successful token connection.
 3. Verified license list with domain and purchase-code records.
 4. REST API activation and deactivation in action from a client theme/plugin.
