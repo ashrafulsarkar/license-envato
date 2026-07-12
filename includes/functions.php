@@ -9,12 +9,12 @@ if (!function_exists('licenseEnvato_general_setting_handler')) {
             return;
         }
     
-        if ( !isset( $_POST['_wpnonce'] ) || !wp_verify_nonce( wp_unslash( sanitize_text_field( $_POST['_wpnonce'] ) ), 'submit_general_setting' ) ) {
-            wp_die( 'Are you cheating?' );
+        if ( !isset( $_POST['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'submit_general_setting' ) ) {
+            wp_die( esc_html__( 'Security check failed. Please try again.', 'license-envato' ) );
         }
-    
+
         if ( !current_user_can( 'manage_options' ) ) {
-            wp_die( 'Are you cheating?' );
+            wp_die( esc_html__( 'You do not have permission to perform this action.', 'license-envato' ) );
         }
     
         $token_secret_key = isset( $_POST['token_secret'] ) ? sanitize_text_field( wp_unslash( $_POST['token_secret'] ) ) : 'license-envato';

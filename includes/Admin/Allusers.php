@@ -136,48 +136,52 @@ class Allusers extends WP_List_Table {
         $this->search = isset($_REQUEST['s']) ? sanitize_text_field(wp_unslash($_REQUEST['s'])) : '';
         $this->search_by = isset($_REQUEST['search_by']) ? sanitize_text_field(wp_unslash($_REQUEST['search_by'])) : '';
 
-        // Prepare for database query
-        $sql_select_from = "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist";
+        $columns = $this->get_columns();
+        $this->_column_headers = array( $columns, array(), array() );
+        $this->set_items_per_page( 20 );
+        $current_page = $this->get_pagenum();
+        $offset = ( $current_page - 1 ) * $this->per_page;
+
+        // Prepare for database query — paginate in SQL instead of loading the whole table
+        $table_name = $wpdb->prefix . 'license_envato_userlist';
         $sql_where = "";
-        $sql_order_by = " ORDER BY `id` DESC";
         $query_args = array();
 
         if ($this->search_by === 'purchasecode' && !empty($this->search)) {
             $sql_where = " WHERE `purchasecode` LIKE %s"; // Placeholder added here
             $query_args[] = '%' . $wpdb->esc_like($this->search) . '%';
         }
-        
-        // Construct the complete SQL query template
-        $sql_template = $sql_select_from . $sql_where . $sql_order_by; 
 
+        $count_sql = "SELECT COUNT(*) FROM {$table_name}" . $sql_where;
         if (!empty($query_args)) {
-            // If there are args, prepare the query template with them
-            $executable_query = $wpdb->prepare($sql_template, $query_args); 
-        } else {
-            // No args, so no placeholders were added. $sql_template is a static string.
-            $executable_query = $sql_template; 
-        }
-        
-        $cache_key = 'license_envato_users_' . md5($executable_query);
-        $data = wp_cache_get($cache_key, 'license_envato');
-        
-        if (false === $data) {
-            $data = $wpdb->get_results($executable_query, ARRAY_A); 
-            wp_cache_set($cache_key, $data, 'license_envato', 3600); 
+            $count_sql = $wpdb->prepare($count_sql, $query_args);
         }
 
-        $columns = $this->get_columns();
-        $this->_column_headers = array( $columns, array(), array() );
-        $this->set_items_per_page( 20 );
-        $current_page = $this->get_pagenum();
-        $total_items = count( $data );
-        $data = array_slice( $data, (  ( $current_page - 1 ) * $this->per_page ), $this->per_page );
+        $items_sql = $wpdb->prepare(
+            "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$table_name}" . $sql_where . " ORDER BY `id` DESC LIMIT %d OFFSET %d",
+            array_merge($query_args, array($this->per_page, $offset))
+        );
+
+        // last_changed is bumped on every activate/deactivate so cached pages never go stale
+        $last_changed = wp_cache_get_last_changed('license_envato');
+        $cache_key = 'license_envato_users_' . md5($items_sql) . ':' . $last_changed;
+        $cached = wp_cache_get($cache_key, 'license_envato');
+
+        if (false === $cached || !isset($cached['items'], $cached['total'])) {
+            $cached = array(
+                'total' => (int) $wpdb->get_var($count_sql),
+                'items' => $wpdb->get_results($items_sql, ARRAY_A),
+            );
+            wp_cache_set($cache_key, $cached, 'license_envato', 3600);
+        }
+
+        $total_items = $cached['total'];
         $this->set_pagination_args( array(
             'total_items' => $total_items,
             'per_page'    => $this->per_page,
             'total_pages' => ceil( $total_items / $this->per_page ),
         ) );
-        $this->items = $data;
+        $this->items = $cached['items'];
     }
 
     /**

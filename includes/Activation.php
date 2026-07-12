@@ -44,19 +44,20 @@ class Activation {
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        $schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}license_envato_userlist` (
-          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-          `username` varchar(100) NOT NULL DEFAULT '',
-          `itemid` varchar(30) NOT NULL DEFAULT '',
-          `purchasecode` varchar(255) NOT NULL DEFAULT '',
-          `token` varchar(255) NOT NULL DEFAULT '',
-          `domain` varchar(255) NOT NULL DEFAULT '',
-          `licensetype` varchar(255) NOT NULL DEFAULT '',
-          `sold_at` varchar(255) NOT NULL DEFAULT '',
-          `support_amount` varchar(255) NOT NULL DEFAULT '',
-          `supported_until` varchar(255) NOT NULL DEFAULT '',
-          PRIMARY KEY (`id`)
-        ) $charset_collate";
+        // dbDelta is picky: no IF NOT EXISTS, no backticks, two spaces after PRIMARY KEY
+        $schema = "CREATE TABLE {$wpdb->prefix}license_envato_userlist (
+          id int(11) unsigned NOT NULL AUTO_INCREMENT,
+          username varchar(100) NOT NULL DEFAULT '',
+          itemid varchar(30) NOT NULL DEFAULT '',
+          purchasecode varchar(255) NOT NULL DEFAULT '',
+          token varchar(255) NOT NULL DEFAULT '',
+          domain varchar(255) NOT NULL DEFAULT '',
+          licensetype varchar(255) NOT NULL DEFAULT '',
+          sold_at varchar(255) NOT NULL DEFAULT '',
+          support_amount varchar(255) NOT NULL DEFAULT '',
+          supported_until varchar(255) NOT NULL DEFAULT '',
+          PRIMARY KEY  (id)
+        ) $charset_collate;";
 
         if ( !function_exists( 'dbDelta' ) ) {
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';

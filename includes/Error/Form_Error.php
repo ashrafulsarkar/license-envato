@@ -31,8 +31,8 @@ trait Form_Error {
     /**
      * Get the error by key
      *
-     * @param  key $key
-     * @return string | false
+     * @param  string $key
+     * @return string|false
      */
     public function get_error( $key ) {
         if ( isset( $this->errors[$key] ) ) {

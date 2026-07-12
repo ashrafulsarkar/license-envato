@@ -32,8 +32,8 @@ if (isset($_GET['tab'])) {
             ];
         
             $licenseEnvato_nav_array =  apply_filters( 'license_envato_settings_nav', $licenseEnvato_nav );
+            $html = '';
             if ($licenseEnvato_nav_array) {
-                $html = '';
                 foreach ( $licenseEnvato_nav_array as $key => $val ) {
                     $class = ( $action == $key ) ? 'nav-tab-active' : '';
                     // Add nonce to tab links

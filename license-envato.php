@@ -3,7 +3,7 @@
  * Plugin Name: License For Envato
  * Plugin URI: https://github.com/ashrafulsarkar/envato-licenser
  * Description: Manage your envato market items theme & plugin license.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Ashraful Sarkar Naiem
  * Author URI: https://github.com/ashrafulsarkar
  * Requires at least: 6.0
@@ -167,6 +167,8 @@ final class License_Envato {
      */
     public function init_plugin() {
 
+        $this->maybe_upgrade();
+
         new LicenseEnvato\Assets();
 
         if ( is_admin() ) {
@@ -174,6 +176,19 @@ final class License_Envato {
         }
 
         new LicenseEnvato\API();
+    }
+
+    /**
+     * Re-run the activation routine when the plugin is updated,
+     * so schema changes are applied without requiring a manual re-activation.
+     *
+     * @return void
+     */
+    public function maybe_upgrade() {
+        if ( get_option( 'LICENSE_ENVATO_VERSION' ) !== LICENSE_ENVATO_VERSION ) {
+            $activation = new LicenseEnvato\Activation();
+            $activation->run();
+        }
     }
 
     /**
