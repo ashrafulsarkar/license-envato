@@ -150,6 +150,17 @@ Then render the form anywhere on your settings page:
 
 ## Changelog
 
+### 1.2.1 — 13 July 2026
+- Fixed fatal error when the Envato API returns an empty response
+- Fixed duplicate license rows and stale lookups on sites with persistent object caching (Redis/Memcached) — activation, deactivation and admin list caches are now invalidated correctly
+- Fixed license reactivation not verifying the item ID
+- Failed activations now return a proper error response instead of an empty success
+- Admin license list now paginates in SQL — much faster with large license tables
+- Database schema now upgrades automatically on plugin update — no re-activation needed
+- Invalid purchase codes are cached for 10 minutes to protect your Envato API quota from repeated attempts
+- Clearer, translatable security and error messages
+- Added uninstall cleanup — plugin options and transients are removed on uninstall (license records are preserved for safety)
+
 ### 1.2.0 — 18 May 2026
 - Plugin version now read dynamically from file header (single source of truth)
 - Documentation moved to GitHub Pages
