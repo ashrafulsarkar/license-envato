@@ -3,7 +3,7 @@
  * Plugin Name: License For Envato
  * Plugin URI: https://github.com/ashrafulsarkar/envato-licenser
  * Description: Manage your envato market items theme & plugin license.
- * Version: 1.2.1
+ * Version: 1.3.0
  * Author: Ashraful Sarkar Naiem
  * Author URI: https://github.com/ashrafulsarkar
  * Requires at least: 6.0
@@ -46,7 +46,9 @@ if ( !defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Early handler for deactivation requests before any output is generated
+// Handler for deactivation requests — runs on admin_init so every plugin has
+// registered its license_envato_deactive_override filters, but still before
+// any output is generated
 function license_envato_process_deactivation_early() {
     if (!is_admin()) {
         return;
@@ -103,8 +105,7 @@ function license_envato_process_deactivation_early() {
         exit;
     }
 }
-// Hook with very high priority (1) to run early
-add_action('plugins_loaded', 'license_envato_process_deactivation_early', 1);
+add_action('admin_init', 'license_envato_process_deactivation_early');
 
 /**
  * The main plugin class
@@ -120,7 +121,6 @@ final class License_Envato {
         register_activation_hook( __FILE__, [$this, 'activate'] );
 
         add_action( 'plugins_loaded', [$this, 'init_plugin'] );
-        add_action( 'plugins_loaded', [$this, 'load_textdomain'] );
     }
 
     /**
@@ -139,10 +139,6 @@ final class License_Envato {
         }
 
         return $instance;
-    }
-
-    public function load_textdomain(){
-        load_plugin_textdomain('license-envato', false, dirname(__FILE__) . "/languages");
     }
 
     /**
@@ -207,7 +203,7 @@ final class License_Envato {
  *
  * @return \License_Envato
  */
-function licence_envato() {
+function license_envato() {
     return License_Envato::init();
 }
-licence_envato();
+license_envato();

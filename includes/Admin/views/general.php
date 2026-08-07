@@ -1,10 +1,14 @@
+<?php
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+?>
 <h3><?php esc_html_e( 'General Settings', 'license-envato' ); ?></h3>
 <?php
 licenseEnvato_general_setting_handler();
-$get_token_secret = get_option('license_envato_token_secret');
+$license_envato_saved_token_secret = get_option('license_envato_token_secret');
 $license_envato_token_secret = '';
-if ($get_token_secret) {
-    $license_envato_token_secret = $get_token_secret;
+if ($license_envato_saved_token_secret) {
+    $license_envato_token_secret = $license_envato_saved_token_secret;
 }
 
 ?>
@@ -28,3 +32,9 @@ if ($get_token_secret) {
         <?php submit_button( __( 'Save Changes', 'license-envato' ), 'primary', 'submit_general' ); ?>
     </form>
 </div>
+<?php
+/**
+ * Allow add-ons to append their own sections below the general settings.
+ */
+do_action( 'license_envato_general_settings_after' );
+?>

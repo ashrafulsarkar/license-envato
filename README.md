@@ -1,7 +1,7 @@
 # License For Envato
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.2.0-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.3.0-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/WordPress-%3E%3D6.0-blue?style=flat-square&logo=wordpress" alt="WordPress">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/license-GPLv2-orange?style=flat-square" alt="License">
@@ -16,6 +16,7 @@
 <p align="center">
   <a href="https://ashrafulsarkar.github.io/license-envato/">📖 Documentation</a> &nbsp;·&nbsp;
   <a href="https://wordpress.org/plugins/license-envato/">🔌 WordPress.org</a> &nbsp;·&nbsp;
+  <a href="https://codeholt.com/products/license-envato-pro/">🚀 Get Pro</a> &nbsp;·&nbsp;
   <a href="https://github.com/ashrafulsarkar/license-envato/issues">🐛 Report a Bug</a>
 </p>
 
@@ -45,6 +46,25 @@ Customer site  ──POST──►  Your WordPress site  ──►  Envato API
 - ✅ Nonce-verified, capability-checked form submissions
 - ✅ Lightweight — no external runtime dependencies
 - ✅ Full [documentation](https://ashrafulsarkar.github.io/license-envato/) on GitHub Pages
+
+---
+
+## 🚀 Pro Features
+
+[**License For Envato Pro**](https://codeholt.com/products/license-envato-pro/) is a paid add-on that builds on top of this free plugin:
+
+- 🔒 Multiple domain activations per license, with configurable limits
+- ⏳ Support-expiry enforcement, with on-demand renewal re-sync from Envato
+- 📧 Email notifications + a daily expiry-warning digest
+- 🔗 Webhooks with signed payloads for your own integrations
+- 🚫 Purchase code & domain blacklist
+- 📝 Activity log with CSV export
+- 🎟️ Manual & bulk license issuance — no Envato purchase required
+- 🔄 Automatic update delivery for your own themes/plugins (self-hosted)
+- 📊 Analytics dashboard
+- 🏆 Priority support
+
+Compare Free vs Pro anytime from **wp-admin → License Envato → Settings → Get Pro**, or see [https://codeholt.com/products/license-envato-pro/](https://codeholt.com/products/license-envato-pro/).
 
 ---
 
@@ -149,6 +169,19 @@ Then render the form anywhere on your settings page:
 ---
 
 ## Changelog
+
+### 1.3.0 — 06 August 2026
+- New: Free vs Pro comparison tab under Settings with an upgrade option
+- New: Get Pro link on the Plugins page and in the side menu (hidden when the Pro add-on is active)
+- New: dismissible review notice after 7 days of use — dismiss forever, snooze, or rate the plugin
+- Admin user list can now show every activated domain of a license, each with its own Deactivate action
+- Admin user list actions are now icons: green check for active domains, red cross to deactivate
+- Admin Deactivate now runs on `admin_init`, after add-ons have registered their deactivation overrides
+- Developer: new `license_envato_activate_override` and `license_envato_deactive_override` filters let add-ons extend license verification and deactivation
+- Developer: new `license_envato_license_activated` and `license_envato_license_deactivated` action hooks fire on every activation/deactivation — the deactivated action receives the domain as a third parameter
+- Developer: new `license_envato_userlist_items` filter lets add-ons merge extra domain activations into the admin user list
+- Developer: new `license_envato_userlist_domain_actions` and `license_envato_userlist_row_actions` filters let add-ons add per-domain and per-license action icons
+- License lookups now include `licensetype` and `supported_until`, enabling support-period aware add-ons
 
 ### 1.2.1 — 13 July 2026
 - Fixed fatal error when the Envato API returns an empty response

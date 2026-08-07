@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
 /**
  * @return null
@@ -38,6 +40,43 @@ if (!function_exists('licenseEnvato__redirect')) {
         );
         wp_safe_redirect(wp_sanitize_redirect($url));
         exit;
+    }
+}
+
+/**
+ * Whether the "License For Envato Pro" add-on plugin is active.
+ *
+ * @return bool
+ */
+if ( ! function_exists( 'license_envato_is_pro_active' ) ) {
+    function license_envato_is_pro_active() {
+        return class_exists( 'License_Envato_Pro', false );
+    }
+}
+
+/**
+ * Whether the Pro add-on is active AND its license is activated on this site.
+ *
+ * @return bool
+ */
+if ( ! function_exists( 'license_envato_is_pro_license_active' ) ) {
+    function license_envato_is_pro_license_active() {
+        return license_envato_is_pro_active()
+            && class_exists( '\LicenseEnvatoPro\ProLicense' )
+            && \LicenseEnvatoPro\ProLicense::is_active();
+    }
+}
+
+/**
+ * URL of the Pro purchase / upgrade page shown on the Free vs Pro tab.
+ *
+ * Can be overridden with the `license_envato_upgrade_url` filter.
+ *
+ * @return string
+ */
+if ( ! function_exists( 'license_envato_upgrade_url' ) ) {
+    function license_envato_upgrade_url() {
+        return apply_filters( 'license_envato_upgrade_url', 'https://codeholt.com/products/license-envato-pro/' );
     }
 }
 

@@ -35,7 +35,7 @@
             --font-mono:    'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
         }
 
-        html { scroll-behavior: smooth; font-size: 15px; }
+        html { scroll-behavior: smooth; font-size: 15px; overflow-x: hidden; }
 
         body {
             font-family: var(--font);
@@ -81,13 +81,36 @@
             padding: 28px 22px 22px;
             border-bottom: 1px solid #e8ecf1;
         }
+        .le-doc-brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
         .le-doc-brand-logo {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 6px;
             text-decoration: none;
+            min-width: 0;
         }
+        .le-doc-nav-toggle {
+            display: none;
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: #4b5563;
+            border: 1px solid #e5e9ef;
+            border-radius: 7px;
+            cursor: pointer;
+            padding: 0;
+        }
+        .le-doc-nav-toggle svg { width: 18px; height: 18px; fill: currentColor; }
+        .le-doc-nav-toggle:hover { background: #f9fafb; border-color: #9ca3af; }
         .le-doc-brand-icon {
             width: 32px;
             height: 32px;
@@ -167,6 +190,9 @@
         .le-doc-sidebar-footer {
             padding: 16px 22px;
             border-top: 1px solid #e8ecf1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
         .le-doc-sidebar-footer a {
             display: flex;
@@ -327,11 +353,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
             padding: 10px 18px;
             background: #eaecef;
             border-bottom: 1px solid #d1d5db;
         }
         .le-code-block-label {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             font-size: 11px;
             font-weight: 600;
             color: #6b7280;
@@ -382,6 +414,21 @@
         .le-notice a { color: inherit; text-decoration: underline; }
 
         /* ─── Tables ──────────────────────────────────────────── */
+        .le-table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 16px 0;
+            border-radius: 8px;
+            border: 1px solid #e8ecf1;
+            box-shadow: 0 1px 3px rgba(0,0,0,.04);
+        }
+        .le-table-scroll .le-doc-table {
+            margin: 0;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+        }
         .le-doc-table {
             width: 100%;
             border-collapse: collapse;
@@ -410,6 +457,7 @@
             color: #4b5563;
             vertical-align: top;
             line-height: 1.5;
+            overflow-wrap: anywhere;
         }
         .le-doc-table tr:last-child td { border-bottom: none; }
         .le-doc-table tr:hover td { background: #f9fafb; }
@@ -483,6 +531,18 @@
         }
         .le-hero-btn-wp:hover { background: #f5f7ff; border-color: #9ca3af; box-shadow: 0 2px 6px rgba(0,0,0,.07); }
         .le-hero-btn-wp svg { fill: #3858e9; }
+        .le-hero-btn-pro {
+            background: #d63638;
+            color: #ffffff;
+            border-color: #b32d2f;
+        }
+        .le-hero-btn-pro:hover { background: #b32d2f; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+
+        /* ─── Pro compare table ───────────────────────────────── */
+        .le-pro-table th.le-compare-pro,
+        .le-pro-table td.le-compare-pro { background: #fef2f2; }
+        .le-pro-yes { color: #16a34a; font-weight: 700; }
+        .le-pro-no  { color: #cbd5e1; font-weight: 700; }
 
         /* ─── Global scroll ───────────────────────────────────── */
         html { scroll-behavior: smooth; }
@@ -493,11 +553,52 @@
             .le-doc-sections { padding: 0 30px; }
             .le-doc-hero { padding: 36px 30px; }
         }
+
         @media (max-width: 820px) {
-            .le-doc-layout { flex-direction: column; }
-            .le-doc-sidebar { width: 100%; min-width: 0; position: relative; height: auto; max-height: 230px; }
+            .le-doc-layout { flex-direction: column; align-items: stretch; }
+            .le-doc-sidebar {
+                width: 100%;
+                min-width: 0;
+                position: sticky;
+                top: 0;
+                height: auto;
+                z-index: 20;
+            }
+            .le-doc-content { width: 100%; }
+            .le-doc-nav-toggle { display: inline-flex; }
+            .le-doc-nav {
+                display: none;
+                max-height: calc(100vh - 100px);
+                overflow-y: auto;
+                border-top: 1px solid #e8ecf1;
+            }
+            .le-doc-sidebar-footer { display: none; }
+            .le-doc-sidebar.is-open .le-doc-nav { display: block; }
+            .le-doc-sidebar.is-open .le-doc-sidebar-footer { display: flex; flex-direction: column; }
+
             .le-doc-sections { padding: 0 18px; }
             .le-doc-hero { padding: 28px 18px; }
+            .le-doc-hero h1 { font-size: 24px; }
+            .le-hero-actions { gap: 8px; }
+            .le-hero-btn { padding: 7px 12px; font-size: 12.5px; }
+        }
+
+        @media (max-width: 480px) {
+            html { font-size: 14px; }
+            .le-doc-hero { padding: 22px 14px; }
+            .le-doc-hero h1 { font-size: 21px; }
+            .le-doc-hero p { font-size: 13.5px; }
+            .le-doc-hero-badge { margin-bottom: 12px; }
+            .le-doc-sections { padding: 0 14px; }
+            .le-doc-section { padding: 34px 0; }
+            .le-doc-section h2 { font-size: 19px; gap: 8px; }
+            .le-section-num { width: 26px; height: 26px; font-size: 12px; }
+            .le-code-block pre { padding: 14px; font-size: 12px; }
+            .le-code-block-header { padding: 8px 12px; flex-wrap: wrap; gap: 6px; }
+            .le-doc-table th, .le-doc-table td { padding: 9px 10px; font-size: 12.5px; }
+            .le-step { padding: 14px 16px; }
+            .le-hero-actions { flex-direction: column; align-items: stretch; }
+            .le-hero-btn { justify-content: center; }
         }
     </style>
 </head>
@@ -508,14 +609,19 @@
     <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
     <aside class="le-doc-sidebar" id="le-sidebar">
         <div class="le-doc-brand">
-            <a class="le-doc-brand-logo" href="#">
-                <div class="le-doc-brand-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/></svg>
-                </div>
-                <p class="le-doc-brand-name">License For Envato</p>
-            </a>
+            <div class="le-doc-brand-row">
+                <a class="le-doc-brand-logo" href="#">
+                    <div class="le-doc-brand-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/></svg>
+                    </div>
+                    <p class="le-doc-brand-name">License For Envato</p>
+                </a>
+                <button class="le-doc-nav-toggle" id="le-nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="le-nav">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+                </button>
+            </div>
             <span class="le-doc-brand-sub">Documentation</span>
-            <span class="le-doc-brand-version">v1.2.1</span>
+            <span class="le-doc-brand-version">v1.3.0</span>
         </div>
 
         <nav class="le-doc-nav" id="le-nav">
@@ -531,6 +637,13 @@
                 <a href="#rest-api"       class="le-nav-link">REST API</a>
                 <a href="#code-reference" class="le-nav-link">Code Reference</a>
             </div>
+            <div class="le-doc-nav-group">
+                <span class="le-doc-nav-group-label">Pro Add-on</span>
+                <a href="#pro-overview"    class="le-nav-link">Overview</a>
+                <a href="#pro-compare"     class="le-nav-link">Free vs Pro</a>
+                <a href="#pro-admin"       class="le-nav-link">Pro Admin Pages</a>
+                <a href="#pro-updates"     class="le-nav-link">Automatic Update Delivery</a>
+            </div>
         </nav>
 
         <div class="le-doc-sidebar-footer">
@@ -545,7 +658,7 @@
     <div class="le-doc-content">
 
         <div class="le-doc-hero">
-            <span class="le-doc-hero-badge">v1.2.1</span>
+            <span class="le-doc-hero-badge">v1.3.0</span>
             <h1>License For Envato</h1>
             <p>Easily integrate and manage Envato purchase-code license validation on your WordPress themes and plugins. Follow the three steps below to get started.</p>
             <div class="le-doc-hero-tags">
@@ -562,6 +675,10 @@
                 <a class="le-hero-btn le-hero-btn-wp" href="https://wordpress.org/plugins/license-envato/" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08-3.927-11.685c.637-.03 1.232-.105 1.232-.105.577-.075.507-.93-.075-.899 0 0-1.755.135-2.87.135-.21 0-.45-.003-.705-.012C3.502 4.097 7.539 2 12 2c3.328 0 6.362 1.271 8.637 3.353-.055-.002-.109-.009-.164-.009-1.065 0-1.814.93-1.814 1.932 0 .9.525 1.65 1.08 2.535.42.735.899 1.68.899 3.045 0 .944-.362 2.055-.826 3.585l-1.08 3.615-3.914-11.64zM12 22c-1.086 0-2.128-.168-3.11-.475l3.307-9.61 3.384 9.27c.024.059.051.114.078.167C14.384 21.77 13.207 22 12 22zm0-20C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2z"/></svg>
                     WordPress Plugin
+                </a>
+                <a class="le-hero-btn le-hero-btn-pro" href="https://codeholt.com/products/license-envato-pro/" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/></svg>
+                    Get License For Envato Pro
                 </a>
             </div>
         </div>
@@ -1090,6 +1207,109 @@ $data = json_decode( wp_remote_retrieve_body( $response ) );
                 </div>
             </section>
 
+            <!-- ── PRO OVERVIEW ──────────────────────────────── -->
+            <section class="le-doc-section" id="pro-overview">
+                <h2>License For Envato Pro</h2>
+                <p class="le-doc-section-lead">A paid add-on that installs alongside this free plugin and unlocks activation limits, automatic updates for your own products, webhooks, blacklisting, activity logs and more — all through the same license server you already set up.</p>
+
+                <div class="le-notice le-notice--tip">
+                    <span class="le-notice-icon">🚀</span>
+                    <div>Get it at <a href="https://codeholt.com/products/license-envato-pro/" target="_blank" rel="noopener noreferrer"><strong>https://codeholt.com/products/license-envato-pro/</strong></a>. Install it next to License For Envato, activate your Pro license under <strong>Settings → Pro License</strong>, and the extra admin pages below appear automatically.</div>
+                </div>
+            </section>
+
+            <!-- ── FREE VS PRO ──────────────────────────────── -->
+            <section class="le-doc-section" id="pro-compare">
+                <h2>Free vs Pro</h2>
+                <p class="le-doc-section-lead">Everything in Free is included in Pro, plus the rows below.</p>
+
+                <table class="le-doc-table le-pro-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Free</th>
+                            <th class="le-compare-pro">Pro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Envato purchase code verification</td><td class="le-pro-yes">✓</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Per-domain license activation &amp; deactivation</td><td class="le-pro-yes">✓</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>REST API endpoints + copy-paste client class</td><td class="le-pro-yes">✓</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Admin license list with search</td><td class="le-pro-yes">✓</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Secure encrypted token storage</td><td class="le-pro-yes">✓</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Multiple domain activations per license (configurable limits)</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Support expiry enforcement with Envato renewal re-sync</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Email notifications + daily expiry-warning digest</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Webhooks with signed payloads</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Purchase code &amp; domain blacklist</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Activity log with CSV export</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Manual &amp; bulk license issuance</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Automatic update delivery for your themes/plugins</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Analytics dashboard</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>Priority support</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- ── PRO ADMIN PAGES ──────────────────────────────── -->
+            <section class="le-doc-section" id="pro-admin">
+                <h2>Pro Admin Pages</h2>
+                <p class="le-doc-section-lead">Once Pro is active and licensed, these pages appear under the <strong>License Envato</strong> menu.</p>
+
+                <table class="le-doc-table">
+                    <thead>
+                        <tr><th>Page</th><th>What it does</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>All Users</strong></td><td>Now shows every activated domain per license (not just the first), each with its own deactivate action, and enforces your configured domain limit per purchase code.</td></tr>
+                        <tr><td><strong>Updates</strong></td><td>Manage the latest version, changelog and update ZIP for each of your own Envato item IDs — this is what powers Automatic Update Delivery below.</td></tr>
+                        <tr><td><strong>Issue Licenses</strong></td><td>Manually or bulk-issue license keys that work without an Envato purchase — useful for pre-sales, reissues or support cases.</td></tr>
+                        <tr><td><strong>Blacklist</strong></td><td>Block a purchase code or a domain from activating; blocked activation attempts are rejected with a 403 from the REST API.</td></tr>
+                        <tr><td><strong>Analytics</strong></td><td>Dashboard view of activations, deactivations and license activity over time.</td></tr>
+                        <tr><td><strong>Settings → Pro License</strong></td><td>Activate/deactivate your own License For Envato Pro purchase code on this site; also where email notifications and webhook URLs are configured.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- ── PRO AUTOMATIC UPDATES ──────────────────────────────── -->
+            <section class="le-doc-section" id="pro-updates">
+                <h2>Automatic Update Delivery</h2>
+                <p class="le-doc-section-lead">Pro turns your license server into an update server too, so your customers get one-click updates from their WordPress Plugins screen — no separate hosting needed.</p>
+
+                <h3>How It Works</h3>
+                <ul>
+                    <li>Upload each product's latest version, changelog and ZIP under <strong>License Envato → Updates</strong>.</li>
+                    <li>Ship the drop-in <code>client-sample/update-checker.php</code> class (included with Pro) inside your own theme or plugin.</li>
+                    <li>The client polls your server's token-authenticated REST endpoints and WordPress core handles the rest — update notice, changelog popup, one-click install.</li>
+                </ul>
+
+                <table class="le-doc-table">
+                    <tbody>
+                        <tr><td><strong>Update check</strong></td><td><code>POST /wp-json/licenseenvato/v1/update-check</code> — body: <code>token</code>, <code>itemid</code>, <code>version</code></td></tr>
+                        <tr><td><strong>Download</strong></td><td><code>GET /wp-json/licenseenvato/v1/download</code> — query: <code>token</code>, <code>itemid</code></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="le-code-block">
+                    <div class="le-code-block-header">
+                        <span class="le-code-block-label">PHP · your-plugin-main-file.php</span>
+                        <button class="le-code-copy-btn" data-copy-target="code-pro-update">Copy</button>
+                    </div>
+                    <pre id="code-pro-update">require_once __DIR__ . '/update-checker.php';
+new My_Prefix_Update_Checker(
+    __FILE__,                          // plugin main file
+    '1.0.0',                           // current version
+    '12345678',                        // your Envato item ID
+    'https://YOUR_LICENSE_SERVER_URL'  // this WordPress site
+);</pre>
+                </div>
+
+                <div class="le-notice le-notice--info">
+                    <span class="le-notice-icon">ℹ</span>
+                    <div>The token comes from the same activation flow as Step 2 — whatever your client class stores after a successful <code>/active</code> call. Only activated, non-expired licenses can check for and download updates.</div>
+                </div>
+            </section>
+
         </div><!-- /.le-doc-sections -->
     </div><!-- /.le-doc-content -->
 
@@ -1098,6 +1318,25 @@ $data = json_decode( wp_remote_retrieve_body( $response ) );
 <script>
 (function () {
     'use strict';
+
+    /* ── Wrap wide tables so they scroll instead of overflowing the page ── */
+    document.querySelectorAll('.le-doc-table').forEach(function (table) {
+        if (table.parentNode.classList.contains('le-table-scroll')) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'le-table-scroll';
+        table.parentNode.insertBefore(wrap, table);
+        wrap.appendChild(table);
+    });
+
+    /* ── Mobile nav toggle ── */
+    var sidebar    = document.getElementById('le-sidebar');
+    var navToggle  = document.getElementById('le-nav-toggle');
+    if (sidebar && navToggle) {
+        navToggle.addEventListener('click', function () {
+            var isOpen = sidebar.classList.toggle('is-open');
+            navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    }
 
     /* ── Active nav highlight via IntersectionObserver ── */
     var sections = document.querySelectorAll('.le-doc-section[id]');
@@ -1132,6 +1371,10 @@ $data = json_decode( wp_remote_retrieve_body( $response ) );
             if (target) {
                 e.preventDefault();
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (sidebar && sidebar.classList.contains('is-open')) {
+                sidebar.classList.remove('is-open');
+                navToggle.setAttribute('aria-expanded', 'false');
             }
         });
     });

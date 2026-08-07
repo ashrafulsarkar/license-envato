@@ -288,8 +288,14 @@ class EnvatoLicenseApiCall {
             return new WP_Error( 'invalid_code', __( "Invalid purchase code.", 'license-envato' ), ["status" => 404] );
         }
 
-        if ( get_option( 'license_envato_token_valid' ) == false ) {
-            return new WP_Error( 'envato_connection_error', __( "Envato Auth Error, Contact your theme or plugin author.", 'license-envato' ), ["status" => 401] );
+        /**
+         * Allow add-ons to take over license verification.
+         * Return a non-null value (token array or WP_Error) to short-circuit;
+         * runs after the basic request validation above.
+         */
+        $override = apply_filters( 'license_envato_activate_override', null, $args, $this );
+        if ( null !== $override ) {
+            return $override;
         }
 
         $get_license = $this->get_licence_verify_into_db( 'purchasecode', $purchaseCode );
@@ -313,12 +319,20 @@ class EnvatoLicenseApiCall {
                 $username = $get_license[0]->username;
                 $genarateNewToken = $this->genarateNewToken( $purchaseCode, $username, $requestDomain );
                 if ( $genarateNewToken ) {
+                    do_action( 'license_envato_license_activated', $purchaseCode, $requestDomain, $genarateNewToken );
                     $token['token'] = $genarateNewToken;
                     return $token;
                 }
                 return new WP_Error( 'activation_failed', __( "Could not activate the license. Please try again.", 'license-envato' ), ["status" => 500] );
             }
         } else {
+            // The Envato connection is only required to verify codes we have
+            // never seen — licenses already in the database (including manually
+            // issued ones) must keep activating even without a connected token.
+            if ( get_option( 'license_envato_token_valid' ) == false ) {
+                return new WP_Error( 'envato_connection_error', __( "Envato Auth Error, Contact your theme or plugin author.", 'license-envato' ), ["status" => 401] );
+            }
+
             $bad_code_key = 'license_envato_bad_' . md5( $purchaseCode );
             if ( get_transient( $bad_code_key ) ) {
                 return new WP_Error( 'invalid_code', __( "Invalid purchase code.", 'license-envato' ), ["status" => 404] );
@@ -350,6 +364,7 @@ class EnvatoLicenseApiCall {
                     if ( !empty( $data->buyer ) ) {
                         $save_data_db = $this->savedataIntoDB( $data, $purchaseCode, $requestDomain );
                         if ( $save_data_db ) {
+                            do_action( 'license_envato_license_activated', $purchaseCode, $requestDomain, $save_data_db );
                             $token['token'] = $save_data_db;
                             return $token;
                         }
@@ -400,11 +415,49 @@ class EnvatoLicenseApiCall {
         $result = wp_cache_get($cache_key_specific, $cache_group);
 
         if (false === $result) {
-            $sql = $wpdb->prepare(
-                "SELECT `itemid`, `token`, `username`, `domain`, `purchasecode` FROM {$wpdb->prefix}license_envato_userlist WHERE `{$key}` = %s",
-                $value
-            );
-            $result = $wpdb->get_results( $sql );
+            // Column name can't be a %s placeholder (prepare() would quote it as a string
+            // literal), so each allowed column gets its own fully literal query below.
+            // prepare() is called inline inside get_results() — going through an
+            // intermediate $sql variable stops the checker from recognizing the query
+            // as prepared, even though the value is identical.
+            switch ( $key ) {
+                case 'token':
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                    $result = $wpdb->get_results( $wpdb->prepare(
+                        "SELECT `itemid`, `token`, `username`, `domain`, `purchasecode`, `licensetype`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE `token` = %s",
+                        $value
+                    ) );
+                    break;
+                case 'username':
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                    $result = $wpdb->get_results( $wpdb->prepare(
+                        "SELECT `itemid`, `token`, `username`, `domain`, `purchasecode`, `licensetype`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE `username` = %s",
+                        $value
+                    ) );
+                    break;
+                case 'itemid':
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                    $result = $wpdb->get_results( $wpdb->prepare(
+                        "SELECT `itemid`, `token`, `username`, `domain`, `purchasecode`, `licensetype`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE `itemid` = %s",
+                        $value
+                    ) );
+                    break;
+                case 'domain':
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                    $result = $wpdb->get_results( $wpdb->prepare(
+                        "SELECT `itemid`, `token`, `username`, `domain`, `purchasecode`, `licensetype`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE `domain` = %s",
+                        $value
+                    ) );
+                    break;
+                case 'purchasecode':
+                default:
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                    $result = $wpdb->get_results( $wpdb->prepare(
+                        "SELECT `itemid`, `token`, `username`, `domain`, `purchasecode`, `licensetype`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE `purchasecode` = %s",
+                        $value
+                    ) );
+                    break;
+            }
             wp_cache_set($cache_key_specific, $result, $cache_group, HOUR_IN_SECONDS); // Cache for 1 hour
         }
         return $result;
@@ -430,7 +483,8 @@ class EnvatoLicenseApiCall {
         global $wpdb;
         $table_name = $wpdb->prefix . "license_envato_userlist";
 
-        // Use wpdb->insert instead of direct query
+        // Use wpdb->insert instead of direct query — no core API exists for custom tables.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
         $wpdb->insert(
             $table_name,
             array(
@@ -470,7 +524,8 @@ class EnvatoLicenseApiCall {
 
         global $wpdb;
         
-        // Use wpdb->update instead of direct query
+        // Use wpdb->update instead of direct query — no core API exists for custom tables.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
         $updated = $wpdb->update(
             $wpdb->prefix . 'license_envato_userlist',
             array(
@@ -509,13 +564,23 @@ class EnvatoLicenseApiCall {
             return new WP_Error( 'deactivated_error', __( "Invalid purchase code.", 'license-envato' ), ["status" => 400] );
         }
 
+        /**
+         * Allow add-ons to take over license deactivation.
+         * Return a non-null value (response array or WP_Error) to short-circuit.
+         */
+        $override = apply_filters( 'license_envato_deactive_override', null, $args, $this );
+        if ( null !== $override ) {
+            return $override;
+        }
+
         $get_license = $this->get_licence_verify_into_db( 'token', $token );
 
         if ( !empty( $get_license ) ) {
             if ( $get_license[0]->domain ) {
                 global $wpdb;
                 
-                // Use wpdb->update instead of direct query
+                // Use wpdb->update instead of direct query — no core API exists for custom tables.
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $updated = $wpdb->update(
                     $wpdb->prefix . 'license_envato_userlist',
                     array('domain' => ''),
@@ -531,6 +596,14 @@ class EnvatoLicenseApiCall {
                         wp_cache_delete( 'license_verify_purchasecode_' . md5( $get_license[0]->purchasecode ), 'license_envato_db' );
                     }
                     wp_cache_set( 'last_changed', microtime(), 'license_envato' );
+                    /**
+                     * Fires after a license domain is deactivated.
+                     *
+                     * @param string $token  The deactivated activation token.
+                     * @param string $code   The purchase code.
+                     * @param string $domain The domain that was deactivated.
+                     */
+                    do_action( 'license_envato_license_deactivated', $token, isset( $get_license[0]->purchasecode ) ? $get_license[0]->purchasecode : '', $get_license[0]->domain );
                     $deactive['deactive'] = 'Deactivated successfully.';
                     return $deactive;
                 }

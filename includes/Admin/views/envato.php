@@ -1,10 +1,14 @@
+<?php
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+?>
 <h3><?php esc_html_e( 'Envato Account Settings', 'license-envato' ); ?></h3>
 <?php
 $license_envato_api->envato_token_handler();
 $license_envato_api->deactive_envato_token();
 
-$get_license_envato_envato_token = $license_envato_api->get_envato_token();
-if ($get_license_envato_envato_token) {
+$license_envato_saved_token = $license_envato_api->get_envato_token();
+if ($license_envato_saved_token) {
     $license_envato_user_data = $license_envato_api->getAPIUserHtmlDetails();
     echo wp_kses_post( $license_envato_user_data );
 }
@@ -21,7 +25,7 @@ if (get_option('license_envato_token_valid') == false) {
                         </h4>
                     </div>
                     <div class="input_box">
-                        <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo esc_attr( $get_license_envato_envato_token );?>">
+                        <input type="text" name="envato_token" id="envato_token" class="regular-text" value="<?php echo esc_attr( $license_envato_saved_token );?>">
                     </div>
                     <p class="description"><?php esc_html_e( 'You need a "personal token" before you can validate purchase codes for your items. This is similar to a password that grants limited access to your account, but it\'s exclusively for the API.', 'license-envato' ); ?>  <a href="https://build.envato.com/create-token" target="_blank"><?php esc_html_e( 'Create a token.', 'license-envato' ); ?></a>
                     </p>

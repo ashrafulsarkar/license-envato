@@ -78,3 +78,63 @@ input#unlink_envato_token {
         margin-right: 0px;
     }
 }
+
+/* Side menu — Get Pro / Activate License links */
+#adminmenu .wp-submenu a[href$='tab=get-pro'],
+#adminmenu .wp-submenu a[href$='tab=prolicense'] {
+    color: #ff5252;
+    font-weight: 700;
+}
+#adminmenu .wp-submenu a[href$='tab=get-pro']:hover,
+#adminmenu .wp-submenu a[href$='tab=get-pro']:focus,
+#adminmenu .wp-submenu a[href$='tab=prolicense']:hover,
+#adminmenu .wp-submenu a[href$='tab=prolicense']:focus {
+    color: #ff7b7b;
+}
+
+/* Settings nav — Get Pro tab */
+.nav-tab[href*='tab=get-pro'] {
+    color: #d63638;
+    font-weight: 700;
+}
+
+/* Free vs Pro comparison table */
+.license-envato-getpro {
+    max-width: 760px;
+    margin-top: 10px;
+}
+.le-compare-table {
+    margin-top: 15px;
+}
+.le-compare-table th,
+.le-compare-table td {
+    padding: 12px 15px;
+}
+.le-compare-col {
+    text-align: center;
+    width: 130px;
+}
+.le-compare-table thead th {
+    font-weight: 700;
+}
+.le-compare-table thead th.le-compare-pro {
+    color: #00a32a;
+}
+.le-yes {
+    color: #00a32a;
+}
+.le-no {
+    color: #c3c4c7;
+}
+.le-compare-table tfoot td {
+    padding: 16px 15px;
+}
+
+/* Review notice */
+.license-envato-review-notice p:first-of-type {
+    margin-bottom: 4px;
+}
+.license-envato-review-notice .license-envato-review-dismiss-link {
+    margin-left: 8px;
+    text-decoration: none;
+}
