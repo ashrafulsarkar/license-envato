@@ -12,7 +12,7 @@ if ($license_envato_saved_token_secret) {
 }
 
 ?>
-<div class="general_settings">
+<div class="general_settings le-card">
     <form action="" method="post">
         <table class="form-table" role="presentation">
             <tbody>

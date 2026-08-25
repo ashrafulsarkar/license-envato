@@ -27,9 +27,17 @@ if (isset($_GET['tab'])) {
     }
 }
 ?>
-<div class="wrap">
-    <h1 class="wp-heading-inline"><?php esc_html_e( 'Settings', 'license-envato' ); ?></h1>
-    <a href="https://ashrafulsarkar.github.io/license-envato/" target="_blank" rel="noopener noreferrer" class="page-title-action" style="float:right;"><?php esc_html_e( 'Documentation', 'license-envato' ); ?></a>
+<div class="wrap license-envato-wrap">
+    <div class="le-page-header">
+        <span class="le-icon-badge dashicons dashicons-admin-generic" aria-hidden="true"></span>
+        <div class="le-page-header-text">
+            <h1 class="wp-heading-inline"><?php esc_html_e( 'Settings', 'license-envato' ); ?></h1>
+            <p class="le-page-subtitle"><?php esc_html_e( 'Connect your Envato account and configure how licenses are verified.', 'license-envato' ); ?></p>
+        </div>
+        <div class="le-page-header-actions">
+            <a href="https://ashrafulsarkar.github.io/license-envato/" target="_blank" rel="noopener noreferrer" class="page-title-action"><?php esc_html_e( 'Documentation', 'license-envato' ); ?></a>
+        </div>
+    </div>
     <hr class="wp-header-end">
     <nav class="nav-tab-wrapper">
         <?php $licenseEnvato_nav = [

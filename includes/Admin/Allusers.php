@@ -65,12 +65,11 @@ class Allusers extends WP_List_Table {
      */
     public function get_columns() {
         $columns = array(
-            'username'        => 'Username',
-            'itemid'          => 'Item id',
-            'purchasecode'    => 'Purchase code',
-            'supported_until' => 'Supported until',
-            'domain'          => 'Activated domain',
-            'action'          => 'Action',
+            'username' => 'Username',
+            'itemname' => 'Item Name',
+            'itemid'   => 'Item id',
+            'status'   => 'Status',
+            'view'     => 'View',
         );
         return $columns;
     }
@@ -82,75 +81,112 @@ class Allusers extends WP_List_Table {
      */
     public function column_default( $item, $column_name ) {
         switch ( $column_name ) {
-        case 'domain':
-            if ( empty( $item['activations'] ) ) {
-                return '';
-            }
-            $lines = array();
-            foreach ( array_keys( $item['activations'] ) as $domain ) {
-                $lines[] = sprintf( '<span class="dashicons dashicons-yes-alt le-icon-active" title="%s"></span> %s',
-                    esc_attr__( 'Active', 'license-envato' ),
-                    esc_html( $domain )
-                );
-            }
-            return implode( '<br>', $lines );
-        case 'action':
-            $lines = array();
-
+        case 'itemname':
+            return $item['itemname'] ? esc_html( $item['itemname'] ) : '—';
+        case 'status':
             if ( ! empty( $item['activations'] ) ) {
-                // Read-only: only used to rebuild the current page slug in a link href, no data is processed.
-                $page_value = '';
-                if ( isset( $_REQUEST['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                    $page_value = sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                }
-
-                foreach ( $item['activations'] as $domain => $token ) {
-                    // Add nonce for security
-                    $deactivate_nonce = wp_create_nonce( 'license_envato_deactivate_action_' . $token );
-                    /* translators: %s: domain name */
-                    $deactivate_title = sprintf( __( 'Deactivate %s', 'license-envato' ), $domain );
-                    $deactivate = sprintf( '<a href="?page=%s&action=%s&token=%s&_wpnonce=%s" class="deactivate le-icon-link le-icon-deactivate" title="%s" aria-label="%s" onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};"><span class="dashicons dashicons-no-alt"></span></a>',
-                        esc_attr( $page_value ),
-                        'deactivate',
-                        esc_attr( $token ),
-                        esc_attr( $deactivate_nonce ),
-                        esc_attr( $deactivate_title ),
-                        esc_attr( $deactivate_title )
-                    );
-
-                    /**
-                     * Filters the action icons rendered for one activated domain.
-                     *
-                     * @param array  $actions HTML strings, one per icon link.
-                     * @param string $domain  The activated domain.
-                     * @param string $token   The activation token.
-                     * @param array  $item    The full row.
-                     */
-                    $actions = apply_filters( 'license_envato_userlist_domain_actions', array( $deactivate ), $domain, $token, $item );
-                    $lines[] = implode( ' ', $actions );
-                }
-            } else {
-                $lines[] = sprintf( '<span class="dashicons dashicons-dismiss le-icon-deactivated" title="%1$s"></span><span class="screen-reader-text">%1$s</span>',
-                    esc_attr__( 'Deactivated', 'license-envato' )
-                );
+                return '<span class="le-badge le-badge-success">' . esc_html__( 'Active', 'license-envato' ) . '</span>';
             }
-
-            /**
-             * Filters the license-level action icons for a row (e.g. block
-             * the purchase code), rendered on their own line.
-             *
-             * @param array $actions HTML strings, one per icon link.
-             * @param array $item    The full row.
-             */
-            $row_actions = apply_filters( 'license_envato_userlist_row_actions', array(), $item );
-            if ( ! empty( $row_actions ) ) {
-                $lines[] = implode( ' ', $row_actions );
-            }
-
-            return implode( '<br>', $lines );
+            return '<span class="le-badge le-badge-muted">' . esc_html__( 'Deactivated', 'license-envato' ) . '</span>';
+        case 'view':
+            return $this->view_button_html( $item ) . $this->detail_template_html( $item );
         default:
             return esc_html( $item[$column_name] );
         }
+    }
+
+    /**
+     * "View" button that opens the shared modal (see
+     * views/partials/view-modal.php) to this row's detail template.
+     *
+     * @param array $item
+     * @return string
+     */
+    public function view_button_html( $item ) {
+        $title = $item['username'] ? $item['username'] : $item['purchasecode'];
+        return sprintf(
+            '<a href="#" class="button button-small le-view-license" data-target="le-license-detail-%s" data-title="%s">%s</a>',
+            esc_attr( self::detail_uid( $item ) ),
+            esc_attr( $title ),
+            esc_html__( 'View', 'license-envato' )
+        );
+    }
+
+    /**
+     * The <template> this row's View button targets — see
+     * views/partials/license-detail-template.php for the markup.
+     *
+     * @param array $item
+     * @return string
+     */
+    private function detail_template_html( $item ) {
+        $license_envato_tpl_item  = $item;
+        $license_envato_tpl_table = $this;
+        ob_start();
+        include __DIR__ . '/views/partials/license-detail-template.php';
+        return ob_get_clean();
+    }
+
+    /**
+     * Stable id (derived from the purchase code) for this row's detail
+     * <template> — shared between the View button and the template itself
+     * so both the Dashboard and the Users page can generate it independently.
+     *
+     * @param array $item
+     * @return string
+     */
+    public static function detail_uid( $item ) {
+        return substr( md5( $item['purchasecode'] ), 0, 12 );
+    }
+
+    /**
+     * Builds the deactivate-icon link (plus any `license_envato_userlist_domain_actions`
+     * filter additions, e.g. Pro's per-domain block toggle) for one row, keyed by
+     * domain — one entry per activated domain, so callers can pair each domain
+     * with its own action instead of the `<br>`-stacked block column_default() renders.
+     *
+     * @param array $item
+     * @return array domain => action HTML
+     */
+    public function build_domain_actions( $item ) {
+        $out = array();
+        if ( empty( $item['activations'] ) ) {
+            return $out;
+        }
+
+        // Read-only: only used to rebuild the current page slug in a link href, no data is processed.
+        $page_value = '';
+        if ( isset( $_REQUEST['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $page_value = sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        }
+
+        foreach ( $item['activations'] as $domain => $token ) {
+            // Add nonce for security
+            $deactivate_nonce = wp_create_nonce( 'license_envato_deactivate_action_' . $token );
+            /* translators: %s: domain name */
+            $deactivate_title = sprintf( __( 'Deactivate %s', 'license-envato' ), $domain );
+            $deactivate = sprintf( '<a href="?page=%s&action=%s&token=%s&_wpnonce=%s" class="deactivate le-icon-link le-icon-deactivate" title="%s" aria-label="%s" onclick="if (confirm(\'Are you sure you want to Deactivate this item?\')){return true;}else{event.stopPropagation(); event.preventDefault();};"><span class="dashicons dashicons-no-alt"></span></a>',
+                esc_attr( $page_value ),
+                'deactivate',
+                esc_attr( $token ),
+                esc_attr( $deactivate_nonce ),
+                esc_attr( $deactivate_title ),
+                esc_attr( $deactivate_title )
+            );
+
+            /**
+             * Filters the action icons rendered for one activated domain.
+             *
+             * @param array  $actions HTML strings, one per icon link.
+             * @param string $domain  The activated domain.
+             * @param string $token   The activation token.
+             * @param array  $item    The full row.
+             */
+            $actions = apply_filters( 'license_envato_userlist_domain_actions', array( $deactivate ), $domain, $token, $item );
+            $out[ $domain ] = implode( ' ', $actions );
+        }
+
+        return $out;
     }
 
     public function prepare_items() {
@@ -214,7 +250,7 @@ class Allusers extends WP_List_Table {
 
                 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $items = $wpdb->get_results( $wpdb->prepare(
-                    "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE `purchasecode` LIKE %s ORDER BY `id` DESC LIMIT %d OFFSET %d",
+                    "SELECT `username`, `itemid`, `itemname`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE `purchasecode` LIKE %s ORDER BY `id` DESC LIMIT %d OFFSET %d",
                     $search_like,
                     $this->per_page,
                     $offset
@@ -228,7 +264,7 @@ class Allusers extends WP_List_Table {
 
                 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $items = $wpdb->get_results( $wpdb->prepare(
-                    "SELECT `username`, `itemid`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE 1=%d ORDER BY `id` DESC LIMIT %d OFFSET %d",
+                    "SELECT `username`, `itemid`, `itemname`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist WHERE 1=%d ORDER BY `id` DESC LIMIT %d OFFSET %d",
                     1,
                     $this->per_page,
                     $offset
@@ -249,7 +285,18 @@ class Allusers extends WP_List_Table {
             'total_pages' => ceil( $total_items / $this->per_page ),
         ) );
 
-        $items = $cached['items'];
+        $this->items = $this->attach_activations( $cached['items'] );
+    }
+
+    /**
+     * Builds each row's `activations` map (domain => token) from its own
+     * primary slot, then runs the `license_envato_userlist_items` filter
+     * so add-ons (Pro) can merge in extra domain activations.
+     *
+     * @param array $items Raw rows, each with `domain`/`token` columns.
+     * @return array
+     */
+    private function attach_activations( $items ) {
         foreach ( $items as &$item ) {
             $item['activations'] = array();
             if ( ! empty( $item['domain'] ) && ! empty( $item['token'] ) ) {
@@ -267,7 +314,26 @@ class Allusers extends WP_List_Table {
          *
          * @param array $items The rows for the current page.
          */
-        $this->items = apply_filters( 'license_envato_userlist_items', $items );
+        return apply_filters( 'license_envato_userlist_items', $items );
+    }
+
+    /**
+     * Most recent license rows for the Dashboard widget — same row shape
+     * as prepare_items()'s `$this->items` (with the `activations` map
+     * merged in), but without pagination or search.
+     *
+     * @param int $limit
+     * @return array
+     */
+    public function recent( $limit = 5 ) {
+        global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, no WP core API; a small admin-page widget query.
+        $items = $wpdb->get_results( $wpdb->prepare(
+            "SELECT `username`, `itemid`, `itemname`, `domain`, `purchasecode`, `token`, `supported_until` FROM {$wpdb->prefix}license_envato_userlist ORDER BY `id` DESC LIMIT %d",
+            $limit
+        ), ARRAY_A );
+
+        return $this->attach_activations( $items );
     }
 
     /**
@@ -277,7 +343,7 @@ class Allusers extends WP_List_Table {
         if ( $which == 'top' ) {
             echo '<div class="alignleft actions">';
             echo '<form method="get">';
-            echo '<input type="hidden" name="page" value="licenseenvato"/>';
+            echo '<input type="hidden" name="page" value="licenseenvato-users"/>';
             // Add nonce field for search form
             wp_nonce_field('license_envato_search_action', 'search_nonce');
             echo '<input type="search" id="search" name="s" value="' . esc_attr( $this->search ) . '"/>';

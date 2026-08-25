@@ -24,10 +24,12 @@ $license_envato_features = [
 ?>
 <div class="license-envato-getpro">
 
-    <h2><?php esc_html_e( 'Free vs Pro', 'license-envato' ); ?></h2>
-    <p class="description">
-        <?php esc_html_e( 'Unlock the full power of License For Envato — activation limits, automatic updates for your products, webhooks, analytics and much more.', 'license-envato' ); ?>
-    </p>
+    <div class="le-pricing-intro">
+        <h2><?php esc_html_e( 'Free vs Pro', 'license-envato' ); ?></h2>
+        <p class="description">
+            <?php esc_html_e( 'Unlock the full power of License For Envato — activation limits, automatic updates for your products, webhooks, analytics and much more.', 'license-envato' ); ?>
+        </p>
+    </div>
 
     <table class="widefat striped le-compare-table">
         <thead>

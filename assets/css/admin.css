@@ -1,107 +1,548 @@
-.license_activation {
-    display: flex;
+/* ==========================================================================
+   License Envato — Admin design system
+   Shared by the free plugin and the Pro add-on (enqueued on every
+   licenseenvato-* admin page). Keep selectors additive — existing markup
+   in both plugins' view files depends on the class names below.
+   ========================================================================== */
+
+:root {
+    --le-primary: #4f46e5;
+    --le-primary-dark: #4338ca;
+    --le-primary-light: #eef2ff;
+    --le-success: #00a32a;
+    --le-success-bg: #edfaef;
+    --le-icon-accent: #72b34d;
+    --le-icon-accent-dark: #5a9640;
+    --le-danger: #d63638;
+    --le-danger-bg: #fdeceb;
+    --le-warning: #b45c00;
+    --le-warning-bg: #fef8e7;
+    --le-text: #1d2327;
+    --le-text-muted: #6b7280;
+    --le-border: #e7e8ec;
+    --le-surface: #ffffff;
+    --le-surface-alt: #f8f9fc;
+    --le-radius: 14px;
+    --le-radius-sm: 8px;
+    --le-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 2px 10px rgba(16, 24, 40, .06);
+    --le-shadow-md: 0 10px 28px rgba(16, 24, 40, .12);
+    --le-shadow-lg: 0 16px 40px rgba(16, 24, 40, .16);
 }
-.license_envato_form {
-    max-width: 60%;
-    margin-right: 20px;
-}
-.requarement ul li {
-    list-style: disc;
-    list-style-position: inside;
-}
-.license_envato .input_box input {
-    width: 100%;
-}
-.license_envato input[type='submit'] {
-    background: #83b04c;
-    border: none;
-    color: #fff;
-    padding: 6px 30px;
-    font-size: 14px;
-}
-.license_envato input[type='submit']:hover,
-.license_envato input[type='submit']:active,
-.license_envato input[type='submit']:focus {
-    background: #769e44;
-    box-shadow: none;
-}
-input#unlink_envato_token {
-    color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-.envato_account_details {
+
+/* --------------------------------------------------------------------------
+   Page header
+   -------------------------------------------------------------------------- */
+.le-page-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 10px;
+    gap: 14px;
+    margin: 18px 0 20px;
 }
-.envato_account_details h3 {
-    margin: 0 0 5px 0;
+.le-icon-badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: linear-gradient(145deg, var(--le-icon-accent), var(--le-icon-accent-dark));
+    color: #fff !important;
+    box-shadow: 0 6px 16px -2px rgba(90, 150, 64, .45), 0 2px 4px rgba(90, 150, 64, .25);
 }
-.alert{
-    background: #fff;
-    border: 1px solid #c3c4c7;
-    border-left-width: 4px;
-    box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
-    padding: 12px;
+.le-icon-badge.dashicons:before {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
 }
-.alert-danger{
-    border-left-color: #dc3545;
+/* Soft-gradient semantic chips used on stat cards */
+.le-icon-badge-neutral,
+.le-icon-badge-success,
+.le-icon-badge-danger,
+.le-icon-badge-warning {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
 }
-.deactivate,
-.deactivate:hover {
-    color: #b32d2e;
+.le-icon-badge-neutral.dashicons:before,
+.le-icon-badge-success.dashicons:before,
+.le-icon-badge-danger.dashicons:before,
+.le-icon-badge-warning.dashicons:before {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
 }
-.display_code {
-    overflow-y: scroll;
-    height: 300px;
-    width: 80%;
-    border: 1px solid #999999;
-    border-radius: 2px;
-    word-wrap: break-word;
-    background: #fff;
-    resize: none;
+.le-icon-badge-neutral {
+    background: linear-gradient(145deg, #eef0f3, var(--le-surface-alt));
+    color: var(--le-text-muted) !important;
+    box-shadow: inset 0 0 0 1px var(--le-border);
 }
-.display_code code {
+.le-icon-badge-success {
+    background: linear-gradient(145deg, #e4f8e9, var(--le-success-bg));
+    color: var(--le-success) !important;
+    box-shadow: 0 4px 12px -2px rgba(0, 163, 42, .28);
+}
+.le-icon-badge-danger {
+    background: linear-gradient(145deg, #fde2e1, var(--le-danger-bg));
+    color: var(--le-danger) !important;
+    box-shadow: 0 4px 12px -2px rgba(214, 54, 56, .25);
+}
+.le-icon-badge-warning {
+    background: linear-gradient(145deg, #fdf0d3, var(--le-warning-bg));
+    color: var(--le-warning) !important;
+    box-shadow: 0 4px 12px -2px rgba(180, 92, 0, .22);
+}
+.le-page-header-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.le-page-header .wp-heading-inline {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    margin: 2px 0 3px;
+}
+.le-page-subtitle {
+    margin: 0;
+    color: var(--le-text-muted);
+    font-size: 13px;
+}
+.le-page-header-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 4px;
+}
+.le-page-header-actions .page-title-action {
+    margin: 0;
+}
+.license-envato-wrap hr.wp-header-end {
+    margin-top: 0;
+    border-color: var(--le-border);
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+.license-envato-wrap .card,
+.le-card {
+    background: var(--le-surface);
+    border: 1px solid var(--le-border);
+    border-radius: var(--le-radius);
+    box-shadow: var(--le-shadow);
+    padding: 20px 22px;
+    margin-top: 16px;
+    max-width: none; /* overrides WP core's default .card { max-width: 520px } */
+    transition: box-shadow .2s ease;
+}
+.license-envato-wrap .card:hover,
+.le-card:hover {
+    box-shadow: var(--le-shadow-md);
+}
+.license-envato-wrap .card h2:first-child,
+.le-card h2:first-child {
+    margin-top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Nav tabs — underline style
+   -------------------------------------------------------------------------- */
+.license-envato-wrap .nav-tab-wrapper {
+    border-bottom: 1px solid var(--le-border);
+    padding-bottom: 0;
+    margin-bottom: 20px;
+}
+.license-envato-wrap .nav-tab {
     background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin: 0 4px -1px 0;
+    padding: 10px 4px;
+    font-size: 14px;
+    color: var(--le-text-muted);
+    box-shadow: none;
+    transition: color .15s ease, border-color .15s ease;
 }
-.display_code.small_box {
-    height: 100px;
+.license-envato-wrap .nav-tab:hover,
+.license-envato-wrap .nav-tab:focus {
+    color: var(--le-primary);
+    background: none;
+    box-shadow: none;
 }
-@media screen and (max-width: 860px) {
-    .license_activation {
-        display: inherit;
-    }
-    .license_envato_form {
-        max-width: 100%;
-        margin-right: 0px;
-    }
+.license-envato-wrap .nav-tab-active,
+.license-envato-wrap .nav-tab-active:hover,
+.license-envato-wrap .nav-tab-active:focus {
+    color: var(--le-text);
+    font-weight: 600;
+    border-bottom-color: var(--le-primary);
 }
-
-/* Side menu — Get Pro / Activate License links */
-#adminmenu .wp-submenu a[href$='tab=get-pro'],
-#adminmenu .wp-submenu a[href$='tab=prolicense'] {
-    color: #ff5252;
-    font-weight: 700;
-}
-#adminmenu .wp-submenu a[href$='tab=get-pro']:hover,
-#adminmenu .wp-submenu a[href$='tab=get-pro']:focus,
-#adminmenu .wp-submenu a[href$='tab=prolicense']:hover,
-#adminmenu .wp-submenu a[href$='tab=prolicense']:focus {
-    color: #ff7b7b;
-}
-
-/* Settings nav — Get Pro tab */
 .nav-tab[href*='tab=get-pro'] {
-    color: #d63638;
+    color: var(--le-danger);
     font-weight: 700;
 }
 
-/* Free vs Pro comparison table */
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.license-envato-wrap .button-primary {
+    background: linear-gradient(145deg, var(--le-primary), var(--le-primary-dark));
+    border-color: var(--le-primary-dark);
+    box-shadow: 0 4px 12px -2px rgba(79, 70, 229, .4);
+    text-shadow: none;
+    transition: box-shadow .15s ease, transform .15s ease;
+}
+.license-envato-wrap .button-primary:hover,
+.license-envato-wrap .button-primary:focus {
+    background: linear-gradient(145deg, var(--le-primary-dark), var(--le-primary-dark));
+    border-color: var(--le-primary-dark);
+    box-shadow: 0 6px 16px -2px rgba(79, 70, 229, .5);
+    transform: translateY(-1px);
+}
+.license-envato-wrap .button {
+    border-radius: var(--le-radius-sm);
+    transition: box-shadow .15s ease, transform .15s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Forms
+   -------------------------------------------------------------------------- */
+.license-envato-wrap .form-table th {
+    color: var(--le-text);
+    font-weight: 600;
+}
+.license-envato-wrap input[type="text"],
+.license-envato-wrap input[type="email"],
+.license-envato-wrap input[type="url"],
+.license-envato-wrap input[type="number"],
+.license-envato-wrap input[type="date"],
+.license-envato-wrap input[type="search"],
+.license-envato-wrap textarea,
+.license-envato-wrap select {
+    border-radius: var(--le-radius-sm);
+    border-color: var(--le-border);
+}
+.license-envato-wrap input[type="text"]:focus,
+.license-envato-wrap input[type="email"]:focus,
+.license-envato-wrap input[type="url"]:focus,
+.license-envato-wrap input[type="number"]:focus,
+.license-envato-wrap input[type="date"]:focus,
+.license-envato-wrap input[type="search"]:focus,
+.license-envato-wrap textarea:focus,
+.license-envato-wrap select:focus {
+    border-color: var(--le-primary);
+    box-shadow: 0 0 0 1px var(--le-primary);
+}
+
+/* --------------------------------------------------------------------------
+   List table search/filter toolbar (Allusers::extra_tablenav())
+   -------------------------------------------------------------------------- */
+.license-envato-wrap .tablenav.top {
+    margin-bottom: 14px;
+}
+.license-envato-wrap .tablenav .alignleft.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.license-envato-wrap .tablenav .alignleft.actions select,
+.license-envato-wrap .tablenav .alignleft.actions input[type="search"] {
+    height: 34px;
+    margin: 0;
+}
+.license-envato-wrap .tablenav .alignleft.actions select {
+    padding: 0 24px 0 10px;
+    min-width: 140px;
+}
+.license-envato-wrap .tablenav .alignleft.actions select:focus {
+    border-color: var(--le-icon-accent);
+    box-shadow: 0 0 0 1px var(--le-icon-accent);
+    outline: none;
+}
+.license-envato-wrap .tablenav .alignleft.actions select option:checked,
+.license-envato-wrap .tablenav .alignleft.actions select option:hover,
+.license-envato-wrap .tablenav .alignleft.actions select option:focus {
+    background: var(--le-icon-accent);
+    color: #fff;
+}
+.license-envato-wrap .tablenav .alignleft.actions input[type="search"] {
+    padding: 0 12px;
+    min-width: 220px;
+}
+.license-envato-wrap .tablenav .alignleft.actions input[type="search"]:focus {
+    border-color: var(--le-icon-accent);
+    box-shadow: 0 0 0 1px var(--le-icon-accent);
+}
+.license-envato-wrap .tablenav #search-submit {
+    height: 34px;
+    margin: 0;
+    padding: 0 16px;
+    background: var(--le-icon-accent);
+    border-color: var(--le-icon-accent-dark);
+    color: #fff;
+    box-shadow: 0 4px 12px -2px rgba(114, 179, 77, .4);
+    transition: box-shadow .15s ease, transform .15s ease, background-color .15s ease;
+}
+.license-envato-wrap .tablenav #search-submit:hover,
+.license-envato-wrap .tablenav #search-submit:focus {
+    background: var(--le-icon-accent-dark);
+    box-shadow: 0 6px 16px -2px rgba(114, 179, 77, .5);
+    transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Tables
+   -------------------------------------------------------------------------- */
+.license-envato-wrap table.widefat,
+.license-envato-wrap .wp-list-table {
+    border-radius: var(--le-radius-sm);
+    overflow: hidden;
+    border-color: var(--le-border);
+    box-shadow: none;
+}
+.license-envato-wrap table.widefat thead th,
+.license-envato-wrap .wp-list-table thead th,
+.license-envato-wrap .wp-list-table thead td {
+    background: var(--le-surface-alt);
+    color: var(--le-text-muted);
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--le-border);
+}
+.license-envato-wrap table.widefat.striped > tbody > tr:nth-child(odd),
+.license-envato-wrap .wp-list-table.striped > tbody > tr:nth-child(odd) {
+    background-color: var(--le-surface-alt);
+}
+.license-envato-wrap table.widefat > tbody > tr,
+.license-envato-wrap .wp-list-table > tbody > tr {
+    transition: background-color .12s ease;
+}
+.license-envato-wrap table.widefat > tbody > tr:hover,
+.license-envato-wrap .wp-list-table > tbody > tr:hover {
+    background-color: var(--le-primary-light);
+}
+/* WP core repeats the column headers at the bottom of every WP_List_Table —
+   redundant next to the "N items" counter and pagination already there. */
+.license-envato-wrap .wp-list-table tfoot {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Badges / status pills
+   -------------------------------------------------------------------------- */
+.le-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.7;
+    white-space: nowrap;
+}
+.le-badge:before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex: 0 0 auto;
+}
+.le-badge .dashicons {
+    width: 13px;
+    height: 13px;
+    font-size: 13px;
+}
+.le-badge-success { background: var(--le-success-bg); color: var(--le-success); }
+.le-badge-danger  { background: var(--le-danger-bg); color: var(--le-danger); }
+.le-badge-warning { background: var(--le-warning-bg); color: var(--le-warning); }
+/* border, not just a fill — .le-surface-alt is also the striped-row background, so a plain fill disappears on odd rows */
+.le-badge-muted   { background: var(--le-surface-alt); color: var(--le-text-muted); border: 1px solid var(--le-border); }
+
+/* --------------------------------------------------------------------------
+   Notices
+   -------------------------------------------------------------------------- */
+.license-envato-wrap .notice {
+    border-radius: var(--le-radius-sm);
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Stat grid (Analytics)
+   -------------------------------------------------------------------------- */
+.le-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin: 20px 0;
+}
+.le-stat-card {
+    background: var(--le-surface);
+    border: 1px solid var(--le-border);
+    border-radius: var(--le-radius);
+    box-shadow: var(--le-shadow);
+    padding: 20px 20px 18px;
+    transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+.le-stat-card:hover {
+    box-shadow: var(--le-shadow-md);
+    border-color: transparent;
+    transform: translateY(-2px);
+}
+.le-stat-card-head {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 14px;
+}
+.le-stat-label {
+    margin: 0;
+    color: var(--le-text-muted);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+.le-stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--le-text);
+    line-height: 1.15;
+    margin: 0 0 7px;
+}
+.le-stat-delta {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+.le-stat-delta-arrow { font-size: 9px; }
+.le-stat-delta-success { color: var(--le-success); }
+.le-stat-delta-danger  { color: var(--le-danger); }
+.le-stat-delta-muted   { color: var(--le-text-muted); font-weight: 500; }
+
+/* --------------------------------------------------------------------------
+   Card header row (title + trailing pill/action) & status pills
+   -------------------------------------------------------------------------- */
+.le-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+.le-card-head h2 {
+    margin: 0;
+}
+.le-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.le-pill-live {
+    background: var(--le-success-bg);
+    color: var(--le-success);
+}
+.le-pill-live:before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: le-pulse 1.8s ease-in-out infinite;
+}
+@keyframes le-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 163, 42, .45); }
+    50% { opacity: .7; box-shadow: 0 0 0 4px rgba(0, 163, 42, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .le-pill-live:before { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Modal (Pro → Updates)
+   -------------------------------------------------------------------------- */
+.le-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: rgba(29, 35, 39, .55);
+}
+.le-modal-box {
+    background: var(--le-surface);
+    max-width: 640px;
+    margin: 6vh auto;
+    padding: 4px 26px 26px;
+    border-radius: var(--le-radius);
+    box-shadow: var(--le-shadow-lg);
+    max-height: 85vh;
+    overflow: auto;
+    position: relative;
+}
+/* Compact the default WP .form-table row spacing (20px/15px top+bottom) —
+   built for full settings pages, too loose inside a small modal dialog. */
+#le-view-modal-body .form-table th,
+#le-view-modal-body .form-table td {
+    padding: 4px 10px 4px 0;
+    width: auto;
+}
+.le-domain-count {
+    margin: 10px 0 6px;
+    color: var(--le-text-muted);
+    font-size: 12.5px;
+    font-weight: 600;
+}
+/* Bounded, independently scrolling list — a license can rack up far more
+   activated domains than comfortably fit in a modal (Pro's activation limit
+   is admin-configurable), so this keeps the dialog itself from growing
+   unbounded while the domain/action rows scroll on their own. */
+.le-domain-scroll {
+    max-height: 260px;
+    overflow-y: auto;
+    border-radius: var(--le-radius-sm);
+}
+.le-domain-scroll table {
+    margin: 0;
+}
+.le-domain-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.le-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    border: 0;
+    background: none;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--le-text-muted);
+}
+.le-modal-close:hover { color: var(--le-danger); }
+
+/* --------------------------------------------------------------------------
+   Free vs Pro comparison
+   -------------------------------------------------------------------------- */
 .license-envato-getpro {
-    max-width: 760px;
     margin-top: 10px;
+}
+.le-pricing-intro h2 {
+    margin-bottom: 4px;
 }
 .le-compare-table {
     margin-top: 15px;
@@ -118,16 +559,132 @@ input#unlink_envato_token {
     font-weight: 700;
 }
 .le-compare-table thead th.le-compare-pro {
-    color: #00a32a;
+    color: var(--le-success);
 }
 .le-yes {
-    color: #00a32a;
+    color: var(--le-success);
 }
 .le-no {
     color: #c3c4c7;
 }
 .le-compare-table tfoot td {
     padding: 16px 15px;
+}
+.le-upgrade-btn {
+    background: linear-gradient(145deg, var(--le-primary), var(--le-primary-dark)) !important;
+    border-color: var(--le-primary-dark) !important;
+    box-shadow: 0 6px 18px -2px rgba(79, 70, 229, .45) !important;
+    transition: box-shadow .15s ease, transform .15s ease;
+}
+.le-upgrade-btn:hover {
+    background: var(--le-primary-dark) !important;
+    box-shadow: 0 8px 22px -2px rgba(79, 70, 229, .55) !important;
+    transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Legacy component styles (Envato token / General settings screens)
+   -------------------------------------------------------------------------- */
+.license_activation {
+    display: flex;
+}
+.license_envato_form {
+    max-width: 60%;
+    margin-right: 20px;
+}
+.requarement ul li {
+    list-style: disc;
+    list-style-position: inside;
+}
+.license_envato .input_box input {
+    width: 100%;
+}
+.license_envato input[type='submit'] {
+    background: linear-gradient(145deg, var(--le-primary), var(--le-primary-dark));
+    border: none;
+    color: #fff;
+    padding: 6px 30px;
+    font-size: 14px;
+    border-radius: var(--le-radius-sm);
+    box-shadow: 0 4px 12px -2px rgba(79, 70, 229, .4);
+    transition: box-shadow .15s ease, transform .15s ease;
+}
+.license_envato input[type='submit']:hover,
+.license_envato input[type='submit']:active,
+.license_envato input[type='submit']:focus {
+    background: var(--le-primary-dark);
+    box-shadow: 0 6px 16px -2px rgba(79, 70, 229, .5);
+    transform: translateY(-1px);
+}
+input#unlink_envato_token {
+    color: #fff;
+    background-color: var(--le-danger);
+    border-color: var(--le-danger);
+}
+.envato_account_details {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+.envato_account_details h3 {
+    margin: 0 0 5px 0;
+}
+.alert {
+    background: var(--le-surface);
+    border: 1px solid var(--le-border);
+    border-left-width: 4px;
+    border-radius: var(--le-radius-sm);
+    box-shadow: var(--le-shadow);
+    padding: 12px 14px;
+}
+.alert-danger {
+    border-left-color: var(--le-danger);
+}
+.deactivate,
+.deactivate:hover {
+    color: var(--le-danger);
+}
+.display_code {
+    overflow-y: scroll;
+    height: 300px;
+    width: 80%;
+    border: 1px solid var(--le-border);
+    border-radius: var(--le-radius-sm);
+    word-wrap: break-word;
+    background: var(--le-surface);
+    resize: none;
+}
+.display_code code {
+    background: none;
+}
+.display_code.small_box {
+    height: 100px;
+}
+@media screen and (max-width: 860px) {
+    .license_activation {
+        display: inherit;
+    }
+    .license_envato_form {
+        max-width: 100%;
+        margin-right: 0px;
+    }
+    .le-page-header {
+        flex-wrap: wrap;
+    }
+}
+
+/* Side menu — Get Pro / Activate License links */
+#adminmenu .wp-submenu a[href$='tab=get-pro'],
+#adminmenu .wp-submenu a[href$='tab=prolicense'] {
+    color: #ff5252;
+    font-weight: 700;
+}
+#adminmenu .wp-submenu a[href$='tab=get-pro']:hover,
+#adminmenu .wp-submenu a[href$='tab=get-pro']:focus,
+#adminmenu .wp-submenu a[href$='tab=prolicense']:hover,
+#adminmenu .wp-submenu a[href$='tab=prolicense']:focus {
+    color: #ff7b7b;
 }
 
 /* Review notice */
@@ -137,4 +694,57 @@ input#unlink_envato_token {
 .license-envato-review-notice .license-envato-review-dismiss-link {
     margin-left: 8px;
     text-decoration: none;
+}
+
+/* User list dashicon actions (userview.php) */
+.wp-list-table .column-domain .dashicons,
+.wp-list-table .column-action .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    vertical-align: text-bottom;
+}
+.le-icon-active { color: var(--le-success); }
+.le-icon-deactivated { color: #a7aaad; }
+
+/* --------------------------------------------------------------------------
+   Icon-link action buttons (deactivate / block-toggle icons)
+   -------------------------------------------------------------------------- */
+a.le-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--le-radius-sm);
+    background: var(--le-surface-alt);
+    border: 1px solid var(--le-border);
+    text-decoration: none;
+    vertical-align: middle;
+    transition: background-color .15s ease, border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+a.le-icon-link + a.le-icon-link {
+    margin-left: 5px;
+}
+a.le-icon-link:hover,
+a.le-icon-link:focus {
+    background: var(--le-surface);
+    border-color: currentColor;
+    box-shadow: var(--le-shadow);
+    transform: translateY(-1px);
+}
+a.le-icon-link .dashicons {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+}
+a.le-icon-link.le-icon-deactivate { color: var(--le-danger); }
+
+/* Purchase code + its block-toggle button, side by side */
+.le-field-with-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }

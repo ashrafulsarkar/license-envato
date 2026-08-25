@@ -15,7 +15,7 @@ if ($license_envato_saved_token) {
 
 if (get_option('license_envato_token_valid') == false) { 
     ?>
-    <div class="license_activation">
+    <div class="license_activation le-card">
         <div class="license_envato_form">
             <form action="" method="post" class="license_envato">
                 <div class="token_box">
@@ -53,9 +53,10 @@ if (get_option('license_envato_token_valid') == false) {
         </div>
     </div>
 <?php }else{ ?>
-    <form action="" method="post">
-        <?php wp_nonce_field( 'license_envato_unlink' ); ?>
-        <?php submit_button( esc_html__( 'Deactivated Envato Account', 'license-envato' ), 'danger', 'unlink_envato_token' ); ?>
-    </form>
-    
+    <div class="le-card">
+        <form action="" method="post">
+            <?php wp_nonce_field( 'license_envato_unlink' ); ?>
+            <?php submit_button( esc_html__( 'Deactivated Envato Account', 'license-envato' ), 'danger', 'unlink_envato_token' ); ?>
+        </form>
+    </div>
 <?php } ?>

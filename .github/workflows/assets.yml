@@ -3,6 +3,8 @@ on:
   push:
     branches:
     - main
+    paths:
+    - '.wordpress-org/**'
 jobs:
   stable:
     name: Push to trunk

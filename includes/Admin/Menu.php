@@ -40,9 +40,14 @@ class Menu {
         $parent_slug = 'licenseenvato';
         $capability = 'manage_options';
 
-        $this->page_hooks[] = add_menu_page( __( 'License Envato', 'license-envato' ), __( 'License Envato', 'license-envato' ), $capability, $parent_slug, [ $this, 'allusers' ], 'dashicons-admin-network' );
+        $this->page_hooks[] = add_menu_page( __( 'License Envato', 'license-envato' ), __( 'License Envato', 'license-envato' ), $capability, $parent_slug, [ $this, 'dashboard' ], 'dashicons-admin-network' );
 
-        $this->page_hooks[] = add_submenu_page( $parent_slug, __( 'All Users', 'license-envato' ), __( 'All Users', 'license-envato' ), $capability, $parent_slug, [ $this, 'allusers' ] );
+        // Registered first, on the parent's own slug — WordPress auto-inserts
+        // a duplicate "back to parent" link as the first submenu item unless
+        // the very first add_submenu_page() call reuses the parent slug.
+        $this->page_hooks[] = add_submenu_page( $parent_slug, __( 'Dashboard', 'license-envato' ), __( 'Dashboard', 'license-envato' ), $capability, $parent_slug, [ $this, 'dashboard' ] );
+
+        $this->page_hooks[] = add_submenu_page( $parent_slug, __( 'Users', 'license-envato' ), __( 'Users', 'license-envato' ), $capability, $parent_slug.'-users', [ $this, 'allusers' ] );
 
         $this->page_hooks[] = add_submenu_page( $parent_slug, __( 'Settings', 'license-envato' ), __( 'Settings', 'license-envato' ), $capability, $parent_slug.'-settings', [ $this, 'settings' ] );
 
@@ -95,13 +100,25 @@ class Menu {
     /**
      * allusers()
      * Handles the All User page
-     * 
+     *
      * @return void
-     * @since 1.0.0 
+     * @since 1.0.0
      */
     public function allusers() {
         $user = new Allusers();
         $user->plugin_page();
+    }
+
+    /**
+     * dashboard()
+     * Handles the Dashboard page
+     *
+     * @return void
+     * @since 1.5.0
+     */
+    public function dashboard() {
+        $dashboard = new Dashboard();
+        $dashboard->plugin_page();
     }
 
     /**

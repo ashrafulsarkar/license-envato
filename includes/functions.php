@@ -81,6 +81,50 @@ if ( ! function_exists( 'license_envato_upgrade_url' ) ) {
 }
 
 /**
+ * License counts shared by the Dashboard and All Users stat cards.
+ *
+ * The free plugin only knows about its own primary activation slot and has
+ * no concept of blacklisting — Pro extends both numbers via the
+ * `license_envato_active_count` / `license_envato_blocked_count` filters
+ * (see ActivationLimits::active_count() / Blacklist::blocked_count()), and
+ * this degrades gracefully to free-only data when Pro isn't active.
+ *
+ * @return array{total:int,active:int,deactivated:int,blocked:int,active_pct:int}
+ */
+if ( ! function_exists( 'license_envato_get_stats' ) ) {
+    function license_envato_get_stats() {
+        global $wpdb;
+
+        $total       = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}license_envato_userlist" );
+        $active_base = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}license_envato_userlist WHERE `domain` <> ''" );
+
+        /**
+         * Filters the active-license count shown on the stat cards.
+         *
+         * @param int $count Active licenses counted from the free plugin's own table.
+         */
+        $active      = (int) apply_filters( 'license_envato_active_count', $active_base );
+        $deactivated = max( 0, $total - $active );
+
+        /**
+         * Filters the blocked-count shown on the stat cards. Defaults to 0
+         * until Pro hooks in — blacklisting is a Pro-only feature.
+         *
+         * @param int $count
+         */
+        $blocked = (int) apply_filters( 'license_envato_blocked_count', 0 );
+
+        return array(
+            'total'       => $total,
+            'active'      => $active,
+            'deactivated' => $deactivated,
+            'blocked'     => $blocked,
+            'active_pct'  => $total > 0 ? (int) round( ( $active / $total ) * 100 ) : 0,
+        );
+    }
+}
+
+/**
  * Encrypts a value for secure storage in wp_options.
  * Uses AES-256-CBC with a site-specific key derived from WordPress secret keys.
  *
