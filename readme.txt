@@ -3,8 +3,8 @@ Contributors: ashrafulsarkar
 Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
-Tested up to: 7.0
-Stable tag: 1.3.0
+Tested up to: 7.1
+Stable tag: 1.4.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -102,13 +102,24 @@ Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/)
 
 == Screenshots ==
 
-1. Connect your Envato personal token under Settings - Envato tab.
-2. Account details displayed after a successful token connection.
-3. Verified license list with domain and purchase-code records.
-4. REST API activation and deactivation in action from a client theme/plugin.
+1. Dashboard overview — total, active, deactivated and blocked license counts plus recent activity.
+2. Users page — every verified purchase code and the domains it's activated on.
+3. Connect your Envato personal token and view account details under Settings - Envato tab.
+4. General settings — configure the token secret key used to generate license tokens.
+5. Free vs Pro comparison — see what License For Envato Pro adds on top of the free plugin.
 
 
 == Changelog ==
+
+= 1.4.0 - 09-09-2026 =
+* New: Dashboard page — stat cards (Total/Active/Deactivated/Blocked licenses) plus the 5 most recent licenses with a quick-view details popup
+* New: Item Name is now captured from Envato alongside Item ID and shown on the Dashboard and Users page
+* Redesigned admin UI — shared design-system stylesheet applied across every plugin screen (cards, stat grid, badges, buttons, modals)
+* Users page simplified to Username, Item Name, Item id, Status and View — purchase code, support-expiry and per-domain actions moved into the View details popup
+* Primary buttons and the Free vs Pro "Upgrade to Pro" button now use the plugin's brand color
+* Free vs Pro comparison table's Free/Pro column headers are now centered
+* Review notice: dismissing (native close or "I already did") now snoozes for 7 days instead of dismissing forever — only "Ok, you deserve it!" stops it for good
+* Fixed: dismissing/closing the review notice before actually leaving a review no longer silently disables future prompts
 
 = 1.3.0 - 07-08-2026 =
 * New: Free vs Pro comparison tab under Settings with an upgrade option

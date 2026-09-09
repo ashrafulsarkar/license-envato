@@ -7,10 +7,33 @@ defined( 'ABSPATH' ) || exit;
 $license_envato_api->envato_token_handler();
 $license_envato_api->deactive_envato_token();
 
+$license_envato_deactivate_form = function () {
+    ?>
+    <form action="" method="post" class="le-deactivate-envato-form">
+        <?php wp_nonce_field( 'license_envato_unlink' ); ?>
+        <?php submit_button( esc_html__( 'Deactivated Envato Account', 'license-envato' ), 'danger', 'unlink_envato_token' ); ?>
+    </form>
+    <?php
+};
+
 $license_envato_saved_token = $license_envato_api->get_envato_token();
 if ($license_envato_saved_token) {
+    $license_envato_hook_fired = false;
+    add_action( 'license_envato_after_account_details', function () use ( $license_envato_deactivate_form, &$license_envato_hook_fired ) {
+        $license_envato_hook_fired = true;
+        $license_envato_deactivate_form();
+    } );
+
     $license_envato_user_data = $license_envato_api->getAPIUserHtmlDetails();
-    echo wp_kses_post( $license_envato_user_data );
+    echo $license_envato_user_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin-only markup built entirely in getAPIUserHtmlDetails()/this hook, no raw user input.
+
+    if ( ! $license_envato_hook_fired ) {
+        // getAPIUserHtmlDetails() didn't render the account-details card (e.g. API error) —
+        // fall back to a standalone card so the deactivate button is still reachable.
+        echo '<div class="le-card">';
+        $license_envato_deactivate_form();
+        echo '</div>';
+    }
 }
 
 if (get_option('license_envato_token_valid') == false) { 
@@ -51,12 +74,5 @@ if (get_option('license_envato_token_valid') == false) {
                 <li><?php esc_html_e('View your purchases of the app creator\'s items','license-envato');?></li>
             </ul>
         </div>
-    </div>
-<?php }else{ ?>
-    <div class="le-card">
-        <form action="" method="post">
-            <?php wp_nonce_field( 'license_envato_unlink' ); ?>
-            <?php submit_button( esc_html__( 'Deactivated Envato Account', 'license-envato' ), 'danger', 'unlink_envato_token' ); ?>
-        </form>
     </div>
 <?php } ?>

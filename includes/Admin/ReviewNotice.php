@@ -92,10 +92,11 @@ class ReviewNotice {
             exit;
         }
 
-        if ( 'later' === $action ) {
+        if ( 'later' === $action || 'dismiss' === $action ) {
+            // Only an actual "rate" click stops the notice for good — dismissing
+            // (× or "I already did") just snoozes it like "Maybe later" so
+            // customers who haven't really left a review keep getting asked.
             update_option( self::LATER_OPTION, time() + self::SHOW_AFTER_DAYS * DAY_IN_SECONDS );
-        } elseif ( 'dismiss' === $action ) {
-            update_option( self::DISMISSED_OPTION, 1 );
         }
 
         wp_safe_redirect( remove_query_arg( [ 'le_review_action', '_wpnonce' ] ) );
@@ -116,7 +117,8 @@ class ReviewNotice {
             wp_send_json_error();
         }
 
-        update_option( self::DISMISSED_OPTION, 1 );
+        // Native × close is a snooze, not a permanent dismissal — see handle_actions().
+        update_option( self::LATER_OPTION, time() + self::SHOW_AFTER_DAYS * DAY_IN_SECONDS );
         wp_send_json_success();
     }
 

@@ -1,7 +1,7 @@
 # License For Envato
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.3.0-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.4.0-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/WordPress-%3E%3D6.0-blue?style=flat-square&logo=wordpress" alt="WordPress">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/license-GPLv2-orange?style=flat-square" alt="License">
@@ -169,6 +169,16 @@ Then render the form anywhere on your settings page:
 ---
 
 ## Changelog
+
+### 1.4.0 — 09 September 2026
+- New: Dashboard page — stat cards (Total/Active/Deactivated/Blocked licenses) plus the 5 most recent licenses with a quick-view details popup
+- New: Item Name is now captured from Envato alongside Item ID and shown on the Dashboard and Users page
+- Redesigned admin UI — shared design-system stylesheet applied across every plugin screen (cards, stat grid, badges, buttons, modals)
+- Users page simplified to Username, Item Name, Item id, Status and View — purchase code, support-expiry and per-domain actions moved into the View details popup
+- Primary buttons and the Free vs Pro "Upgrade to Pro" button now use the plugin's brand color
+- Free vs Pro comparison table's Free/Pro column headers are now centered
+- Review notice: dismissing (native close or "I already did") now snoozes for 7 days instead of dismissing forever — only "Ok, you deserve it!" stops it for good
+- Fixed: dismissing/closing the review notice before actually leaving a review no longer silently disables future prompts
 
 ### 1.3.0 — 06 August 2026
 - New: Free vs Pro comparison tab under Settings with an upgrade option

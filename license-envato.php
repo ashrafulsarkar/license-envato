@@ -3,7 +3,7 @@
  * Plugin Name: License For Envato
  * Plugin URI: https://github.com/ashrafulsarkar/envato-licenser
  * Description: Manage your envato market items theme & plugin license.
- * Version: 1.3.0
+ * Version: 1.4.0
  * Author: Ashraful Sarkar Naiem
  * Author URI: https://github.com/ashrafulsarkar
  * Requires at least: 6.0

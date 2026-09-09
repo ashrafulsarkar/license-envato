@@ -118,6 +118,7 @@ class EnvatoLicenseApiCall {
                         </div>
                     </div>
                 </div>
+                <?php do_action( 'license_envato_after_account_details' ); ?>
             </div>
             <?php
             }?>
