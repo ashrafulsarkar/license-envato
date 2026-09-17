@@ -1,7 +1,7 @@
 # License For Envato
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.4.0-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.4.1-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/WordPress-%3E%3D6.0-blue?style=flat-square&logo=wordpress" alt="WordPress">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/license-GPLv2-orange?style=flat-square" alt="License">
@@ -53,6 +53,8 @@ Customer site  ──POST──►  Your WordPress site  ──►  Envato API
 
 [**License For Envato Pro**](https://codeholt.com/products/license-envato-pro/) is a paid add-on that builds on top of this free plugin:
 
+- 🔄 **Automatic update delivery** for your own themes/plugins (self-hosted)
+- 🛒 **WooCommerce integration** — sell licenses directly through WooCommerce orders
 - 🔒 Multiple domain activations per license, with configurable limits
 - ⏳ Support-expiry enforcement, with on-demand renewal re-sync from Envato
 - 📧 Email notifications + a daily expiry-warning digest
@@ -60,7 +62,6 @@ Customer site  ──POST──►  Your WordPress site  ──►  Envato API
 - 🚫 Purchase code & domain blacklist
 - 📝 Activity log with CSV export
 - 🎟️ Manual & bulk license issuance — no Envato purchase required
-- 🔄 Automatic update delivery for your own themes/plugins (self-hosted)
 - 📊 Analytics dashboard
 - 🏆 Priority support
 
@@ -169,6 +170,11 @@ Then render the form anywhere on your settings page:
 ---
 
 ## Changelog
+
+### 1.4.1 — 17 September 2026
+- New: dismissible "Build more with Pro" upsell card on this plugin's own admin pages (Dashboard, Users, Settings) only — never on the main WordPress Dashboard or any unrelated screen
+- Free vs Pro comparison table: added a WooCommerce integration row, and moved Automatic update delivery + WooCommerce integration to the top of the Pro feature list, highlighted
+- Pro Features copy (this README, the in-plugin comparison table, and the FAQ) now calls out automatic update delivery and WooCommerce integration as the two flagship Pro features
 
 ### 1.4.0 — 09 September 2026
 - New: Dashboard page — stat cards (Total/Active/Deactivated/Blocked licenses) plus the 5 most recent licenses with a quick-view details popup

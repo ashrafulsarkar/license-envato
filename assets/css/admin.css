@@ -580,6 +580,46 @@
 .le-compare-table tfoot td {
     padding: 16px 15px;
 }
+.le-compare-highlight {
+    background: var(--le-icon-accent-bg, #f3f9ef);
+}
+.le-compare-highlight .le-compare-feature {
+    border-left: 3px solid var(--le-icon-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Pro upsell card — shown only on this plugin's own admin pages
+   -------------------------------------------------------------------------- */
+.license-envato-pro-upsell {
+    position: relative;
+    /* Matches WP core's own .notice margin so this card lines up with the
+       page content on both edges instead of running to the browser edge. */
+    margin-right: 16px;
+}
+.license-envato-pro-upsell-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 4px;
+}
+.license-envato-pro-upsell-desc {
+    color: var(--le-text-muted);
+    margin: 0 0 14px;
+}
+.license-envato-pro-upsell-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--le-text-muted);
+    padding: 0;
+}
+.license-envato-pro-upsell-close:hover {
+    color: var(--le-text);
+}
 .le-upgrade-btn {
     background: linear-gradient(145deg, var(--le-icon-accent), var(--le-icon-accent-dark)) !important;
     border-color: var(--le-icon-accent-dark) !important;

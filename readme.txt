@@ -4,7 +4,7 @@ Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +17,7 @@ Are you a theme or plugin developer selling your products on the Envato market? 
 
 Install this plugin on your WordPress site to turn it into a fully-featured license server. It validates Envato purchase codes through the official Envato API and stores per-domain activation records in your database. Your customers activate their copy directly from your theme or plugin settings page — no third-party service required.
 
-Need activation limits, automatic updates, webhooks, blacklisting or an analytics dashboard? Check out **[License For Envato Pro](https://codeholt.com/products/license-envato-pro/)**.
+Need activation limits, **automatic updates**, **WooCommerce integration**, webhooks, blacklisting or an analytics dashboard? Check out **[License For Envato Pro](https://codeholt.com/products/license-envato-pro/)**.
 
 = 🔑 How It Works =
 
@@ -40,6 +40,8 @@ Need activation limits, automatic updates, webhooks, blacklisting or an analytic
 
 Need more than the basics? [License For Envato Pro](https://codeholt.com/products/license-envato-pro/) adds:
 
+* **Automatic update delivery** for your own themes/plugins (self-hosted, outside WordPress.org)
+* **WooCommerce integration** — sell licenses directly through WooCommerce orders
 * Multiple domain activations per license, with configurable limits
 * Support-expiry enforcement, with on-demand renewal re-sync from Envato
 * Email notifications + a daily expiry-warning digest
@@ -47,7 +49,6 @@ Need more than the basics? [License For Envato Pro](https://codeholt.com/product
 * Purchase code & domain blacklist
 * Activity log with CSV export
 * Manual & bulk license issuance — no Envato purchase required
-* Automatic update delivery for your own themes/plugins (self-hosted, outside WordPress.org)
 * Analytics dashboard
 * Priority support
 
@@ -97,7 +98,7 @@ Yes. Use a unique `PREFIX` constant per product to keep option keys separate in 
 Bugs can be reported on the [GitHub repository](https://github.com/ashrafulsarkar/license-envato). Pull requests are welcome.
 
 = Is there a Pro version? =
-Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/) adds activation limits, support-expiry enforcement, email notifications, webhooks, a blacklist, activity logs, manual/bulk issuance, automatic update delivery and an analytics dashboard on top of this free plugin. You can also compare Free vs Pro from **wp-admin → License Envato → Settings → Get Pro**.
+Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/) adds activation limits, support-expiry enforcement, email notifications, webhooks, a blacklist, activity logs, manual/bulk issuance, **automatic update delivery**, **WooCommerce integration** and an analytics dashboard on top of this free plugin. You can also compare Free vs Pro from **wp-admin → License Envato → Settings → Get Pro**.
 
 
 == Screenshots ==
@@ -110,6 +111,11 @@ Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/)
 
 
 == Changelog ==
+
+= 1.4.1 - 17-09-2026 =
+* New: dismissible "Build more with Pro" upsell card on this plugin's own admin pages (Dashboard, Users, Settings) only — never on the main WordPress Dashboard or any unrelated screen
+* Free vs Pro comparison table: added a WooCommerce integration row, and moved Automatic update delivery + WooCommerce integration to the top of the Pro feature list, highlighted
+* Pro Features copy (this readme, the in-plugin comparison table, and the FAQ) now calls out automatic update delivery and WooCommerce integration as the two flagship Pro features
 
 = 1.4.0 - 09-09-2026 =
 * New: Dashboard page — stat cards (Total/Active/Deactivated/Blocked licenses) plus the 5 most recent licenses with a quick-view details popup

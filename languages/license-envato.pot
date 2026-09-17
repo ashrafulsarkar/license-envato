@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: License For Envato 1.4.0\n"
+"Project-Id-Version: License For Envato 1.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/license-envato\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-09T13:32:50+02:00\n"
+"POT-Creation-Date: 2026-09-17T10:59:47+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: license-envato\n"
@@ -39,13 +39,13 @@ msgstr ""
 msgid "https://github.com/ashrafulsarkar"
 msgstr ""
 
-#: includes/Admin.php:40
+#: includes/Admin.php:41
 #: includes/Admin/Menu.php:59
 #: includes/Admin/views/settingsView.php:49
 msgid "Get Pro"
 msgstr ""
 
-#: includes/Admin.php:43
+#: includes/Admin.php:44
 #: includes/Admin/Menu.php:52
 #: includes/Admin/views/settingsView.php:34
 msgid "Settings"
@@ -93,6 +93,22 @@ msgstr ""
 
 #: includes/Admin/Menu.php:61
 msgid "Activate License"
+msgstr ""
+
+#: includes/Admin/ProUpsellNotice.php:102
+msgid "Dismiss"
+msgstr ""
+
+#: includes/Admin/ProUpsellNotice.php:103
+msgid "Build more with License For Envato Pro"
+msgstr ""
+
+#: includes/Admin/ProUpsellNotice.php:104
+msgid "Automatic update delivery for your themes/plugins, WooCommerce integration, configurable activation limits, webhooks, blacklist and more."
+msgstr ""
+
+#: includes/Admin/ProUpsellNotice.php:105
+msgid "Upgrade now"
 msgstr ""
 
 #: includes/Admin/ReviewNotice.php:144
@@ -259,70 +275,74 @@ msgid "Secure encrypted token storage"
 msgstr ""
 
 #: includes/Admin/views/get-pro.php:13
-msgid "Multiple domain activations per license (configurable limits)"
-msgstr ""
-
-#: includes/Admin/views/get-pro.php:14
-msgid "Support expiry enforcement with Envato renewal re-sync"
-msgstr ""
-
-#: includes/Admin/views/get-pro.php:15
-msgid "Email notifications + daily expiry-warning digest"
-msgstr ""
-
-#: includes/Admin/views/get-pro.php:16
-msgid "Webhooks with signed payloads"
-msgstr ""
-
-#: includes/Admin/views/get-pro.php:17
-msgid "Purchase code & domain blacklist"
-msgstr ""
-
-#: includes/Admin/views/get-pro.php:18
-msgid "Activity log with CSV export"
-msgstr ""
-
-#: includes/Admin/views/get-pro.php:19
-msgid "Manual & bulk license issuance"
-msgstr ""
-
-#: includes/Admin/views/get-pro.php:20
 msgid "Automatic update delivery for your themes/plugins"
 msgstr ""
 
+#: includes/Admin/views/get-pro.php:14
+msgid "WooCommerce integration — sell licenses through WooCommerce orders"
+msgstr ""
+
+#: includes/Admin/views/get-pro.php:15
+msgid "Multiple domain activations per license (configurable limits)"
+msgstr ""
+
+#: includes/Admin/views/get-pro.php:16
+msgid "Support expiry enforcement with Envato renewal re-sync"
+msgstr ""
+
+#: includes/Admin/views/get-pro.php:17
+msgid "Email notifications + daily expiry-warning digest"
+msgstr ""
+
+#: includes/Admin/views/get-pro.php:18
+msgid "Webhooks with signed payloads"
+msgstr ""
+
+#: includes/Admin/views/get-pro.php:19
+msgid "Purchase code & domain blacklist"
+msgstr ""
+
+#: includes/Admin/views/get-pro.php:20
+msgid "Activity log with CSV export"
+msgstr ""
+
 #: includes/Admin/views/get-pro.php:21
-msgid "Analytics dashboard"
+msgid "Manual & bulk license issuance"
 msgstr ""
 
 #: includes/Admin/views/get-pro.php:22
+msgid "Analytics dashboard"
+msgstr ""
+
+#: includes/Admin/views/get-pro.php:23
 msgid "Priority support"
 msgstr ""
 
-#: includes/Admin/views/get-pro.php:28
+#: includes/Admin/views/get-pro.php:29
 msgid "Free vs Pro"
 msgstr ""
 
-#: includes/Admin/views/get-pro.php:30
+#: includes/Admin/views/get-pro.php:31
 msgid "Unlock the full power of License For Envato — activation limits, automatic updates for your products, webhooks, analytics and much more."
 msgstr ""
 
-#: includes/Admin/views/get-pro.php:37
+#: includes/Admin/views/get-pro.php:38
 msgid "Feature"
 msgstr ""
 
-#: includes/Admin/views/get-pro.php:38
+#: includes/Admin/views/get-pro.php:39
 msgid "Free"
 msgstr ""
 
-#: includes/Admin/views/get-pro.php:39
+#: includes/Admin/views/get-pro.php:40
 msgid "Pro"
 msgstr ""
 
-#: includes/Admin/views/get-pro.php:60
+#: includes/Admin/views/get-pro.php:69
 msgid "You are here"
 msgstr ""
 
-#: includes/Admin/views/get-pro.php:63
+#: includes/Admin/views/get-pro.php:72
 msgid "Upgrade to Pro"
 msgstr ""
 

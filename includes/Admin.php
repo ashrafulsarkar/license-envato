@@ -18,6 +18,7 @@ class Admin {
 
         new Admin\Menu();
         new Admin\ReviewNotice();
+        new Admin\ProUpsellNotice();
 
         $this->custom_function();
 
