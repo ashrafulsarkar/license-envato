@@ -413,6 +413,24 @@
         .le-notice.le-notice--warn { background: #fffbeb; border-left: 4px solid #f59e0b; color: #7c4a00; }
         .le-notice a { color: inherit; text-decoration: underline; }
 
+        /* ─── Screenshots ─────────────────────────────────────── */
+        .le-shot { margin: 22px 0; }
+        .le-shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #e8ecf1;
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
+        }
+        .le-shot figcaption {
+            margin-top: 8px;
+            font-size: 12.5px;
+            color: #64748b;
+            text-align: center;
+        }
+        .le-shot.le-shot--narrow { max-width: 560px; margin-left: auto; margin-right: auto; }
+
         /* ─── Tables ──────────────────────────────────────────── */
         .le-table-scroll {
             width: 100%;
@@ -621,14 +639,15 @@
                 </button>
             </div>
             <span class="le-doc-brand-sub">Documentation</span>
-            <span class="le-doc-brand-version">v1.3.0</span>
+            <span class="le-doc-brand-version">v1.4.2</span>
         </div>
 
         <nav class="le-doc-nav" id="le-nav">
             <div class="le-doc-nav-group">
                 <span class="le-doc-nav-group-label">Getting Started</span>
                 <a href="#overview"   class="le-nav-link">Overview</a>
-                <a href="#step-1"     class="le-nav-link">Step 1 — Server Setup</a>
+                <a href="#screens"    class="le-nav-link">Admin Screens</a>
+                <a href="#step-1"    class="le-nav-link">Step 1 — Server Setup</a>
                 <a href="#step-2"     class="le-nav-link">Step 2 — Client Integration</a>
                 <a href="#step-3"     class="le-nav-link">Step 3 — Display Form</a>
             </div>
@@ -643,6 +662,7 @@
                 <a href="#pro-compare"     class="le-nav-link">Free vs Pro</a>
                 <a href="#pro-admin"       class="le-nav-link">Pro Admin Pages</a>
                 <a href="#pro-updates"     class="le-nav-link">Automatic Update Delivery</a>
+                <a href="#pro-woocommerce" class="le-nav-link">WooCommerce Integration</a>
             </div>
         </nav>
 
@@ -658,7 +678,7 @@
     <div class="le-doc-content">
 
         <div class="le-doc-hero">
-            <span class="le-doc-hero-badge">v1.3.0</span>
+            <span class="le-doc-hero-badge">v1.4.2</span>
             <h1>License For Envato</h1>
             <p>Easily integrate and manage Envato purchase-code license validation on your WordPress themes and plugins. Follow the three steps below to get started.</p>
             <div class="le-doc-hero-tags">
@@ -719,6 +739,38 @@
                     <span class="le-notice-icon">ℹ</span>
                     <div>Your WordPress site (the server) communicates with the Envato API. Customer sites (the clients) communicate with your WordPress site via the REST API provided by this plugin.</div>
                 </div>
+            </section>
+
+            <!-- ── ADMIN SCREENS ──────────────────────────────── -->
+            <section class="le-doc-section" id="screens">
+                <h2>Admin Screens</h2>
+                <p class="le-doc-section-lead">A quick tour of the screens you will use under the <strong>License Envato</strong> menu in wp-admin.</p>
+
+                <h3>Dashboard</h3>
+                <p>Total / Active / Deactivated / Blocked license counts and your five most recent licenses at a glance.</p>
+                <figure class="le-shot">
+                    <img src="images/01-dashboard.png" alt="License Envato dashboard with license statistics and recent licenses" loading="lazy">
+                    <figcaption>Dashboard — statistics and recent licenses</figcaption>
+                </figure>
+                <p>Click <strong>View</strong> on any license to open its details: purchase code, license type, support expiry and every activated domain, each with its own deactivate action.</p>
+                <figure class="le-shot">
+                    <img src="images/02-dashboard-license-details.png" alt="License details popup showing purchase code, support expiry and activated domains" loading="lazy">
+                    <figcaption>License details popup</figcaption>
+                </figure>
+
+                <h3>Users</h3>
+                <p>Every license in one searchable list — username, item name, item ID and status.</p>
+                <figure class="le-shot">
+                    <img src="images/03-users.png" alt="Users list of all licenses with search" loading="lazy">
+                    <figcaption>Users — all licenses with search</figcaption>
+                </figure>
+
+                <h3>Settings → Envato</h3>
+                <p>Connect your Envato personal token and review the connected Envato account. This is the screen described in Step 1 below.</p>
+                <figure class="le-shot">
+                    <img src="images/10-settings-envato.png" alt="Settings Envato tab with connected account details" loading="lazy">
+                    <figcaption>Settings → Envato</figcaption>
+                </figure>
             </section>
 
             <!-- ── STEP 1 ─────────────────────────────────────── -->
@@ -1091,6 +1143,33 @@ class licenseCodeVerifyForm {
                     </tbody>
                 </table>
 
+                <h3>Domain Validation</h3>
+                <p>The <code>domain</code> parameter must look like a real host: a hostname, IP address or <code>localhost</code>, optionally prefixed by a scheme and followed by a port or path (for example <code>example.com</code>, <code>https://example.com/shop</code>, <code>localhost:8000</code>). Values that contain spaces or control characters, user info (<code>user@host</code>), or are longer than 255 characters are rejected with HTTP <code>400</code> and the code <code>invalid_domain</code>. The value is stored exactly as sent — it is never rewritten.</p>
+
+                <h3>Rate Limiting</h3>
+                <p>Both endpoints are public, so each client IP is limited to a number of requests per window to stop purchase-code brute-forcing and protect your Envato API quota.</p>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr><th>Endpoint</th><th>Default limit</th><th>Window</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>/active</code></td><td>20 requests</td><td>10 minutes</td></tr>
+                        <tr><td><code>/deactive</code></td><td>30 requests</td><td>10 minutes</td></tr>
+                    </tbody>
+                </table>
+                <p>Exceeding the limit returns HTTP <code>429</code> with the code <code>rate_limited</code> and a <code>Retry-After</code> header (seconds). Tune it with these filters:</p>
+                <table class="le-doc-table">
+                    <tbody>
+                        <tr><td><code>license_envato_rate_limit</code></td><td>Max requests per window; receives <code>$limit, $endpoint</code> (<code>'active'</code> or <code>'deactive'</code>). Return <code>0</code> to disable.</td></tr>
+                        <tr><td><code>license_envato_rate_limit_window</code></td><td>Window length in seconds (default <code>600</code>).</td></tr>
+                        <tr><td><code>license_envato_rate_limit_ip</code></td><td>The IP used as the limiter key. Only <code>REMOTE_ADDR</code> is trusted by default; if your site sits behind a proxy or CDN, return the real client IP here.</td></tr>
+                    </tbody>
+                </table>
+                <div class="le-notice le-notice--info">
+                    <span class="le-notice-icon">ℹ</span>
+                    <div>Make sure your client class handles the <code>429</code> and <code>400</code> responses and shows the returned <code>message</code> to the user.</div>
+                </div>
+
                 <h3>Example Request (Activate)</h3>
                 <div class="le-code-block">
                     <div class="le-code-block-header">
@@ -1210,7 +1289,7 @@ $data = json_decode( wp_remote_retrieve_body( $response ) );
             <!-- ── PRO OVERVIEW ──────────────────────────────── -->
             <section class="le-doc-section" id="pro-overview">
                 <h2>License For Envato Pro</h2>
-                <p class="le-doc-section-lead">A paid add-on that installs alongside this free plugin and unlocks activation limits, automatic updates for your own products, webhooks, blacklisting, activity logs and more — all through the same license server you already set up.</p>
+                <p class="le-doc-section-lead">A paid add-on that installs alongside this free plugin and unlocks automatic updates for your own products, WooCommerce license selling, activation limits, webhooks, blacklisting, activity logs and more — all through the same license server you already set up.</p>
 
                 <div class="le-notice le-notice--tip">
                     <span class="le-notice-icon">🚀</span>
@@ -1245,6 +1324,7 @@ $data = json_decode( wp_remote_retrieve_body( $response ) );
                         <tr><td>Activity log with CSV export</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
                         <tr><td>Manual &amp; bulk license issuance</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
                         <tr><td>Automatic update delivery for your themes/plugins</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
+                        <tr><td>WooCommerce integration — auto-issued licenses &amp; My Account Licenses tab</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
                         <tr><td>Analytics dashboard</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
                         <tr><td>Priority support</td><td class="le-pro-no">—</td><td class="le-compare-pro le-pro-yes">✓</td></tr>
                     </tbody>
@@ -1261,7 +1341,7 @@ $data = json_decode( wp_remote_retrieve_body( $response ) );
                         <tr><th>Page</th><th>What it does</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><strong>All Users</strong></td><td>Now shows every activated domain per license (not just the first), each with its own deactivate action, and enforces your configured domain limit per purchase code.</td></tr>
+                        <tr><td><strong>Users</strong></td><td>Now shows every activated domain per license (not just the first), each with its own deactivate action, and enforces your configured domain limit per purchase code.</td></tr>
                         <tr><td><strong>Updates</strong></td><td>Manage the latest version, changelog and update ZIP for each of your own Envato item IDs — this is what powers Automatic Update Delivery below.</td></tr>
                         <tr><td><strong>Issue Licenses</strong></td><td>Manually or bulk-issue license keys that work without an Envato purchase — useful for pre-sales, reissues or support cases.</td></tr>
                         <tr><td><strong>Blacklist</strong></td><td>Block a purchase code or a domain from activating; blocked activation attempts are rejected with a 403 from the REST API.</td></tr>
@@ -1269,6 +1349,47 @@ $data = json_decode( wp_remote_retrieve_body( $response ) );
                         <tr><td><strong>Settings → Pro License</strong></td><td>Activate/deactivate your own License For Envato Pro purchase code on this site; also where email notifications and webhook URLs are configured.</td></tr>
                     </tbody>
                 </table>
+
+                <h3>Updates</h3>
+                <figure class="le-shot">
+                    <img src="images/04-updates.png" alt="Updates page listing products with version and changelog" loading="lazy">
+                    <figcaption>Updates — one row per product you deliver updates for</figcaption>
+                </figure>
+                <figure class="le-shot">
+                    <img src="images/05-updates-add-new.png" alt="Add New Update dialog with item ID, version, changelog and ZIP upload" loading="lazy">
+                    <figcaption>Add New Update — item ID, version, changelog and the update ZIP</figcaption>
+                </figure>
+
+                <h3>Issue Licenses</h3>
+                <figure class="le-shot">
+                    <img src="images/06-issue-licenses.png" alt="Issue Licenses page for manual and bulk license creation" loading="lazy">
+                    <figcaption>Issue Licenses — create codes manually or in bulk</figcaption>
+                </figure>
+
+                <h3>Blacklist</h3>
+                <figure class="le-shot">
+                    <img src="images/07-blacklist.png" alt="Blacklist page with blocked purchase codes and domains" loading="lazy">
+                    <figcaption>Blacklist — block purchase codes and domains</figcaption>
+                </figure>
+
+                <h3>Analytics</h3>
+                <figure class="le-shot">
+                    <img src="images/08-analytics.png" alt="Analytics dashboard with license counts and recent activity" loading="lazy">
+                    <figcaption>Analytics — license counts, recent activity and support-expiry warnings</figcaption>
+                </figure>
+
+                <h3>Pro Settings</h3>
+                <p>Pro settings appear below the free fields on <strong>Settings → General</strong>: activation limit, support-expiry enforcement, email notifications, expiry-warning digest, webhooks and — when WooCommerce is active — the WooCommerce Integration options.</p>
+                <figure class="le-shot">
+                    <img src="images/09-settings-general-pro-woocommerce.png" alt="Settings General tab with Pro Settings and WooCommerce Integration" loading="lazy">
+                    <figcaption>Settings → General with Pro Settings</figcaption>
+                </figure>
+
+                <h3>Pro License</h3>
+                <figure class="le-shot">
+                    <img src="images/11-settings-pro-license.png" alt="Settings Pro License tab for activating the Pro purchase code" loading="lazy">
+                    <figcaption>Settings → Pro License — activate your Pro purchase code</figcaption>
+                </figure>
             </section>
 
             <!-- ── PRO AUTOMATIC UPDATES ──────────────────────────────── -->
@@ -1308,6 +1429,89 @@ new My_Prefix_Update_Checker(
                     <span class="le-notice-icon">ℹ</span>
                     <div>The token comes from the same activation flow as Step 2 — whatever your client class stores after a successful <code>/active</code> call. Only activated, non-expired licenses can check for and download updates.</div>
                 </div>
+            </section>
+
+            <!-- ── PRO WOOCOMMERCE ──────────────────────────────── -->
+            <section class="le-doc-section" id="pro-woocommerce">
+                <h2>WooCommerce Integration</h2>
+                <p class="le-doc-section-lead">Sell your own themes and plugins through WooCommerce and let the license server issue the license keys for you. Customers activate them through the exact same <code>/active</code> endpoint as Envato purchase codes, so your client class needs no changes.</p>
+
+                <div class="le-notice le-notice--info">
+                    <span class="le-notice-icon">ℹ</span>
+                    <div>Requires the Pro add-on (active and licensed) and WooCommerce. The WooCommerce options only appear when WooCommerce is active.</div>
+                </div>
+
+                <h3>How It Works</h3>
+                <div class="le-steps">
+                    <div class="le-step">
+                        <span class="le-step-num">1</span>
+                        <div class="le-step-body">
+                            <strong>Enable licensing on a product</strong>
+                            <span>Edit the product, tick <em>Downloadable</em>, then open its <strong>License</strong> tab and tick <em>Generate license</em>.</span>
+                        </div>
+                    </div>
+                    <div class="le-step">
+                        <span class="le-step-num">2</span>
+                        <div class="le-step-body">
+                            <strong>A customer buys it</strong>
+                            <span>When the order reaches the trigger status (Completed by default), one unique license key is issued per unit purchased, and noted on the order.</span>
+                        </div>
+                    </div>
+                    <div class="le-step">
+                        <span class="le-step-num">3</span>
+                        <div class="le-step-body">
+                            <strong>The customer manages it</strong>
+                            <span>Keys appear under <strong>My Account → Licenses</strong>, where they can copy the key, deactivate a domain and download the latest version.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Product License Tab</h3>
+                <p>The <strong>License</strong> tab is shown only while <em>Downloadable</em> is checked. Turning Downloadable off also turns licensing off for that product when you save.</p>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr><th>Field</th><th>What it does</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Generate license</strong></td><td>Issue a unique key for every unit of this product on each order.</td></tr>
+                        <tr><td><strong>License type</strong></td><td>Label shown to the customer and in the Users list. Defaults to <em>Regular License</em>.</td></tr>
+                        <tr><td><strong>Validity (days)</strong></td><td>Support/validity period. <code>0</code> = lifetime with no expiry; empty = use the site-wide default.</td></tr>
+                        <tr><td><strong>Activation limit</strong></td><td>How many domains one key can be active on. Empty = use the site-wide default.</td></tr>
+                        <tr><td><strong>Automatic updates</strong></td><td>To deliver update ZIPs for the product, add it on the <strong>Updates</strong> page using the product's ID as the Item ID (shown in this tab).</td></tr>
+                    </tbody>
+                </table>
+                <figure class="le-shot">
+                    <img src="images/12-woocommerce-product-license-tab.png" alt="WooCommerce product edit screen with the License tab" loading="lazy">
+                    <figcaption>Product → License tab</figcaption>
+                </figure>
+
+                <h3>WooCommerce Settings</h3>
+                <p>Under <strong>Settings → General → WooCommerce Integration</strong> (see the Pro Settings screenshot above):</p>
+                <table class="le-doc-table">
+                    <thead>
+                        <tr><th>Setting</th><th>What it does</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Issue on order status</strong></td><td><em>Completed</em> (default) or <em>Processing</em> — use Processing for digital products that skip the Completed step.</td></tr>
+                        <tr><td><strong>Default validity (days)</strong></td><td>Used when a product does not set its own validity. <code>0</code> = lifetime.</td></tr>
+                        <tr><td><strong>Cancel / refund</strong></td><td>Automatically block the license keys of an order that is later cancelled or refunded.</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Order Behaviour</h3>
+                <ul>
+                    <li><strong>No double issuing</strong> — an order that already has license keys is never issued again, even if WooCommerce fires the status change twice.</li>
+                    <li><strong>Order notes</strong> — issued and blocked keys are recorded as notes on the order.</li>
+                    <li><strong>Cancel / refund</strong> — the keys are added to the <strong>Blacklist</strong>, so they show up there like any manually blocked code and activation attempts get a <code>403</code>.</li>
+                    <li><strong>Everything else is shared</strong> — issued keys appear in <strong>Users</strong>, obey the activation limit, support expiry, webhooks, notifications and the activity log.</li>
+                </ul>
+
+                <h3>My Account → Licenses</h3>
+                <p>Logged-in customers get a <strong>Licenses</strong> tab (<code>/my-account/my-licenses/</code>). Each license card shows its status (Active / Expired / Blocked), the key with a Copy button, the license type, <em>N / limit domains activated</em>, support expiry and every activated domain with its own <strong>Deactivate</strong> button. Once the license is active on a domain and the product exists on the Updates page, a <strong>Download latest version</strong> link appears.</p>
+                <figure class="le-shot le-shot--narrow">
+                    <img src="images/13-woocommerce-my-account-licenses.png" alt="WooCommerce My Account Licenses tab listing license keys and activated domains" loading="lazy">
+                    <figcaption>My Account → Licenses</figcaption>
+                </figure>
             </section>
 
         </div><!-- /.le-doc-sections -->
