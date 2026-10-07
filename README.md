@@ -1,7 +1,7 @@
 # License For Envato
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.4.1-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.4.2-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/WordPress-%3E%3D6.0-blue?style=flat-square&logo=wordpress" alt="WordPress">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/license-GPLv2-orange?style=flat-square" alt="License">
@@ -170,6 +170,10 @@ Then render the form anywhere on your settings page:
 ---
 
 ## Changelog
+
+### 1.4.2 — 07 October 2026
+- Security: rate limiting on the public activate and deactivate REST endpoints (per IP, default 20 and 30 requests per 10 minutes) to block purchase-code brute-forcing. Adjustable with the `license_envato_rate_limit`, `license_envato_rate_limit_window` and `license_envato_rate_limit_ip` filters
+- Security: the activation domain is now validated (hostname, IP or localhost, optionally with scheme, port or path) — malformed values and values containing spaces, control characters or user info are rejected with a 400 error
 
 ### 1.4.1 — 17 September 2026
 - New: dismissible "Build more with Pro" upsell card on this plugin's own admin pages (Dashboard, Users, Settings) only — never on the main WordPress Dashboard or any unrelated screen

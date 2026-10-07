@@ -4,7 +4,7 @@ Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -111,6 +111,10 @@ Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/)
 
 
 == Changelog ==
+
+= 1.4.2 - 07-10-2026 =
+* Security: rate limiting on the public activate and deactivate REST endpoints (per IP, default 20 and 30 requests per 10 minutes) to block purchase-code brute-forcing. Adjustable with the license_envato_rate_limit, license_envato_rate_limit_window and license_envato_rate_limit_ip filters
+* Security: the activation domain is now validated (hostname, IP or localhost, optionally with scheme, port or path) — malformed values and values containing spaces, control characters or user info are rejected with a 400 error
 
 = 1.4.1 - 17-09-2026 =
 * New: dismissible "Build more with Pro" upsell card on this plugin's own admin pages (Dashboard, Users, Settings) only — never on the main WordPress Dashboard or any unrelated screen

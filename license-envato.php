@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: License For Envato
- * Plugin URI: https://github.com/ashrafulsarkar/envato-licenser
+ * Plugin URI: https://codeholt.com/products/license-envato-pro/
  * Description: Manage your envato market items theme & plugin license.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: Ashraful Sarkar Naiem
  * Author URI: https://github.com/ashrafulsarkar
  * Requires at least: 6.0
