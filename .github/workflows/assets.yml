@@ -19,13 +19,19 @@ jobs:
     # the release via deploy.yml.
     - name: Keep live readme while Stable tag is unreleased
       run: |
+        SVN_URL="https://plugins.svn.wordpress.org/license-envato"
         TAG=$(grep -i -m1 '^Stable tag:' readme.txt | sed 's/^[^:]*: *//' | tr -d '\r ')
         echo "Stable tag in repo readme: $TAG"
-        if svn ls "https://plugins.svn.wordpress.org/license-envato/tags/$TAG" >/dev/null 2>&1; then
+        CODE=$(curl -s -o /dev/null -w '%{http_code}' "$SVN_URL/tags/$TAG/readme.txt")
+        echo "tags/$TAG/readme.txt -> HTTP $CODE"
+        if [ "$CODE" = "200" ]; then
           echo "Tag $TAG is released - readme will be updated."
-        else
+        elif [ "$CODE" = "404" ]; then
           echo "Tag $TAG is not released yet - keeping the live readme, updating assets only."
-          svn export --force "https://plugins.svn.wordpress.org/license-envato/trunk/readme.txt" readme.txt
+          curl -fsSL "$SVN_URL/trunk/readme.txt" -o readme.txt
+        else
+          echo "::error::Could not determine whether tag $TAG is released (HTTP $CODE). Aborting so the live readme is not overwritten."
+          exit 1
         fi
     - name: WordPress.org plugin asset/readme update
       uses: 10up/action-wordpress-plugin-asset-update@stable
