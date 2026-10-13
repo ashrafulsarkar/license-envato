@@ -1,9 +1,11 @@
 name: Plugin asset/readme update
 on:
+  workflow_dispatch:
   push:
     branches:
     - main
     paths:
+    - 'readme.txt'
     - '.wordpress-org/**'
 jobs:
   stable:
@@ -11,6 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    # If the readme already points at a version that is not released on
+    # WordPress.org yet (work in progress for the next release), keep the live
+    # readme as-is so only the assets get updated. The new readme ships with
+    # the release via deploy.yml.
+    - name: Keep live readme while Stable tag is unreleased
+      run: |
+        TAG=$(grep -i -m1 '^Stable tag:' readme.txt | sed 's/^[^:]*: *//' | tr -d '\r ')
+        echo "Stable tag in repo readme: $TAG"
+        if svn ls "https://plugins.svn.wordpress.org/license-envato/tags/$TAG" >/dev/null 2>&1; then
+          echo "Tag $TAG is released - readme will be updated."
+        else
+          echo "Tag $TAG is not released yet - keeping the live readme, updating assets only."
+          svn export --force "https://plugins.svn.wordpress.org/license-envato/trunk/readme.txt" readme.txt
+        fi
     - name: WordPress.org plugin asset/readme update
       uses: 10up/action-wordpress-plugin-asset-update@stable
       env:

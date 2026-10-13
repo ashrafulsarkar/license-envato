@@ -431,6 +431,25 @@
         }
         .le-shot.le-shot--narrow { max-width: 560px; margin-left: auto; margin-right: auto; }
 
+        /* ─── Video ───────────────────────────────────────────── */
+        .le-video { margin: 22px 0; }
+        .le-video-frame {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e8ecf1;
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
+            background: #0b130e;
+        }
+        .le-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        .le-video figcaption {
+            margin-top: 8px;
+            font-size: 12.5px;
+            color: #64748b;
+            text-align: center;
+        }
+
         /* ─── Tables ──────────────────────────────────────────── */
         .le-table-scroll {
             width: 100%;
@@ -709,6 +728,13 @@
             <section class="le-doc-section" id="overview">
                 <h2>Overview</h2>
                 <p class="le-doc-section-lead">License For Envato acts as a license server: it validates Envato purchase codes through the official Envato API and stores per-domain activation records in your database.</p>
+
+                <figure class="le-video">
+                    <div class="le-video-frame">
+                        <iframe src="https://www.youtube-nocookie.com/embed/yMp8CGXixv4" title="License For Envato — overview video" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <figcaption>Watch the 2-minute overview of License For Envato Free and Pro</figcaption>
+                </figure>
 
                 <h3>How It Works</h3>
                 <div class="le-steps">
