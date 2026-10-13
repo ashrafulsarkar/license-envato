@@ -19,6 +19,8 @@ Install this plugin on your WordPress site to turn it into a fully-featured lice
 
 Need activation limits, **automatic updates**, **WooCommerce integration**, webhooks, blacklisting or an analytics dashboard? Check out **[License For Envato Pro](https://codeholt.com/products/license-envato-pro/)**.
 
+https://youtu.be/yMp8CGXixv4
+
 = 🔑 How It Works =
 
 1. **Server Setup** — Install the plugin on your WordPress site and connect your Envato personal token.
