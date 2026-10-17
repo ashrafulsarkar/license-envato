@@ -4,7 +4,7 @@ Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,11 @@ Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/)
 
 
 == Changelog ==
+
+= 1.4.3 - 18-10-2026 =
+* New: October Sale admin notice offering 30% off all Codeholt products with copyable coupon code OCTOBER30 and an Upgrade Now link.
+* The notice is available through 31 October 2026, using the WordPress site timezone.
+* Dismissing the notice saves a browser cookie until the next day, when the notice can appear again.
 
 = 1.4.2 - 07-10-2026 =
 * Security: rate limiting on the public activate and deactivate REST endpoints (per IP, default 20 and 30 requests per 10 minutes) to block purchase-code brute-forcing. Adjustable with the license_envato_rate_limit, license_envato_rate_limit_window and license_envato_rate_limit_ip filters
