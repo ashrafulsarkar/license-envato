@@ -3,27 +3,44 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * @return null
+ * Store a one-time admin notice for the current user, shown on the next
+ * page that renders notices. Messages travel server-side instead of in the
+ * redirect URL, so a crafted link can't put arbitrary text in an admin notice.
+ *
+ * @param string $type    'success' or 'error'
+ * @param string $message
+ * @return void
  */
-if (!function_exists('licenseEnvato_general_setting_handler')) {
-    function licenseEnvato_general_setting_handler() {
-        if ( !isset( $_POST['submit_general'] ) ) {
-            return;
-        }
-    
-        if ( !isset( $_POST['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'submit_general_setting' ) ) {
-            wp_die( esc_html__( 'Security check failed. Please try again.', 'license-envato' ) );
-        }
-
-        if ( !current_user_can( 'manage_options' ) ) {
-            wp_die( esc_html__( 'You do not have permission to perform this action.', 'license-envato' ) );
-        }
-    
-        $token_secret_key = isset( $_POST['token_secret'] ) ? sanitize_text_field( wp_unslash( $_POST['token_secret'] ) ) : 'license-envato';
-    
-        update_option( 'license_envato_token_secret', $token_secret_key );
+if ( ! function_exists( 'license_envato_set_notice' ) ) {
+    function license_envato_set_notice( $type, $message ) {
+        set_transient(
+            'license_envato_notice_' . get_current_user_id(),
+            array(
+                'type'    => 'error' === $type ? 'error' : 'success',
+                'message' => (string) $message,
+            ),
+            5 * MINUTE_IN_SECONDS
+        );
     }
 }
+
+/**
+ * Fetch and clear the current user's pending notice.
+ *
+ * @return array{type:string,message:string}|null
+ */
+if ( ! function_exists( 'license_envato_get_notice' ) ) {
+    function license_envato_get_notice() {
+        $key    = 'license_envato_notice_' . get_current_user_id();
+        $notice = get_transient( $key );
+        if ( ! is_array( $notice ) || empty( $notice['message'] ) ) {
+            return null;
+        }
+        delete_transient( $key );
+        return $notice;
+    }
+}
+
 /**
  * @param mixed $type
  * @param mixed $message
@@ -31,10 +48,10 @@ if (!function_exists('licenseEnvato_general_setting_handler')) {
  */
 if (!function_exists('licenseEnvato__redirect')) {
     function licenseEnvato__redirect($type, $message){
+        license_envato_set_notice( $type, $message );
         $url = add_query_arg(
             array(
                 'page' => 'licenseenvato',
-                $type => $message
             ),
             admin_url('admin.php')
         );

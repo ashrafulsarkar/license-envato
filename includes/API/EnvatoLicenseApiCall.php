@@ -272,11 +272,78 @@ class EnvatoLicenseApiCall {
 
     /**
      * envatolicense_verify()
-     * 
+     * Serializes activations per purchase code so concurrent requests can't
+     * each pass the "not activated yet" / activation-limit checks and create
+     * extra rows or slots (the check-then-write below is not atomic on its own).
+     * Covers add-on overrides too, since they run inside verify_license().
+     *
      * @param $args
      * @return mixed
      */
     public function envatolicense_verify( $args ) {
+        $purchaseCode = isset( $args['code'] ) ? (string) $args['code'] : '';
+
+        $lock = $this->acquire_activation_lock( $purchaseCode );
+        if ( false === $lock ) {
+            return new WP_Error( 'activation_busy', __( "Another activation for this purchase code is in progress. Please try again.", 'license-envato' ), ["status" => 409] );
+        }
+
+        try {
+            return $this->verify_license( $args );
+        } finally {
+            $this->release_activation_lock( $lock );
+        }
+    }
+
+    /**
+     * Take a MySQL named lock for one purchase code.
+     *
+     * @param string $purchaseCode
+     * @return string|false lock name ('' when no lock was needed or the DB
+     *                      doesn't support named locks), false on timeout
+     */
+    private function acquire_activation_lock( $purchaseCode ) {
+        if ( '' === $purchaseCode ) {
+            return '';
+        }
+
+        global $wpdb;
+        // Lowercased: lookups run on a case-insensitive collation, so codes
+        // differing only in case hit the same row and must share the lock.
+        $name = 'le_activate_' . md5( strtolower( $purchaseCode ) );
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- named lock, not a data query.
+        $got = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK(%s, %d)', $name, 15 ) );
+
+        if ( null === $got ) {
+            // GET_LOCK unsupported (e.g. SQLite drop-in) — proceed unlocked
+            return '';
+        }
+
+        return '1' === (string) $got ? $name : false;
+    }
+
+    /**
+     * @param string $lock lock name from acquire_activation_lock()
+     * @return void
+     */
+    private function release_activation_lock( $lock ) {
+        if ( '' === $lock || false === $lock ) {
+            return;
+        }
+
+        global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- named lock, not a data query.
+        $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK(%s)', $lock ) );
+    }
+
+    /**
+     * verify_license()
+     *
+     * @param $args
+     * @return mixed
+     */
+    private function verify_license( $args ) {
         $purchaseCode = isset( $args['code'] ) ? $args['code'] : '';
         $requestDomain = isset( $args['domain'] ) ? $args['domain'] : '';
         $requestItemid = isset( $args['itemid'] ) ? $args['itemid'] : '';
@@ -363,6 +430,11 @@ class EnvatoLicenseApiCall {
                         }
                     }
                     if ( !empty( $data->buyer ) ) {
+                        // The sale must be for the item being activated — otherwise a code
+                        // bought for one (cheaper) item would activate any other item.
+                        if ( empty( $data->item->id ) || (string) $data->item->id !== (string) $requestItemid ) {
+                            return new WP_Error( 'invalid_code', __( "Invalid purchase code for this item.", 'license-envato' ), ["status" => 406] );
+                        }
                         $save_data_db = $this->savedataIntoDB( $data, $purchaseCode, $requestDomain );
                         if ( $save_data_db ) {
                             do_action( 'license_envato_license_activated', $purchaseCode, $requestDomain, $save_data_db );

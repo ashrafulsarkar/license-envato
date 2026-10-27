@@ -3,7 +3,7 @@
  * Plugin Name: License For Envato
  * Plugin URI: https://codeholt.com/products/license-envato-pro/
  * Description: Manage your envato market items theme & plugin license.
- * Version: 1.4.3
+ * Version: 1.4.4
  * Author: Ashraful Sarkar Naiem
  * Author URI: https://github.com/ashrafulsarkar
  * Requires at least: 6.0
@@ -98,13 +98,11 @@ function license_envato_process_deactivation_early() {
         );
         
         if ( is_wp_error( $licenseenvato_deactive ) ) {
-            $error_message = $licenseenvato_deactive->get_error_message();
-            $redirect_url = add_query_arg( 'error', urlencode(esc_html($error_message)), $redirect_url );
+            license_envato_set_notice( 'error', $licenseenvato_deactive->get_error_message() );
         } elseif ( isset($licenseenvato_deactive['deactive']) ) {
-            $success_message = $licenseenvato_deactive['deactive'];
-            $redirect_url = add_query_arg( 'success', urlencode(esc_html($success_message)), $redirect_url );
+            license_envato_set_notice( 'success', $licenseenvato_deactive['deactive'] );
         } else {
-            $redirect_url = add_query_arg( 'error', urlencode(esc_html__('Something wrong!', 'license-envato')), $redirect_url );
+            license_envato_set_notice( 'error', __('Something wrong!', 'license-envato') );
         }
         
         wp_safe_redirect( $redirect_url );

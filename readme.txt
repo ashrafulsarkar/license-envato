@@ -4,7 +4,7 @@ Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,15 @@ Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/)
 
 
 == Changelog ==
+
+= 1.4.4 - 27-10-2026 =
+* Security: a purchase code bought for one item can no longer activate a different item — the sale's item ID must match the requested item
+* Security: concurrent activation requests for the same purchase code are now processed one at a time, so they can no longer create duplicate license rows or extra activations
+* Security: the activation domain must use http:// or https:// (other schemes are rejected)
+* Security: admin success/error messages are now stored per user on the server instead of being read from the URL
+* Removed the unused "Token secret key" setting; the General tab now only appears when an add-on (Pro) adds settings to it
+* October Sale notice: new compact one-row design with a live countdown to the end of the sale; hidden while the Pro add-on is active
+* "Save Envato Token" button now uses the plugin's brand color
 
 = 1.4.3 - 18-10-2026 =
 * New: October Sale admin notice offering 30% off all Codeholt products with copyable coupon code OCTOBER30 and an Upgrade Now link.

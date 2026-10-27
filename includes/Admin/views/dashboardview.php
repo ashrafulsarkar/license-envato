@@ -14,6 +14,8 @@ $license_envato_stats = license_envato_get_stats();
     </div>
     <hr class="wp-header-end">
 
+    <?php \LicenseEnvato\Admin\Allusers::render_notice(); ?>
+
     <?php include __DIR__ . '/partials/stat-grid.php'; ?>
 
     <div class="le-card">

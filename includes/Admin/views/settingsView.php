@@ -2,8 +2,12 @@
 // Exit if accessed directly
 defined('ABSPATH') || exit;
 
+// The free plugin has no general settings of its own — the General tab only
+// exists when an add-on (Pro) hooks content into it.
+$license_envato_has_general = (bool) has_action( 'license_envato_general_settings_after' );
+
 // Define allowed tab values to prevent LFI
-$license_envato_allowed_tabs = array('general', 'envato');
+$license_envato_allowed_tabs = $license_envato_has_general ? array('general', 'envato') : array('envato');
 // The Free vs Pro tab is only relevant while the Pro add-on is not active
 if ( ! license_envato_is_pro_active() ) {
     $license_envato_allowed_tabs[] = 'get-pro';
@@ -11,19 +15,22 @@ if ( ! license_envato_is_pro_active() ) {
 // Apply filter to allow extensions to add their own tabs
 $license_envato_allowed_tabs = apply_filters('license_envato_allowed_tabs', $license_envato_allowed_tabs);
 
+// Default tab: General when it exists, otherwise Envato
+$license_envato_default_tab = $license_envato_has_general ? 'general' : 'envato';
+
 // Verify nonce if tab parameter is set
-$action = 'general';
+$action = $license_envato_default_tab;
 if (isset($_GET['tab'])) {
     // Verify nonce for tab switching if provided
     if (isset($_GET['_wpnonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['_wpnonce'])), 'license_envato_switch_tab')) {
         $tab = sanitize_text_field(wp_unslash($_GET['tab']));
         // Only allow values from the whitelist
-        $action = in_array($tab, $license_envato_allowed_tabs) ? $tab : 'general';
+        $action = in_array($tab, $license_envato_allowed_tabs) ? $tab : $license_envato_default_tab;
     } elseif (!isset($_GET['_wpnonce'])) {
         // If no nonce is provided, still allow tab switching but sanitize input
         $tab = sanitize_text_field(wp_unslash($_GET['tab']));
         // Only allow values from the whitelist
-        $action = in_array($tab, $license_envato_allowed_tabs) ? $tab : 'general';
+        $action = in_array($tab, $license_envato_allowed_tabs) ? $tab : $license_envato_default_tab;
     }
 }
 ?>
@@ -40,10 +47,11 @@ if (isset($_GET['tab'])) {
     </div>
     <hr class="wp-header-end">
     <nav class="nav-tab-wrapper">
-        <?php $licenseEnvato_nav = [
-            'general' => esc_html__('General', 'license-envato'),
-            'envato' => esc_html__('Envato', 'license-envato'),
-            ];
+        <?php $licenseEnvato_nav = [];
+            if ( $license_envato_has_general ) {
+                $licenseEnvato_nav['general'] = esc_html__('General', 'license-envato');
+            }
+            $licenseEnvato_nav['envato'] = esc_html__('Envato', 'license-envato');
 
             if ( ! license_envato_is_pro_active() ) {
                 $licenseEnvato_nav['get-pro'] = esc_html__( 'Get Pro', 'license-envato' );
@@ -77,11 +85,8 @@ if (isset($_GET['tab'])) {
         if ($license_envato_template && $license_envato_nav_view_dir && strpos($license_envato_template, $license_envato_nav_view_dir) === 0 && file_exists($license_envato_template)) {
             include $license_envato_template;
         } else {
-            // Fallback to general.php with the same security checks
-            $license_envato_general_template = realpath("{$licenseEnvato_nav_view}/general.php");
-            if ($license_envato_general_template && strpos($license_envato_general_template, $license_envato_nav_view_dir) === 0) {
-                include $license_envato_general_template;
-            }
+            // Fallback to the default tab's own view in this plugin
+            include __DIR__ . '/' . $license_envato_default_tab . '.php';
         }
     }
     ?>

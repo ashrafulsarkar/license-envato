@@ -189,24 +189,26 @@ class Allusers extends WP_List_Table {
         return $out;
     }
 
-    public function prepare_items() {
-        // Messages from redirect (error or success) are displayed here
-        $codeerror = isset( $_GET['error'] ) ? sanitize_text_field( wp_unslash( $_GET['error'] ) ) : '';
-        $codesuccess = isset( $_GET['success'] ) ? sanitize_text_field( wp_unslash( $_GET['success'] ) ) : '';
-        
-        if ($codeerror) {
-            ?>
-            <div class="notice notice-error is-dismissible">
-                <p><?php echo esc_html( $codeerror ); ?></p>
-            </div>
-            <?php
-        } elseif ($codesuccess) {
-            ?>
-            <div class="notice notice-success is-dismissible">
-                <p><?php echo esc_html( $codesuccess ); ?></p>
-            </div>
-            <?php
+    /**
+     * Output (and clear) the current user's pending action notice, if any
+     *
+     * @return void
+     */
+    public static function render_notice() {
+        $notice = license_envato_get_notice();
+        if ( ! $notice ) {
+            return;
         }
+        ?>
+        <div class="notice notice-<?php echo 'error' === $notice['type'] ? 'error' : 'success'; ?> is-dismissible">
+            <p><?php echo esc_html( $notice['message'] ); ?></p>
+        </div>
+        <?php
+    }
+
+    public function prepare_items() {
+        // Messages from the previous action (error or success) are displayed here
+        self::render_notice();
 
         global $wpdb;
 

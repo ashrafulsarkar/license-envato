@@ -1,7 +1,7 @@
 # License For Envato
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.4.3-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.4.4-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/WordPress-%3E%3D6.0-blue?style=flat-square&logo=wordpress" alt="WordPress">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/license-GPLv2-orange?style=flat-square" alt="License">
@@ -170,6 +170,15 @@ Then render the form anywhere on your settings page:
 ---
 
 ## Changelog
+
+### 1.4.4 - 27 October 2026
+- Security: a purchase code bought for one item can no longer activate a different item — the sale's item ID must match the requested item.
+- Security: concurrent activation requests for the same purchase code are now processed one at a time, so they can no longer create duplicate license rows or extra activations.
+- Security: the activation domain must use `http://` or `https://` (other schemes are rejected).
+- Security: admin success/error messages are now stored per user on the server instead of being read from the URL.
+- Removed the unused "Token secret key" setting; the General tab now only appears when an add-on (Pro) adds settings to it.
+- October Sale notice: new compact one-row design with a live countdown to the end of the sale; hidden while the Pro add-on is active.
+- "Save Envato Token" button now uses the plugin's brand color.
 
 ### 1.4.3 - 18 October 2026
 - New: October Sale admin notice offering 30% off all Codeholt products with copyable coupon code `OCTOBER30` and an Upgrade Now link.

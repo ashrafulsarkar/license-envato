@@ -139,7 +139,13 @@ class EnvatoLicenseRestApi extends WP_REST_Controller {
             return $error;
         }
 
-        $rest = preg_replace( '#^[a-z][a-z0-9+.-]*://#i', '', $value );
+        // Only web schemes — anything else (ftp://, x://) is never a real client
+        // site and would otherwise slip past domain normalization/blacklisting.
+        if ( preg_match( '#^([a-z][a-z0-9+.-]*)://#i', $value, $scheme ) && !in_array( strtolower( $scheme[1] ), array( 'http', 'https' ), true ) ) {
+            return $error;
+        }
+
+        $rest = preg_replace( '#^https?://#i', '', $value );
         $host = preg_split( '#[/?\#]#', $rest, 2 )[0];
         if ( strpos( $host, '@' ) !== false ) { // userinfo is never a legit client domain.
             return $error;
