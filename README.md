@@ -171,6 +171,10 @@ Then render the form anywhere on your settings page:
 
 ## Changelog
 
+### 1.4.5 - 13 November 2026
+- New: Black Friday Sale admin notice offering 60% off License For Envato Pro with copyable coupon code `BLACKFRIDAY`, available through 30 November 2026 (site timezone).
+- Removed the ended October Sale notice.
+
 ### 1.4.4 - 27 October 2026
 - Security: a purchase code bought for one item can no longer activate a different item — the sale's item ID must match the requested item.
 - Security: concurrent activation requests for the same purchase code are now processed one at a time, so they can no longer create duplicate license rows or extra activations.

@@ -4,7 +4,7 @@ Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,10 @@ Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/)
 
 
 == Changelog ==
+
+= 1.4.5 - 13-11-2026 =
+* New: Black Friday Sale admin notice offering 60% off License For Envato Pro with copyable coupon code BLACKFRIDAY, available through 30 November 2026 (site timezone)
+* Removed the ended October Sale notice
 
 = 1.4.4 - 27-10-2026 =
 * Security: a purchase code bought for one item can no longer activate a different item — the sale's item ID must match the requested item
