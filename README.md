@@ -1,7 +1,7 @@
 # License For Envato
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.4.4-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.4.5-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/WordPress-%3E%3D6.0-blue?style=flat-square&logo=wordpress" alt="WordPress">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/license-GPLv2-orange?style=flat-square" alt="License">
