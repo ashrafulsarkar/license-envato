@@ -807,3 +807,124 @@ a.le-icon-link.le-icon-deactivate { color: var(--le-danger); }
     gap: 8px;
     flex-wrap: wrap;
 }
+
+/* --------------------------------------------------------------------------
+   More Plugins page
+   -------------------------------------------------------------------------- */
+.le-more-plugins {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+    margin-top: 10px;
+}
+.license-envato-wrap .le-plugin-card {
+    display: flex;
+    flex-direction: column;
+    float: none;
+    width: auto;
+    margin: 0;
+    background: var(--le-surface);
+    border: 1px solid var(--le-border);
+    border-radius: var(--le-radius);
+    box-shadow: var(--le-shadow);
+    overflow: hidden;
+    transition: box-shadow .15s ease, transform .15s ease;
+}
+.license-envato-wrap .le-plugin-card:hover {
+    box-shadow: var(--le-shadow-md);
+    transform: translateY(-2px);
+}
+.le-plugin-card-top {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    flex: 1 1 auto;
+}
+.le-plugin-icon {
+    flex: 0 0 50px;
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--le-surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.le-plugin-icon img {
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+.le-plugin-icon .dashicons {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: var(--le-text-muted);
+}
+.le-plugin-info {
+    min-width: 0;
+}
+.le-plugin-info h3 {
+    margin: 2px 0 6px;
+    font-size: 14px;
+    line-height: 1.35;
+}
+.le-plugin-info h3 a {
+    color: var(--le-text);
+    text-decoration: none;
+}
+.le-plugin-info h3 a:hover,
+.le-plugin-info h3 a:focus {
+    color: var(--le-primary);
+}
+.le-plugin-desc {
+    margin: 0;
+    color: var(--le-text-muted);
+    font-size: 13px;
+    line-height: 1.55;
+}
+.le-plugin-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px 20px;
+    background: var(--le-surface-alt);
+    border-top: 1px solid var(--le-border);
+}
+.le-plugin-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-left: auto;
+}
+/* Keep WordPress's default admin-colour buttons here, not the green override */
+.license-envato-wrap .le-plugin-actions .button-primary {
+    background: var(--wp-admin-theme-color, #3858e9);
+    border-color: var(--wp-admin-theme-color, #3858e9);
+    box-shadow: none;
+    color: #fff;
+    border-radius: 0;
+}
+.license-envato-wrap .le-plugin-actions .button {
+    border-radius: 0;
+}
+.license-envato-wrap .le-plugin-actions .button-primary:hover,
+.license-envato-wrap .le-plugin-actions .button-primary:focus {
+    background: var(--wp-admin-theme-color-darker-10, #2145e6);
+    border-color: var(--wp-admin-theme-color-darker-10, #2145e6);
+    box-shadow: none;
+    transform: none;
+}
+.le-plugin-actions .button.updating-message:before,
+.le-plugin-actions .button.updated-message:before {
+    margin: 3px 5px 0 -2px;
+}
+@media screen and (max-width: 600px) {
+    .le-more-plugins {
+        grid-template-columns: 1fr;
+    }
+}

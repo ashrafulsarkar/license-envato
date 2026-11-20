@@ -4,7 +4,7 @@ Tags: license, license manager, envato license, plugin license, license envato
 Donate link: https://www.buymeacoffee.com/ashrafulsarkar
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,10 @@ Yes. [License For Envato Pro](https://codeholt.com/products/license-envato-pro/)
 
 
 == Changelog ==
+
+= 1.4.6 - 20-11-2026 =
+* New: "More Plugins" admin page (License Envato → More Plugins) showcasing our other free plugins — Bookyzo and Codeholt Bundles for WooCommerce — with one-click Install Now / Activate buttons and a More Details popup
+* Plugin details are loaded from WordPress.org and cached for 12 hours
 
 = 1.4.5 - 13-11-2026 =
 * New: Black Friday Sale admin notice offering 60% off License For Envato Pro with copyable coupon code BLACKFRIDAY, available through 30 November 2026 (site timezone)

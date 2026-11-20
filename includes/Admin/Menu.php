@@ -61,6 +61,11 @@ class Menu {
             add_submenu_page( $parent_slug, __( 'Activate License', 'license-envato' ), __( 'Activate License', 'license-envato' ), $capability, 'admin.php?page=licenseenvato-settings&tab=prolicense' );
         }
 
+        // Showcase of the author's other wordpress.org plugins, always last.
+        $more_plugins_hook   = add_submenu_page( $parent_slug, __( 'More Plugins', 'license-envato' ), __( 'More Plugins', 'license-envato' ), $capability, $parent_slug.'-more-plugins', [ $this, 'more_plugins' ] );
+        $this->page_hooks[] = $more_plugins_hook;
+        add_action( 'load-' . $more_plugins_hook, [ MorePlugins::class, 'enqueue_assets' ] );
+
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
         add_action( 'admin_init', [ $this, 'docs_redirect' ] );
     }
@@ -119,6 +124,18 @@ class Menu {
     public function dashboard() {
         $dashboard = new Dashboard();
         $dashboard->plugin_page();
+    }
+
+    /**
+     * more_plugins()
+     * Handles the More Plugins page
+     *
+     * @return void
+     * @since 1.4.6
+     */
+    public function more_plugins() {
+        $page = new MorePlugins();
+        $page->plugin_page();
     }
 
     /**
